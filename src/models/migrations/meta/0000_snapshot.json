@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "1d7a1413-e6bb-44fc-858a-435b1fc219c0",
+  "id": "1eb70bb7-f024-44c8-b183-dac033fccc53",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "jobs": {
@@ -64,7 +64,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-05-13T23:03:15.699Z\"'"
+          "default": "'\"2025-05-15T19:16:12.284Z\"'"
         }
       },
       "indexes": {},
@@ -106,6 +106,34 @@
         },
         "video_url": {
           "name": "video_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "cropped_video_url": {
+          "name": "cropped_video_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "pre_caption_video_url": {
+          "name": "pre_caption_video_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "pre_caption_video_public_id": {
+          "name": "pre_caption_video_public_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "caption_video_url": {
+          "name": "caption_video_url",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -159,7 +187,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-05-13T23:03:15.700Z\"'"
+          "default": "'\"2025-05-15T19:16:12.284Z\"'"
         }
       },
       "indexes": {},

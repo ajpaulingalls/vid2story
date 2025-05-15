@@ -33,6 +33,7 @@ export async function uploadVideoToCloudinaryWithCrop(
   console.log(
     `Video uploaded to Cloudinary: ${videoUploadResult.secure_url}\n`,
   );
+  return videoUploadResult.secure_url;
 }
 
 export async function uploadVideoToCloudinaryForCaptions(
@@ -71,8 +72,8 @@ export async function uploadVideoToCloudinaryForCaptions(
   );
   console.log(
     `Vertical video uploaded to Cloudinary: ${verticalUploadResult.secure_url}\n`
-  );
-  
+  );  
+  return verticalUploadResult.secure_url;
 }
 
 export async function uploadTranscriptToCloudinary(

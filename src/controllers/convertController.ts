@@ -5,7 +5,7 @@ import { Job, NewJob, JobModel } from '../models/job';
 import {
   uploadTranscriptToCloudinary,
   uploadVideoToCloudinaryForCaptions,
-  uploadVideoToCloudinaryWithCrop,
+  uploadVideoToCloudinaryWithCrop as uploadVideoToCloudinaryForCrop,
 } from '../utils/cloudinary';
 import {
   generateTranscriptJson,
@@ -90,8 +90,8 @@ export async function addCaptions(req: Request, res: Response) {
       return res.status(404).json({ error: 'Video not found' });
     }
     const { eager } = req.body;
-    const videoUrl = eager[0].secure_url;
-    video = await VideoModel.update(video.id, { videoUrl });
+    const croppedVideoUrl = eager[0].secure_url;
+    video = await VideoModel.update(video.id, { croppedVideoUrl });
     if (!video) {
       return res.status(404).json({ error: 'Unable to update video' });
     }
@@ -115,10 +115,10 @@ export async function captionsComplete(req: Request, res: Response) {
     return res.status(404).json({ error: 'Video not found' });  
   }
   const { eager } = req.body;
-  const videoUrl = eager[0].secure_url;
-  await VideoModel.update(video.id, { videoUrl });
+  const captionVideoUrl = eager[0].secure_url;
+  await VideoModel.update(video.id, { captionVideoUrl });
 
-  console.log('completed video', video.title, videoUrl);
+  console.log('completed video', video.title, captionVideoUrl);
 
   await JobModel.update(video.jobId, { status: 'completed' });
   res.json({ message: 'complete' });
@@ -181,6 +181,10 @@ const startJob = async (job: Job) => {
         filePath: videoSegmentPath,
         publicId: clipPublicId,
         videoUrl: '',
+        croppedVideoUrl: '',
+        preCaptionVideoUrl: '',
+        preCaptionVideoPublicId: '',
+        captionVideoUrl: '',
         transcript: clippedTranscript,
         transcriptPublicId,
         title: segment.title,
@@ -190,11 +194,12 @@ const startJob = async (job: Job) => {
       });
 
       try {
-        await uploadVideoToCloudinaryWithCrop(
+        const videoUrl = await uploadVideoToCloudinaryForCrop(
           videoSegmentPath,
           clipPublicId,
           video.id,
         );
+        await VideoModel.update(video.id, { videoUrl });
         console.log(`uploaded video segment ${clipPublicId}`);
       } catch (error: any) {
         console.error(
@@ -219,6 +224,10 @@ const startJob = async (job: Job) => {
       filePath: filePath,
       publicId: jobId,
       videoUrl: '',
+      croppedVideoUrl: '',
+      preCaptionVideoUrl: '',
+      preCaptionVideoPublicId: '',
+      captionVideoUrl: '',
       transcript: transcript,
       transcriptPublicId,
       title: 'Full Video',
@@ -228,7 +237,8 @@ const startJob = async (job: Job) => {
     });
 
     // Upload video to Cloudinary
-    await uploadVideoToCloudinaryWithCrop(filePath, jobId, video.id);
+    const videoUrl = await uploadVideoToCloudinaryForCrop(filePath, jobId, video.id);
+    await VideoModel.update(video.id, { videoUrl });
     saveStringToFile(transcriptPath, transcript);
     await uploadTranscriptToCloudinary(transcriptPath, transcriptPublicId);
     await JobModel.update(jobId, { status: 'waiting-for-cloudinary' });
@@ -250,28 +260,16 @@ async function addCaptionsToVideo(video: Video) {
   await JobModel.update(video.jobId, { status: 'downloading-portrait-video' });
 
   const videoPath = path.join(outputDir, 'portrait.mp4');
-  await downloadVideo(video.videoUrl, videoPath);
+  await downloadVideo(video.croppedVideoUrl, videoPath);
 
-  const captionPublicId = `${video.publicId}-captions`;
-  const newVideo = await VideoModel.create({
-    jobId: video.jobId,
-    filePath: videoPath,
-    publicId: captionPublicId,
-    videoUrl: '',
-    transcript: video.transcript,
-    transcriptPublicId: video.transcriptPublicId,
-    title: video.title,
-    description: video.description,
-    startTime: video.startTime,
-    endTime: video.endTime,
-  });
-
-  await uploadVideoToCloudinaryForCaptions(
+  const preCaptionVideoPublicId = `${video.publicId}-captions`;
+  const preCaptionVideoUrl = await uploadVideoToCloudinaryForCaptions(
     videoPath,
-    captionPublicId,
+    preCaptionVideoPublicId,
     video.transcriptPublicId,
-    newVideo.id,
+    video.id, 
   );
 
+  await VideoModel.update(video.id, { preCaptionVideoUrl, preCaptionVideoPublicId });
   await JobModel.update(video.jobId, { status: 'waiting-for-cloudinary' });
 }

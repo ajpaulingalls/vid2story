@@ -75,6 +75,21 @@
         .video-link:hover {
             text-decoration: underline;
         }
+        .video-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .video-links .video-link {
+            padding: 5px 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .video-links .video-link:hover {
+            background-color: #e0e0e0;
+        }
         #transcript {
             max-height: 200px;
             overflow-y: auto;
@@ -143,10 +158,24 @@
                                 <div class="video-timing">
                                     Start: ${video.startTime} - End: ${video.endTime}
                                 </div>
-                                ${video.videoUrl ? 
-                                    `<a href="${video.videoUrl}" target="_blank" class="video-link">Watch Video</a>` :
-                                    `<span class="video-link" style="color: #666;">Waiting for Cloudinary</span>`
-                                }
+                                <div class="video-links">
+                                    ${video.videoUrl ? 
+                                        `<a href="${video.videoUrl}" target="_blank" class="video-link">Clipped Video</a>` :
+                                        `<span class="video-link" style="color: #666;">Original Video - Waiting for Cloudinary</span>`
+                                    }
+                                    ${video.croppedVideoUrl ? 
+                                        `<a href="${video.croppedVideoUrl}" target="_blank" class="video-link">Cropped Video</a>` :
+                                        `<span class="video-link" style="color: #666;">Cropped Video - Waiting for Cloudinary</span>`
+                                    }
+                                    ${video.preCaptionVideoUrl ? 
+                                        `<a href="${video.preCaptionVideoUrl}" target="_blank" class="video-link">Pre-Caption Video</a>` :
+                                        `<span class="video-link" style="color: #666;">Pre-Caption Video - Waiting for Cloudinary</span>`
+                                    }
+                                    ${video.captionVideoUrl ? 
+                                        `<a href="${video.captionVideoUrl}" target="_blank" class="video-link">Captioned Video</a>` :
+                                        `<span class="video-link" style="color: #666;">Caption Video - Waiting for Cloudinary</span>`
+                                    }
+                                </div>
                             `;
                             videoList.appendChild(videoElement);
                         });
