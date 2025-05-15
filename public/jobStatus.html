@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .status-container {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 4px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .status-pending { background-color: #ffd700; }
+        .status-processing { background-color: #87ceeb; }
+        .status-completed { background-color: #90ee90; }
+        .status-failed { background-color: #ff6b6b; }
+        .view-details {
+            display: inline-block;
+            margin-top: 10px;
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .view-details:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-container">
+        <h1>Job Status</h1>
+        <div id="jobDetails">
+            <div class="status-item">
+                <h3>Job ID: <span id="jobId"></span></h3>
+                <p>Status: <span id="jobStatus" class="status-badge"></span></p>
+                <p>Created: <span id="createdAt"></span></p>
+                <p>File: <span id="fileName"></span></p>
+                <p>Pick Segments: <span id="pickSegments"></span></p>
+                <a href="#" id="viewDetails" class="view-details">View Details</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get job ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const jobId = urlParams.get('id');
+
+        if (!jobId) {
+            document.body.innerHTML = '<div class="status-container"><h1>Error</h1><p>No job ID provided</p></div>';
+        } else {
+            // Fetch job details
+            fetch(`/api/jobs/${jobId}`)
+                .then(response => response.json())
+                .then(job => {
+                    document.getElementById('jobId').textContent = job.id;
+                    document.getElementById('jobStatus').textContent = job.status;
+                    document.getElementById('jobStatus').classList.add(`status-${job.status}`);
+                    document.getElementById('createdAt').textContent = new Date(job.createdAt).toLocaleString();
+                    document.getElementById('fileName').textContent = job.filePath.split('/').pop();
+                    document.getElementById('pickSegments').textContent = job.pickSegments ? 'Yes' : 'No';
+                    
+                    // Add link to details page
+                    const detailsLink = document.getElementById('viewDetails');
+                    detailsLink.href = `jobDetail.html?id=${job.id}`;
+                })
+                .catch(error => {
+                    document.body.innerHTML = '<div class="status-container"><h1>Error</h1><p>Failed to load job details</p></div>';
+                });
+        }
+    </script>
+</body>
+</html> 

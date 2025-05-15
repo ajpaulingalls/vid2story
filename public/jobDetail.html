@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .job-info {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 4px;
+        }
+        .video-list {
+            display: grid;
+            gap: 20px;
+        }
+        .video-item {
+            background-color: white;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .status-pending { background-color: #ffd700; }
+        .status-processing { background-color: #87ceeb; }
+        .status-completed { background-color: #90ee90; }
+        .status-failed { background-color: #ff6b6b; }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .video-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .video-description {
+            margin: 10px 0;
+            color: #666;
+        }
+        .video-timing {
+            color: #888;
+            font-size: 0.9em;
+        }
+        .video-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .video-link:hover {
+            text-decoration: underline;
+        }
+        #transcript {
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <a href="jobStatus.html" class="back-link" id="backLink">← Back to Job Status</a>
+    <div class="container">
+        <h1>Job Details</h1>
+        <div id="jobInfo" class="job-info">
+            <h2>Job Information</h2>
+            <p><strong>Job ID:</strong> <span id="jobId"></span></p>
+            <p><strong>Status:</strong> <span id="jobStatus" class="status-badge"></span></p>
+            <p><strong>Created:</strong> <span id="createdAt"></span></p>
+            <p><strong>File:</strong> <span id="fileName"></span></p>
+            <p><strong>Pick Segments:</strong> <span id="pickSegments"></span></p>
+            <p><strong>Transcript:</strong></p>
+            <div id="transcript"></div>
+        </div>
+        
+        <h2>Generated Videos</h2>
+        <div id="videoList" class="video-list">
+            <!-- Videos will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // Get job ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const jobId = urlParams.get('id');
+
+        if (!jobId) {
+            document.body.innerHTML = '<div class="container"><h1>Error</h1><p>No job ID provided</p></div>';
+        } else {
+            // Fetch job details
+            fetch(`/api/jobs/${jobId}`)
+                .then(response => response.json())
+                .then(job => {
+                    // Update job information
+                    document.getElementById('jobId').textContent = job.id;
+                    document.getElementById('backLink').href = `jobStatus.html?id=${job.id}`;
+                    document.getElementById('jobStatus').textContent = job.status;
+                    document.getElementById('jobStatus').classList.add(`status-${job.status}`);
+                    document.getElementById('createdAt').textContent = new Date(job.createdAt).toLocaleString();
+                    document.getElementById('fileName').textContent = job.filePath.split('/').pop();
+                    document.getElementById('pickSegments').textContent = job.pickSegments ? 'Yes' : 'No';
+                    document.getElementById('transcript').textContent = job.transcript;
+
+                    // Update videos list
+                    const videoList = document.getElementById('videoList');
+                    if (job.videos && job.videos.length > 0) {
+                        job.videos.forEach(video => {
+                            const videoElement = document.createElement('div');
+                            videoElement.className = 'video-item';
+                            videoElement.innerHTML = `
+                                <div class="video-title">${video.title}</div>
+                                <div class="video-description">${video.description}</div>
+                                <div class="video-timing">
+                                    Start: ${video.startTime} - End: ${video.endTime}
+                                </div>
+                                ${video.videoUrl ? 
+                                    `<a href="${video.videoUrl}" target="_blank" class="video-link">Watch Video</a>` :
+                                    `<span class="video-link" style="color: #666;">Waiting for Cloudinary</span>`
+                                }
+                            `;
+                            videoList.appendChild(videoElement);
+                        });
+                    } else {
+                        videoList.innerHTML = '<p>No videos generated yet.</p>';
+                    }
+                })
+                .catch(error => {
+                    document.body.innerHTML = '<div class="container"><h1>Error</h1><p>Failed to load job details</p></div>';
+                });
+        }
+    </script>
+</body>
+</html> 

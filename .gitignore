@@ -1,0 +1,6 @@
+.env
+sqlite.db
+node_modules/
+dist/
+uploads/
+public/generated/
