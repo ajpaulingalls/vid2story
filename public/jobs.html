@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Jobs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        .jobs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .jobs-table th,
+        .jobs-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .jobs-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+        .jobs-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+        .status-starting { background-color: #e3f2fd; color: #1976d2; }
+        .status-cropping-portrait-video { background-color: #fff3e0; color: #f57c00; }
+        .status-generating-transcript { background-color: #e8f5e8; color: #388e3c; }
+        .status-generating-segments { background-color: #f3e5f5; color: #7b1fa2; }
+        .status-cropping-segments { background-color: #fff8e1; color: #fbc02d; }
+        .status-cropping-full-video { background-color: #e0f2f1; color: #00796b; }
+        .status-adding-captions { background-color: #fce4ec; color: #c2185b; }
+        .status-completed { background-color: #e8f5e8; color: #388e3c; }
+        .status-failed { background-color: #ffebee; color: #d32f2f; }
+        .job-link {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .job-link:hover {
+            text-decoration: underline;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background-color: white;
+            color: #333;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .pagination button:hover:not(:disabled) {
+            background-color: #f0f0f0;
+        }
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .pagination .current-page {
+            padding: 8px 12px;
+            background-color: #0066cc;
+            color: white;
+            border-radius: 4px;
+        }
+        .pagination-info {
+            margin: 0 20px;
+            color: #666;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .error {
+            text-align: center;
+            padding: 40px;
+            color: #d32f2f;
+            background-color: #ffebee;
+            border-radius: 4px;
+        }
+        .file-name {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .created-date {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>All Jobs</h1>
+            <div>
+                <a href="index.html" style="color: #0066cc; text-decoration: none;">← Back to Home</a>
+            </div>
+        </div>
+
+        <div id="jobsContent">
+            <div class="loading">Loading jobs...</div>
+        </div>
+    </div>
+
+    <script>
+        let allJobs = [];
+        let currentPage = 1;
+        const jobsPerPage = 50;
+
+        // Fetch all jobs
+        async function fetchJobs() {
+            try {
+                const response = await fetch('/api/jobs');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch jobs');
+                }
+                allJobs = await response.json();
+                displayJobs();
+            } catch (error) {
+                console.error('Error fetching jobs:', error);
+                document.getElementById('jobsContent').innerHTML = `
+                    <div class="error">
+                        <h3>Error Loading Jobs</h3>
+                        <p>Failed to load jobs. Please try again later.</p>
+                        <button onclick="fetchJobs()" style="padding: 8px 16px; background: #0066cc; color: white; border: none; border-radius: 4px; cursor: pointer;">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Display jobs for current page
+        function displayJobs() {
+            const startIndex = (currentPage - 1) * jobsPerPage;
+            const endIndex = startIndex + jobsPerPage;
+            const currentJobs = allJobs.slice(startIndex, endIndex);
+            const totalPages = Math.ceil(allJobs.length / jobsPerPage);
+
+            if (allJobs.length === 0) {
+                document.getElementById('jobsContent').innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <h3>No Jobs Found</h3>
+                        <p>There are no jobs in the system yet.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const jobsTable = `
+                <table class="jobs-table">
+                    <thead>
+                        <tr>
+                            <th>Job ID</th>
+                            <th>Name</th>
+                            <th>File</th>
+                            <th>Status</th>
+                            <th>Pick Segments</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${currentJobs.map(job => `
+                            <tr>
+                                <td>
+                                    <a href="jobDetail.html?id=${job.id}" class="job-link">${job.id}</a>
+                                </td>
+                                <td>${job.name || 'N/A'}</td>
+                                <td class="file-name" title="${job.filePath}">${job.filePath ? job.filePath.split('/').pop() : 'N/A'}</td>
+                                <td>
+                                    <span class="status-badge status-${job.status}">${job.status}</span>
+                                </td>
+                                <td>${job.pickSegments ? 'Yes' : 'No'}</td>
+                                <td class="created-date">${new Date(job.createdAt).toLocaleString()}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            const pagination = `
+                <div class="pagination">
+                    <button onclick="changePage(1)" ${currentPage === 1 ? 'disabled' : ''}>
+                        First
+                    </button>
+                    <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                        Previous
+                    </button>
+                    
+                    <span class="pagination-info">
+                        Page ${currentPage} of ${totalPages}
+                    </span>
+                    
+                    <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                        Next
+                    </button>
+                    <button onclick="changePage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>
+                        Last
+                    </button>
+                </div>
+                
+                <div style="text-align: center; margin-top: 10px; color: #666;">
+                    Showing ${startIndex + 1}-${Math.min(endIndex, allJobs.length)} of ${allJobs.length} jobs
+                </div>
+            `;
+
+            document.getElementById('jobsContent').innerHTML = jobsTable + pagination;
+        }
+
+        // Change page
+        function changePage(page) {
+            const totalPages = Math.ceil(allJobs.length / jobsPerPage);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                displayJobs();
+                // Scroll to top of jobs content
+                document.getElementById('jobsContent').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', fetchJobs);
+    </script>
+</body>
+</html>

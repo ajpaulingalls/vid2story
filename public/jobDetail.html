@@ -159,6 +159,10 @@
                                     Start: ${video.startTime} - End: ${video.endTime}
                                 </div>
                                 <div class="video-links">
+                                    ${video.clippedVideoUrl ? 
+                                        `<a href="${video.clippedVideoUrl}" target="_blank" class="video-link">Clipped Video</a>` :
+                                        `<span class="video-link" style="color: #666;">Clipped Video - Waiting for completion</span>`
+                                    }
                                     ${video.croppedVideoUrl ? 
                                         `<a href="${video.croppedVideoUrl}" target="_blank" class="video-link">Cropped Video</a>` :
                                         `<span class="video-link" style="color: #666;">Cropped Video - Waiting for completion</span>`

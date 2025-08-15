@@ -6,7 +6,12 @@ import {
   generateTranscriptJson,
   getBestSegmentsFromWords,
 } from '../utils/openai';
-import { addCaptions, copyAudio, extractAudio, trimVideo } from '../utils/ffmpeg';
+import {
+  addCaptions,
+  copyAudio,
+  extractAudio,
+  trimVideo,
+} from '../utils/ffmpeg';
 import fs from 'fs';
 import { clipTranscript, formatSRTTime, wordsToSRT } from '../utils/transcript';
 import { saveStringToFile } from '../utils/file';
@@ -64,7 +69,7 @@ export const convertToPortrait = async (
 
       // Add job to the jobs array
       const job = await JobModel.create(newJob);
-      startJob(job).then(() => {
+      runJob(job).then(() => {
         console.log('job started');
       });
 
@@ -77,8 +82,7 @@ export const convertToPortrait = async (
   });
 };
 
-
-const startJob = async (job: Job) => {
+const runJob = async (job: Job) => {
   const { filePath, pickSegments, id: jobId } = job;
   const baseUrl = `${process.env.BASE_URL}/generated/${jobId}/`;
   const outputDir = path.join(process.cwd(), 'public', 'generated', jobId);
@@ -103,7 +107,6 @@ const startJob = async (job: Job) => {
   const transcript = wordsToSRT(words);
   await saveStringToFile(transcriptPath, transcript);
   await JobModel.update(jobId, { transcript });
-
 
   if (pickSegments) {
     await JobModel.update(jobId, { status: 'generating-segments' });
@@ -135,9 +138,7 @@ const startJob = async (job: Job) => {
         jobId: jobId,
         filePath: videoSegmentPath,
         publicId: clipPublicId,
-        croppedVideoUrl: '',
-        captionVideoUrl: '',
-        finalVideoUrl: '',
+        clippedVideoUrl: baseUrl + clipPublicId + '.mp4',
         transcript: clippedTranscript,
         title: segment.title,
         description: segment.summary,
@@ -147,11 +148,8 @@ const startJob = async (job: Job) => {
 
       const portraitVideoFilename = `${clipPublicId}-portrait.mp4`;
       const portraitVideoPath = path.join(outputDir, portraitVideoFilename);
-      try {
-        cropLandscapeToPortrait(
-          videoSegmentPath,
-          portraitVideoPath,
-        ).then(async () => {
+      cropLandscapeToPortrait(videoSegmentPath, portraitVideoPath)
+        .then(async () => {
           console.log(`generated portrait video for ${clipPublicId}`);
           const croppedVideoUrl = baseUrl + portraitVideoFilename;
           await VideoModel.update(video.id, { croppedVideoUrl });
@@ -159,25 +157,36 @@ const startJob = async (job: Job) => {
 
           const captionVideoFilename = `${clipPublicId}-captions.mp4`;
           const captionVideoPath = path.join(outputDir, captionVideoFilename);
-          addCaptions(croppedVideoUrl, transcriptPath, captionVideoPath).then(async () => {
-            const captionVideoUrl = baseUrl + captionVideoFilename;
-            await VideoModel.update(video.id, { captionVideoUrl });
-            console.log(`added captions to ${clipPublicId}`);
+          addCaptions(croppedVideoUrl, transcriptPath, captionVideoPath)
+            .then(async () => {
+              const captionVideoUrl = baseUrl + captionVideoFilename;
+              await VideoModel.update(video.id, { captionVideoUrl });
+              console.log(`added captions to ${clipPublicId}`);
 
-            const finalVideoFilename = `${clipPublicId}-final.mp4`;
-            const finalVideoPath = path.join(outputDir, finalVideoFilename);
-            copyAudio(videoSegmentPath, captionVideoPath, finalVideoPath).then(async () => {
-              const finalVideoUrl = baseUrl + finalVideoFilename;
-              await VideoModel.update(video.id, { finalVideoUrl });
-              console.log(`generated final video for ${clipPublicId}`);
+              const finalVideoFilename = `${clipPublicId}-final.mp4`;
+              const finalVideoPath = path.join(outputDir, finalVideoFilename);
+              copyAudio(videoSegmentPath, captionVideoPath, finalVideoPath)
+                .then(async () => {
+                  const finalVideoUrl = baseUrl + finalVideoFilename;
+                  await VideoModel.update(video.id, { finalVideoUrl });
+                  console.log(`generated final video for ${clipPublicId}`);
+                })
+                .catch((error: any) => {
+                  console.error(
+                    `Error copying audio for ${clipPublicId}:`,
+                    error,
+                  );
+                });
+            })
+            .catch((error: any) => {
+              console.error(`Error adding captions to ${clipPublicId}:`, error);
             });
-          });
+        })
+        .catch((error: any) => {
+          console.error(
+            `Error cropping video segment: ${JSON.stringify(error)}`,
+          );
         });
-      } catch (error: any) {
-        console.error(
-          `Error cropping video segment: ${JSON.stringify(error)}`,
-        );
-      }
     });
   } else {
     await JobModel.update(jobId, { status: 'cropping-full-video' });
@@ -185,9 +194,6 @@ const startJob = async (job: Job) => {
       jobId: jobId,
       filePath: filePath,
       publicId: jobId,
-      croppedVideoUrl: '',
-      captionVideoUrl: '',
-      finalVideoUrl: '',
       transcript: transcript,
       title: 'Full Video',
       description: 'Full Video',
@@ -198,30 +204,30 @@ const startJob = async (job: Job) => {
     const portraitVideoFilename = `${jobId}-portrait.mp4`;
     const portraitVideoPath = path.join(outputDir, portraitVideoFilename);
 
-    cropLandscapeToPortrait(
-      filePath,
-      portraitVideoPath,
-    ).then(async () => {
+    cropLandscapeToPortrait(filePath, portraitVideoPath).then(async () => {
       const croppedVideoUrl = baseUrl + portraitVideoFilename;
       await VideoModel.update(video.id, { croppedVideoUrl });
       console.log(`generated portrait video for ${jobId}`);
 
       const captionVideoFilename = `${jobId}-captions.mp4`;
       const captionVideoPath = path.join(outputDir, captionVideoFilename);
-      addCaptions(croppedVideoUrl, transcriptPath, captionVideoPath).then(async () => {
-        const captionVideoUrl = baseUrl + captionVideoFilename;
-        await VideoModel.update(video.id, { captionVideoUrl });
-        console.log(`added captions to ${jobId}`);
+      addCaptions(croppedVideoUrl, transcriptPath, captionVideoPath).then(
+        async () => {
+          const captionVideoUrl = baseUrl + captionVideoFilename;
+          await VideoModel.update(video.id, { captionVideoUrl });
+          console.log(`added captions to ${jobId}`);
 
-        const finalVideoFilename = `${jobId}-final.mp4`;
-        const finalVideoPath = path.join(outputDir, finalVideoFilename);
-        copyAudio(filePath, captionVideoPath, finalVideoPath).then(async () => {
-          const finalVideoUrl = baseUrl + finalVideoFilename;
-          await VideoModel.update(video.id, { finalVideoUrl });
-          console.log(`generated final video for ${jobId}`);
-        });
-      });
+          const finalVideoFilename = `${jobId}-final.mp4`;
+          const finalVideoPath = path.join(outputDir, finalVideoFilename);
+          copyAudio(filePath, captionVideoPath, finalVideoPath).then(
+            async () => {
+              const finalVideoUrl = baseUrl + finalVideoFilename;
+              await VideoModel.update(video.id, { finalVideoUrl });
+              console.log(`generated final video for ${jobId}`);
+            },
+          );
+        },
+      );
     });
   }
 };
-

@@ -6,7 +6,7 @@ CREATE TABLE `jobs` (
 	`segments` text,
 	`pick_segments` integer DEFAULT false NOT NULL,
 	`status` text DEFAULT 'starting' NOT NULL,
-	`created_at` integer DEFAULT '"2025-05-15T19:16:12.284Z"' NOT NULL
+	`created_at` integer DEFAULT '"2025-08-15T02:15:28.922Z"' NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `videos` (
@@ -14,17 +14,15 @@ CREATE TABLE `videos` (
 	`job_id` text NOT NULL,
 	`public_id` text NOT NULL,
 	`file_path` text NOT NULL,
-	`video_url` text NOT NULL,
-	`cropped_video_url` text NOT NULL,
-	`pre_caption_video_url` text NOT NULL,
-	`pre_caption_video_public_id` text NOT NULL,
-	`caption_video_url` text NOT NULL,
+	`clipped_video_url` text,
+	`cropped_video_url` text,
+	`caption_video_url` text,
+	`final_video_url` text,
 	`transcript` text NOT NULL,
-	`transcript_public_id` text NOT NULL,
 	`title` text NOT NULL,
 	`description` text NOT NULL,
 	`start_time` text NOT NULL,
 	`end_time` text NOT NULL,
-	`created_at` integer DEFAULT '"2025-05-15T19:16:12.284Z"' NOT NULL,
+	`created_at` integer DEFAULT '"2025-08-15T02:15:28.923Z"' NOT NULL,
 	FOREIGN KEY (`job_id`) REFERENCES `jobs`(`id`) ON UPDATE no action ON DELETE no action
 );

@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "1eb70bb7-f024-44c8-b183-dac033fccc53",
+  "id": "41a8f14a-32a2-4ca9-a4c4-203dc1f56184",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "jobs": {
@@ -64,7 +64,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-05-15T19:16:12.284Z\"'"
+          "default": "'\"2025-08-15T02:15:28.922Z\"'"
         }
       },
       "indexes": {},
@@ -104,50 +104,36 @@
           "notNull": true,
           "autoincrement": false
         },
-        "video_url": {
-          "name": "video_url",
+        "clipped_video_url": {
+          "name": "clipped_video_url",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "cropped_video_url": {
           "name": "cropped_video_url",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "pre_caption_video_url": {
-          "name": "pre_caption_video_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "pre_caption_video_public_id": {
-          "name": "pre_caption_video_public_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "caption_video_url": {
           "name": "caption_video_url",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "final_video_url": {
+          "name": "final_video_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         },
         "transcript": {
           "name": "transcript",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "transcript_public_id": {
-          "name": "transcript_public_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -187,7 +173,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-05-15T19:16:12.284Z\"'"
+          "default": "'\"2025-08-15T02:15:28.923Z\"'"
         }
       },
       "indexes": {},

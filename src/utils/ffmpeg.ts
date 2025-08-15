@@ -35,6 +35,7 @@ export const trimVideo = async (
       .input(videoPath)
       .setStartTime(trimStart)
       .setDuration(duration)
+      .outputOptions(['-c', 'copy'])
       .output(outputPath)
       .on('end', () => {
         resolve(outputPath);

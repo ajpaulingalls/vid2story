@@ -47,6 +47,7 @@ export const videos = sqliteTable('videos', {
     .references(() => jobs.id),
   publicId: text('public_id').notNull(),
   filePath: text('file_path').notNull(),
+  clippedVideoUrl: text('clipped_video_url'),
   croppedVideoUrl: text('cropped_video_url'),
   captionVideoUrl: text('caption_video_url'),
   finalVideoUrl: text('final_video_url'),
