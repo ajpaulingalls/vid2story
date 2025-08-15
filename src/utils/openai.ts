@@ -46,10 +46,11 @@ A video transcript will be given by the user and will be an array of Transcripti
 }]
 
 Take it step by step.
-1. First, identify the best segments in the transcript.
-2. Next, check with segments are no less than 30 seconds and NO MORE THAN 180 seconds in duration.
-3. Then, for each segment, create a title and summary.
-4. Finally, return the json with the segments.
+1. First, combine the transcript into a single series of sentences.
+2. Then, identify the best segments in the transcript.
+3. Next, check with segments are no less than 30 seconds and NO MORE THAN 180 seconds in duration.
+4. Then, for each segment, create a title and summary.
+5. Finally, return the json with the segments.
 `;
 
 export type ViralPodcastSegments = {
