@@ -15,9 +15,14 @@ export const cropLandscapeToPortrait = (
   return new Promise((resolve, reject) => {
     // Get the land2port executable path from environment variable
     const land2portPath = process.env.LAND2PORT_PATH;
+    const land2portDevice = process.env.LAND2PORT_DEVICE;
 
-    if (!land2portPath) {
-      reject(new Error('LAND2PORT_PATH environment variable is not set'));
+    if (!land2portPath || !land2portDevice) {
+      reject(
+        new Error(
+          'LAND2PORT_PATH or LAND2PORT_DEVICE environment variable is not set',
+        ),
+      );
       return;
     }
 
@@ -26,7 +31,7 @@ export const cropLandscapeToPortrait = (
       '--release',
       '--',
       '--device',
-      'coreml',
+      land2portDevice,
       '--keep-graphic',
       '--use-stack-crop',
       '--headless',

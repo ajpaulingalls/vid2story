@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Detail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .video-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .video-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .video-type {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: #e3f2fd;
+            color: #1976d2;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        .video-container {
+            width: 50%;
+            max-width: 450px;
+            margin: 0 auto;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .video-player {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .video-info {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #0066cc;
+        }
+        .video-info h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .video-url {
+            word-break: break-all;
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #495057;
+        }
+        .error-message {
+            text-align: center;
+            color: #dc3545;
+            padding: 40px;
+            font-size: 1.1em;
+        }
+        .loading {
+            text-align: center;
+            color: #6c757d;
+            padding: 40px;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="#" class="back-link" id="backLink">← Back to Job Details</a>
+        
+        <div class="video-header">
+            <h1 class="video-title" id="videoTitle">Video Player</h1>
+            <span class="video-type" id="videoType">Video</span>
+        </div>
+        
+        <div id="videoContainer" class="video-container">
+            <video id="videoPlayer" class="video-player" controls preload="metadata">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <div class="video-info">
+            <h3>Video Information</h3>
+            <p><strong>Type:</strong> <span id="videoTypeInfo"></span></p>
+            <p><strong>URL:</strong></p>
+            <div class="video-url" id="videoUrl"></div>
+        </div>
+    </div>
+
+    <script>
+        // Get parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoUrl = urlParams.get('url');
+        const videoType = urlParams.get('type') || 'Video';
+        const jobId = urlParams.get('jobId');
+        
+        // Set back link
+        if (jobId) {
+            document.getElementById('backLink').href = `jobDetail.html?id=${jobId}`;
+        } else {
+            document.getElementById('backLink').href = 'jobStatus.html';
+        }
+        
+        if (!videoUrl) {
+            document.getElementById('videoContainer').innerHTML = 
+                '<div class="error-message">No video URL provided</div>';
+        } else {
+            // Update page title and video type
+            document.getElementById('videoTitle').textContent = `${videoType} Player`;
+            document.getElementById('videoType').textContent = videoType;
+            document.getElementById('videoTypeInfo').textContent = videoType;
+            document.getElementById('videoUrl').textContent = videoUrl;
+            
+            // Set video source
+            const videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.src = videoUrl;
+            
+            // Handle video loading events
+            videoPlayer.addEventListener('loadstart', () => {
+                document.getElementById('videoContainer').innerHTML = 
+                    '<div class="loading">Loading video...</div>';
+            });
+            
+            videoPlayer.addEventListener('canplay', () => {
+                document.getElementById('videoContainer').innerHTML = 
+                    '<video id="videoPlayer" class="video-player" controls preload="metadata">Your browser does not support the video tag.</video>';
+                // Re-attach the video element
+                const newVideoPlayer = document.getElementById('videoPlayer');
+                newVideoPlayer.src = videoUrl;
+            });
+            
+            videoPlayer.addEventListener('error', (e) => {
+                document.getElementById('videoContainer').innerHTML = 
+                    '<div class="error-message">Error loading video. Please check the URL and try again.</div>';
+                console.error('Video error:', e);
+            });
+        }
+    </script>
+</body>
+</html>
