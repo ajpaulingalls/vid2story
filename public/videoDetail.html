@@ -72,14 +72,30 @@
             margin-top: 0;
             color: #333;
         }
-        .video-url {
-            word-break: break-all;
-            background-color: #e9ecef;
-            padding: 10px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.9em;
+        .video-info p {
+            margin: 10px 0;
+        }
+        .video-info strong {
             color: #495057;
+        }
+        .video-description {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        .video-transcript {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
         }
         .error-message {
             text-align: center;
@@ -93,6 +109,15 @@
             padding: 40px;
             font-size: 1.1em;
         }
+        .video-url {
+            word-break: break-all;
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #495057;
+        }
     </style>
 </head>
 <body>
@@ -100,71 +125,112 @@
         <a href="#" class="back-link" id="backLink">← Back to Job Details</a>
         
         <div class="video-header">
-            <h1 class="video-title" id="videoTitle">Video Player</h1>
+            <h1 class="video-title" id="videoTitle">Loading...</h1>
             <span class="video-type" id="videoType">Video</span>
         </div>
         
         <div id="videoContainer" class="video-container">
-            <video id="videoPlayer" class="video-player" controls preload="metadata">
-                Your browser does not support the video tag.
-            </video>
+            <div class="loading">Loading video...</div>
         </div>
         
         <div class="video-info">
             <h3>Video Information</h3>
-            <p><strong>Type:</strong> <span id="videoTypeInfo"></span></p>
-            <p><strong>URL:</strong></p>
-            <div class="video-url" id="videoUrl"></div>
+            <p><strong>Title:</strong> <span id="videoTitleInfo">Loading...</span></p>
+            <p><strong>Description:</strong></p>
+            <div class="video-description" id="videoDescription">Loading...</div>
+            <p><strong>Type:</strong> <span id="videoTypeInfo">Loading...</span></p>
+            <p><strong>Start Time:</strong> <span id="videoStartTime">Loading...</span></p>
+            <p><strong>End Time:</strong> <span id="videoEndTime">Loading...</span></p>
+            <p><strong>Created:</strong> <span id="videoCreatedAt">Loading...</span></p>
+            <p><strong>Transcript:</strong></p>
+            <div class="video-transcript" id="videoTranscript">Loading...</div>
+            <p><strong>Video URL:</strong></p>
+            <div class="video-url" id="videoUrl">Loading...</div>
         </div>
     </div>
 
     <script>
-        // Get parameters from URL
+        // Get video ID and type from URL
         const urlParams = new URLSearchParams(window.location.search);
-        const videoUrl = urlParams.get('url');
-        const videoType = urlParams.get('type') || 'Video';
-        const jobId = urlParams.get('jobId');
+        const videoId = urlParams.get('id');
+        const videoType = urlParams.get('type') || 'video';
         
-        // Set back link
-        if (jobId) {
-            document.getElementById('backLink').href = `jobDetail.html?id=${jobId}`;
-        } else {
-            document.getElementById('backLink').href = 'jobStatus.html';
-        }
-        
-        if (!videoUrl) {
+        if (!videoId) {
             document.getElementById('videoContainer').innerHTML = 
-                '<div class="error-message">No video URL provided</div>';
+                '<div class="error-message">No video ID provided</div>';
         } else {
-            // Update page title and video type
-            document.getElementById('videoTitle').textContent = `${videoType} Player`;
-            document.getElementById('videoType').textContent = videoType;
-            document.getElementById('videoTypeInfo').textContent = videoType;
-            document.getElementById('videoUrl').textContent = videoUrl;
-            
-            // Set video source
-            const videoPlayer = document.getElementById('videoPlayer');
-            videoPlayer.src = videoUrl;
-            
-            // Handle video loading events
-            videoPlayer.addEventListener('loadstart', () => {
-                document.getElementById('videoContainer').innerHTML = 
-                    '<div class="loading">Loading video...</div>';
-            });
-            
-            videoPlayer.addEventListener('canplay', () => {
-                document.getElementById('videoContainer').innerHTML = 
-                    '<video id="videoPlayer" class="video-player" controls preload="metadata">Your browser does not support the video tag.</video>';
-                // Re-attach the video element
-                const newVideoPlayer = document.getElementById('videoPlayer');
-                newVideoPlayer.src = videoUrl;
-            });
-            
-            videoPlayer.addEventListener('error', (e) => {
-                document.getElementById('videoContainer').innerHTML = 
-                    '<div class="error-message">Error loading video. Please check the URL and try again.</div>';
-                console.error('Video error:', e);
-            });
+            // Fetch video details by ID
+            fetch(`/api/videos/${videoId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Video not found');
+                    }
+                    return response.json();
+                })
+                .then(video => {
+                    // Update page title and video type
+                    const typeDisplayNames = {
+                        'clipped': 'Clipped Video',
+                        'cropped': 'Cropped Video', 
+                        'caption': 'Caption Video',
+                        'final': 'Final Video'
+                    };
+                    const displayType = typeDisplayNames[videoType] || 'Video';
+                    
+                    document.getElementById('videoTitle').textContent = video.title;
+                    document.getElementById('videoType').textContent = displayType;
+                    document.getElementById('videoTitleInfo').textContent = video.title;
+                    document.getElementById('videoDescription').textContent = video.description;
+                    document.getElementById('videoTypeInfo').textContent = displayType;
+                    document.getElementById('videoStartTime').textContent = video.startTime;
+                    document.getElementById('videoEndTime').textContent = video.endTime;
+                    document.getElementById('videoCreatedAt').textContent = new Date(video.createdAt).toLocaleString();
+                    document.getElementById('videoTranscript').textContent = video.transcript;
+                    
+                    // Set back link to job details
+                    document.getElementById('backLink').href = `jobDetail.html?id=${video.jobId}`;
+                    
+                    // Determine which video URL to use based on type
+                    let videoUrl = '';
+                    switch(videoType) {
+                        case 'clipped':
+                            videoUrl = video.clippedVideoUrl;
+                            break;
+                        case 'cropped':
+                            videoUrl = video.croppedVideoUrl;
+                            break;
+                        case 'caption':
+                            videoUrl = video.captionVideoUrl;
+                            break;
+                        case 'final':
+                            videoUrl = video.finalVideoUrl;
+                            break;
+                        default:
+                            videoUrl = video.clippedVideoUrl || video.croppedVideoUrl || video.captionVideoUrl || video.finalVideoUrl;
+                    }
+                    
+                    if (videoUrl) {
+                        document.getElementById('videoUrl').textContent = videoUrl;
+                        
+                        // Create video player
+                        const videoContainer = document.getElementById('videoContainer');
+                        videoContainer.innerHTML = `
+                            <video class="video-player" controls preload="metadata">
+                                <source src="${videoUrl}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        `;
+                    } else {
+                        document.getElementById('videoContainer').innerHTML = 
+                            '<div class="error-message">Video file not available yet</div>';
+                        document.getElementById('videoUrl').textContent = 'Not available';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading video:', error);
+                    document.getElementById('videoContainer').innerHTML = 
+                        '<div class="error-message">Error loading video. Please check the ID and try again.</div>';
+                });
         }
     </script>
 </body>

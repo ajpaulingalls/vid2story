@@ -160,19 +160,19 @@
                                 </div>
                                 <div class="video-links">
                                     ${video.clippedVideoUrl ? 
-                                        `<a href="videoDetail.html?url=${encodeURIComponent(video.clippedVideoUrl)}&type=Clipped%20Video&jobId=${job.id}" class="video-link">Clipped Video</a>` :
+                                        `<a href="videoDetail.html?id=${video.id}&type=clipped" class="video-link">Clipped Video</a>` :
                                         `<span class="video-link" style="color: #666;">Clipped Video - Waiting for completion</span>`
                                     }
                                     ${video.croppedVideoUrl ? 
-                                        `<a href="videoDetail.html?url=${encodeURIComponent(video.croppedVideoUrl)}&type=Cropped%20Video&jobId=${job.id}" class="video-link">Cropped Video</a>` :
+                                        `<a href="videoDetail.html?id=${video.id}&type=cropped" class="video-link">Cropped Video</a>` :
                                         `<span class="video-link" style="color: #666;">Cropped Video - Waiting for completion</span>`
                                     }
                                     ${video.captionVideoUrl ? 
-                                        `<a href="videoDetail.html?url=${encodeURIComponent(video.captionVideoUrl)}&type=Caption%20Video&jobId=${job.id}" class="video-link">Captioned Video</a>` :
+                                        `<a href="videoDetail.html?id=${video.id}&type=caption" class="video-link">Captioned Video</a>` :
                                         `<span class="video-link" style="color: #666;">Caption Video - Waiting for completion</span>`
                                     }
                                     ${video.finalVideoUrl ? 
-                                        `<a href="videoDetail.html?url=${encodeURIComponent(video.finalVideoUrl)}&type=Final%20Video&jobId=${job.id}" class="video-link">Final Video</a>` :
+                                        `<a href="videoDetail.html?id=${video.id}&type=final" class="video-link">Final Video</a>` :
                                         `<span class="video-link" style="color: #666;">Final Video - Waiting for completion</span>`
                                     }
                                 </div>
