@@ -106,7 +106,7 @@ const runJob = async (job: Job) => {
   }
   const transcript = wordsToSRT(words);
   await saveStringToFile(transcriptPath, transcript);
-  await JobModel.update(jobId, { transcript });
+  await JobModel.update(jobId, { transcript, words });
 
   if (pickSegments) {
     await JobModel.update(jobId, { status: 'generating-segments' });

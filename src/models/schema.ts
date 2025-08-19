@@ -10,6 +10,7 @@ export const jobs = sqliteTable('jobs', {
   name: text('name').notNull(),
   filePath: text('file_path').notNull(),
   transcript: text('transcript').notNull(),
+  words: text('words', { mode: 'json' }),
   segments: text('segments', { mode: 'json' }).$type<ViralPodcastSegments>(),
   pickSegments: integer('pick_segments', { mode: 'boolean' })
     .notNull()
