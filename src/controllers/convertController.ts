@@ -8,12 +8,14 @@ import {
 } from '../utils/openai';
 import {
   addCaptions,
+  calculateClosestKeyframeTime,
   copyAudio,
   extractAudio,
+  getKeyframeTimes,
   trimVideo,
 } from '../utils/ffmpeg';
 import fs from 'fs';
-import { clipTranscript, formatSRTTime, wordsToSRT } from '../utils/transcript';
+import { clipWordsToSRT, formatSRTTime, wordsToSRT } from '../utils/transcript';
 import { saveStringToFile } from '../utils/file';
 import { Video, VideoModel } from '../models/video';
 import { cropLandscapeToPortrait } from '../utils/land2port';
@@ -96,7 +98,7 @@ const runJob = async (job: Job) => {
   const audioPath = path.join(outputDir, 'audio.mp3');
   await extractAudio(filePath, audioPath);
 
-  // // Generate transcript
+  // Generate transcript
   const transcriptPath = path.join(outputDir, 'transcript.srt');
   const words = await generateTranscriptJson(audioPath);
   if (!words) {
@@ -115,18 +117,34 @@ const runJob = async (job: Job) => {
     console.log(segments);
     await JobModel.update(jobId, { segments, status: 'cropping-segments' });
 
+    const keyframeTimes = await getKeyframeTimes(filePath);
+    console.log(keyframeTimes);
+
     segments.segments.forEach(async (segment, index) => {
       const clipPublicId = `${jobId}-${index + 1}`;
       const videoSegmentPath = path.join(outputDir, `${clipPublicId}.mp4`);
       console.log(
         `trimming video segment ${segment.title} to ${videoSegmentPath} with id ${clipPublicId}`,
       );
-      const segmentStart = formatSRTTime(segment.start).replace(',', '.');
-      const segmentEnd = formatSRTTime(segment.end).replace(',', '.');
-      await trimVideo(filePath, videoSegmentPath, segmentStart, segmentEnd);
+      const segmentStart = await calculateClosestKeyframeTime(
+        keyframeTimes,
+        segment.start,
+        true,
+      );
+      const segmentEnd = await calculateClosestKeyframeTime(
+        keyframeTimes,
+        segment.end,
+        false,
+      );
+      await trimVideo(
+        filePath,
+        videoSegmentPath,
+        segmentStart,
+        segmentEnd,
+      );
 
-      const clippedTranscript: string = clipTranscript(
-        transcript,
+      const clippedTranscript: string = clipWordsToSRT(
+        words,
         segmentStart,
         segmentEnd,
       );
@@ -170,22 +188,26 @@ const runJob = async (job: Job) => {
                   const finalVideoUrl = baseUrl + finalVideoFilename;
                   await VideoModel.update(video.id, { finalVideoUrl });
                   console.log(`generated final video for ${clipPublicId}`);
+                  await JobModel.update(video.jobId, { status: 'completed' });
                 })
-                .catch((error: any) => {
+                .catch(async (error: any) => {
                   console.error(
                     `Error copying audio for ${clipPublicId}:`,
                     error,
                   );
+                  await JobModel.update(video.jobId, { status: 'failed' });
                 });
             })
-            .catch((error: any) => {
+            .catch(async (error: any) => {
               console.error(`Error adding captions to ${clipPublicId}:`, error);
+              await JobModel.update(video.jobId, { status: 'failed' });
             });
         })
-        .catch((error: any) => {
+        .catch(async (error: any) => {
           console.error(
             `Error cropping video segment: ${JSON.stringify(error)}`,
           );
+          await JobModel.update(video.jobId, { status: 'failed' });
         });
     });
   } else {
@@ -224,8 +246,17 @@ const runJob = async (job: Job) => {
               const finalVideoUrl = baseUrl + finalVideoFilename;
               await VideoModel.update(video.id, { finalVideoUrl });
               console.log(`generated final video for ${jobId}`);
+              await JobModel.update(video.jobId, { status: 'completed' });
+            },
+            async (error: any) => {
+              console.error(`Error copying audio for ${jobId}:`, error);
+              await JobModel.update(video.jobId, { status: 'failed' });
             },
           );
+        },
+        async (error: any) => {
+          console.error(`Error adding captions to ${jobId}:`, error);
+          await JobModel.update(video.jobId, { status: 'failed' });
         },
       );
     });

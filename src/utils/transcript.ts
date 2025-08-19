@@ -45,58 +45,6 @@ function entriesToSRT(entries: SRTEntry[]): string {
     .join('\n\n');
 }
 
-/**
- * Clips a transcript from start time to end time and resets timestamps to start at 0
- * @param transcript SRT format transcript string
- * @param startTime Start time in format "HH:mm:ss,SSS"
- * @param endTime End time in format "HH:mm:ss,SSS"
- * @returns Clipped and adjusted SRT transcript
- */
-export function clipTranscript(
-  transcript: string,
-  startTime: string,
-  endTime: string,
-): string {
-  // Parse the transcript
-  const entries = parseSRT(transcript);
-
-  // Convert times to milliseconds for easier comparison
-  const startMs = moment.duration(startTime.replace(',', '.')).asMilliseconds();
-  const endMs = moment.duration(endTime.replace(',', '.')).asMilliseconds();
-
-  // Filter entries that overlap the time range
-  const clippedEntries = entries.filter((entry) => {
-    const entryStartMs = moment
-      .duration(entry.startTime.replace(',', '.'))
-      .asMilliseconds();
-    const entryEndMs = moment
-      .duration(entry.endTime.replace(',', '.'))
-      .asMilliseconds();
-    return entryStartMs < endMs && entryEndMs > startMs;
-  });
-
-  // Adjust timestamps to start from 0 and trim to fit within the range
-  const adjustedEntries = clippedEntries.map((entry) => {
-    const entryStartMs = moment
-      .duration(entry.startTime.replace(',', '.'))
-      .asMilliseconds();
-    const entryEndMs = moment
-      .duration(entry.endTime.replace(',', '.'))
-      .asMilliseconds();
-
-    const newStartMs = Math.max(entryStartMs, startMs) - startMs;
-    const newEndMs = Math.min(entryEndMs, endMs) - startMs;
-
-    return {
-      ...entry,
-      startTime: moment.utc(newStartMs).format('HH:mm:ss,SSS'),
-      endTime: moment.utc(newEndMs).format('HH:mm:ss,SSS'),
-    };
-  });
-
-  // Convert back to SRT format
-  return entriesToSRT(adjustedEntries);
-}
 
 /**
  * Formats a time in seconds to SRT format (HH:mm:ss,SSS)
@@ -162,4 +110,60 @@ export function wordsToSRT(words: TranscriptionWord[]): string {
       return `${idx + 1}\n${startTime} --> ${endTime}\n${caption.text}`;
     })
     .join('\n\n');
+}
+
+/**
+ * Clips words to a specified time range and converts them to SRT format starting at 0
+ * @param words Array of Word objects with start/end times in seconds
+ * @param startTime Start time in format "HH:mm:ss.SSS"
+ * @param endTime End time in format "HH:mm:ss.SSS"
+ * @returns SRT formatted string for the clipped words
+ */
+export function clipWordsToSRT(
+  words: TranscriptionWord[],
+  startTime: string,
+  endTime: string,
+): string {
+  if (words.length === 0) return '';
+
+  // Convert times to seconds for easier comparison
+  const startSeconds = moment.duration(startTime).asSeconds();
+  const endSeconds = moment.duration(endTime).asSeconds();
+
+  // Filter words that overlap the time range
+  const clippedWords = words.filter((word) => {
+    return word.start < endSeconds && word.end > startSeconds;
+  });
+
+  if (clippedWords.length === 0) return '';
+
+  // Adjust word timestamps to start from 0 and trim to fit within the range
+  const adjustedWords = clippedWords.map((word) => ({
+    ...word,
+    start: Math.max(word.start, startSeconds) - startSeconds,
+    end: Math.min(word.end, endSeconds) - startSeconds,
+  }));
+
+  // Convert adjusted words to SRT format
+  const srtResult = wordsToSRT(adjustedWords);
+  
+  // If the result is empty, return it
+  if (!srtResult) return srtResult;
+  
+  // Parse the SRT result and adjust all timestamps to start from 0
+  const entries = parseSRT(srtResult);
+  const firstStartTime = moment.duration(entries[0].startTime.replace(',', '.')).asMilliseconds();
+  
+  const normalizedEntries = entries.map((entry) => {
+    const startMs = moment.duration(entry.startTime.replace(',', '.')).asMilliseconds();
+    const endMs = moment.duration(entry.endTime.replace(',', '.')).asMilliseconds();
+    
+    return {
+      ...entry,
+      startTime: moment.utc(startMs - firstStartTime).format('HH:mm:ss,SSS'),
+      endTime: moment.utc(endMs - firstStartTime).format('HH:mm:ss,SSS'),
+    };
+  });
+  
+  return entriesToSRT(normalizedEntries);
 }

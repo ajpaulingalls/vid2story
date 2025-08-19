@@ -1,113 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { clipTranscript, wordsToSRT } from './transcript';
-
-describe('clipTranscript', () => {
-  const sampleTranscript = `1
-00:00:01,000 --> 00:00:04,000
-First caption
-
-2
-00:00:04,000 --> 00:00:08,000
-Second caption
-
-3
-00:00:08,000 --> 00:00:12,000
-Third caption
-
-4
-00:00:12,000 --> 00:00:16,000
-Fourth caption`;
-
-  it('should clip transcript to specified time range', () => {
-    const result = clipTranscript(
-      sampleTranscript,
-      '00:00:04,000',
-      '00:00:12,000',
-    );
-    const expected = `1
-00:00:00,000 --> 00:00:04,000
-Second caption
-
-2
-00:00:04,000 --> 00:00:08,000
-Third caption`;
-
-    expect(result).toBe(expected);
-  });
-
-  it('should handle empty transcript', () => {
-    const result = clipTranscript('', '00:00:01,000', '00:00:04,000');
-    expect(result).toBe('');
-  });
-
-  it('should handle transcript with no entries in time range', () => {
-    const result = clipTranscript(
-      sampleTranscript,
-      '00:00:20,000',
-      '00:00:25,000',
-    );
-    expect(result).toBe('');
-  });
-
-  it('should handle partial overlap with start time', () => {
-    const result = clipTranscript(
-      sampleTranscript,
-      '00:00:03,000',
-      '00:00:06,000',
-    );
-    const expected = `1
-00:00:00,000 --> 00:00:01,000
-First caption
-
-2
-00:00:01,000 --> 00:00:03,000
-Second caption`;
-
-    expect(result).toBe(expected);
-  });
-
-  it('should handle partial overlap with end time', () => {
-    const result = clipTranscript(
-      sampleTranscript,
-      '00:00:07,000',
-      '00:00:10,000',
-    );
-    const expected = `1
-00:00:00,000 --> 00:00:01,000
-Second caption
-
-2
-00:00:01,000 --> 00:00:03,000
-Third caption`;
-
-    expect(result).toBe(expected);
-  });
-
-  it('should handle multi-line captions', () => {
-    const multiLineTranscript = `1
-00:00:01,000 --> 00:00:04,000
-First line
-Second line
-Third line
-
-2
-00:00:04,000 --> 00:00:08,000
-Another caption`;
-
-    const result = clipTranscript(
-      multiLineTranscript,
-      '00:00:01,000',
-      '00:00:04,000',
-    );
-    const expected = `1
-00:00:00,000 --> 00:00:03,000
-First line
-Second line
-Third line`;
-
-    expect(result).toBe(expected);
-  });
-});
+import { wordsToSRT, clipWordsToSRT } from './transcript';
 
 describe('wordsToSRT', () => {
   it('should handle empty array', () => {
@@ -259,5 +151,100 @@ describe('formatSRTTime', () => {
   it('should round milliseconds correctly', () => {
     expect(formatSRTTime(1.999)).toBe('00:00:01,999');
     expect(formatSRTTime(1.995)).toBe('00:00:01,995');
+  });
+});
+
+describe('clipWordsToSRT', () => {
+  const sampleWords = [
+    { word: 'Hello', start: 1.0, end: 1.5 },
+    { word: 'world', start: 1.8, end: 2.2 },
+    { word: 'This', start: 4.0, end: 4.3 },
+    { word: 'is', start: 4.4, end: 4.6 },
+    { word: 'a', start: 4.7, end: 4.8 },
+    { word: 'test', start: 4.9, end: 5.2 },
+    { word: 'Goodbye', start: 8.0, end: 8.5 },
+    { word: 'everyone', start: 8.6, end: 9.0 },
+  ];
+
+  it('should clip words to specified time range and start at 0', () => {
+    const result = clipWordsToSRT(
+      sampleWords,
+      '00:00:04,000',
+      '00:00:06,000',
+    );
+    const expected = `1
+00:00:00,000 --> 00:00:01,200
+This is a test`;
+    expect(result).toBe(expected);
+  });
+
+  it('should handle empty words array', () => {
+    const result = clipWordsToSRT([], '00:00:01,000', '00:00:04,000');
+    expect(result).toBe('');
+  });
+
+  it('should handle words with no entries in time range', () => {
+    const result = clipWordsToSRT(
+      sampleWords,
+      '00:00:20,000',
+      '00:00:25,000',
+    );
+    expect(result).toBe('');
+  });
+
+  it('should handle partial overlap with start time', () => {
+    const result = clipWordsToSRT(
+      sampleWords,
+      '00:00:01,500',
+      '00:00:03,000',
+    );
+    const expected = `1
+00:00:00,000 --> 00:00:00,400
+world`;
+    expect(result).toBe(expected);
+  });
+
+  it('should handle partial overlap with end time', () => {
+    const result = clipWordsToSRT(
+      sampleWords,
+      '00:00:07,000',
+      '00:00:08,500',
+    );
+    const expected = `1
+00:00:00,000 --> 00:00:00,500
+Goodbye`;
+    expect(result).toBe(expected);
+  });
+
+  it('should handle words that span across the time range', () => {
+    const result = clipWordsToSRT(
+      sampleWords,
+      '00:00:00,500',
+      '00:00:09,500',
+    );
+    const expected = `1
+00:00:00,000 --> 00:00:01,200
+Hello world
+
+2
+00:00:03,000 --> 00:00:04,200
+This is a test
+
+3
+00:00:07,000 --> 00:00:08,000
+Goodbye everyone`;
+    expect(result).toBe(expected);
+  });
+
+  it('should handle single word in time range', () => {
+    const result = clipWordsToSRT(
+      sampleWords,
+      '00:00:01,500',
+      '00:00:02,000',
+    );
+    const expected = `1
+00:00:00,000 --> 00:00:00,200
+world`;
+    expect(result).toBe(expected);
   });
 });
