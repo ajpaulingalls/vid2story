@@ -188,7 +188,6 @@ const runJob = async (job: Job) => {
                   const finalVideoUrl = baseUrl + finalVideoFilename;
                   await VideoModel.update(video.id, { finalVideoUrl });
                   console.log(`generated final video for ${clipPublicId}`);
-                  await JobModel.update(video.jobId, { status: 'completed' });
                 })
                 .catch(async (error: any) => {
                   console.error(
@@ -210,6 +209,7 @@ const runJob = async (job: Job) => {
           await JobModel.update(video.jobId, { status: 'failed' });
         });
     });
+    await JobModel.update(jobId, { status: 'completed' });
   } else {
     await JobModel.update(jobId, { status: 'cropping-full-video' });
     const video = await VideoModel.create({

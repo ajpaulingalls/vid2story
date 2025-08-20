@@ -124,6 +124,44 @@
             max-height: 400px;
             overflow-y: auto;
         }
+        #segments {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .collapsible-section {
+            margin: 15px 0;
+        }
+        .collapsible-header {
+            background-color: #e0e0e0;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .collapsible-header:hover {
+            background-color: #d0d0d0;
+        }
+        .collapsible-content {
+            display: none;
+            margin-top: 10px;
+        }
+        .collapsible-content.expanded {
+            display: block;
+        }
+        .toggle-icon {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body>
@@ -141,10 +179,35 @@
             <p><strong>Created:</strong> <span id="createdAt"></span></p>
             <p><strong>File:</strong> <span id="fileName"></span></p>
             <p><strong>Pick Segments:</strong> <span id="pickSegments"></span></p>
-            <p><strong>Transcript:</strong></p>
-            <div id="transcript"></div>
-            <p><strong>Words Data:</strong></p>
-            <div id="words"></div>
+            
+            <div class="collapsible-section">
+                <div class="collapsible-header" onclick="toggleSection('transcript')">
+                    <span><strong>Transcript</strong></span>
+                    <span class="toggle-icon" id="transcript-toggle">▶</span>
+                </div>
+                <div class="collapsible-content" id="transcript-content">
+                    <div id="transcript"></div>
+                </div>
+            </div>
+            
+            <div class="collapsible-section">
+                <div class="collapsible-header" onclick="toggleSection('words')">
+                    <span><strong>Words Data</strong></span>
+                    <span class="toggle-icon" id="words-toggle">▶</span>
+                </div>
+                <div class="collapsible-content" id="words-content">
+                    <div id="words"></div>
+                </div>
+            
+            <div class="collapsible-section">
+                <div class="collapsible-header" onclick="toggleSection('segments')">
+                    <span><strong>Segments</strong></span>
+                    <span class="toggle-icon" id="segments-toggle">▶</span>
+                </div>
+                <div class="collapsible-content" id="segments-content">
+                    <div id="segments"></div>
+                </div>
+            </div>
         </div>
         
         <h2>Generated Videos</h2>
@@ -154,6 +217,20 @@
     </div>
 
     <script>
+        // Function to toggle collapsible sections
+        function toggleSection(sectionName) {
+            const content = document.getElementById(`${sectionName}-content`);
+            const toggle = document.getElementById(`${sectionName}-toggle`);
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                toggle.textContent = '▶';
+            } else {
+                content.classList.add('expanded');
+                toggle.textContent = '▼';
+            }
+        }
+        
         // Get job ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const jobId = urlParams.get('id');
@@ -180,6 +257,13 @@
                         document.getElementById('words').textContent = JSON.stringify(job.words, null, 2);
                     } else {
                         document.getElementById('words').textContent = 'No words data available';
+                    }
+
+                    // Display segments data if available
+                    if (job.segments) {
+                        document.getElementById('segments').textContent = JSON.stringify(job.segments, null, 2);
+                    } else {
+                        document.getElementById('segments').textContent = 'No segments data available';
                     }
 
                     // Update videos list
