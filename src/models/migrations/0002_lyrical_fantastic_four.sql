@@ -1,1 +1,0 @@
-ALTER TABLE `videos` ADD COLUMN `caption` text not null default '';

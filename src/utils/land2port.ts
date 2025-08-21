@@ -6,11 +6,15 @@ import path from 'path';
  * Crop a landscape video to a portrait video using the land2port tool.
  * @param videoSegmentPath - Path to the input landscape video file
  * @param outputPath - Path where the output portrait video should be saved
+ * @param keepGraphics - Whether to keep graphics
+ * @param useStackCrop - Whether to use stack crop
  * @returns Promise<string> - URL to the new cropped video file
  */
 export const cropLandscapeToPortrait = (
   videoSegmentPath: string,
   outputPath: string,
+  keepGraphics: boolean,
+  useStackCrop: boolean,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     // Get the land2port executable path from environment variable
@@ -32,8 +36,8 @@ export const cropLandscapeToPortrait = (
       '--',
       '--device',
       land2portDevice,
-      '--keep-graphic',
-      '--use-stack-crop',
+      ...(keepGraphics ? ['--keep-graphic'] : []),
+      ...(useStackCrop ? ['--use-stack-crop'] : []),
       '--headless',
       '--source',
       videoSegmentPath,

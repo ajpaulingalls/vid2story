@@ -65,6 +65,9 @@ export const convertToPortrait = async (
         filePath: req.file.path,
         transcript: '',
         pickSegments: req.body.pickSegments === 'on',
+        optimizeForAccuracy: req.body.optimizeForAccuracy === 'on',
+        keepGraphics: req.body.keepGraphics === 'on',
+        useStackCrop: req.body.useStackCrop === 'on',
         status: 'starting',
         createdAt: new Date(),
       };
@@ -117,8 +120,9 @@ const runJob = async (job: Job) => {
     console.log(segments);
     await JobModel.update(jobId, { segments, status: 'cropping-segments' });
 
-    const keyframeTimes = await getKeyframeTimes(filePath);
-    console.log(keyframeTimes);
+    const keyframeTimes = job.optimizeForAccuracy
+      ? ''
+      : await getKeyframeTimes(filePath);
 
     segments.segments.forEach(async (segment, index) => {
       const clipPublicId = `${jobId}-${index + 1}`;
@@ -126,22 +130,17 @@ const runJob = async (job: Job) => {
       console.log(
         `trimming video segment ${segment.title} to ${videoSegmentPath} with id ${clipPublicId}`,
       );
-      const segmentStart = await calculateClosestKeyframeTime(
-        keyframeTimes,
-        segment.start,
-        true,
-      );
-      const segmentEnd = await calculateClosestKeyframeTime(
-        keyframeTimes,
-        segment.end,
-        false,
-      );
-      await trimVideo(
-        filePath,
-        videoSegmentPath,
-        segmentStart,
-        segmentEnd,
-      );
+      const segmentStart = job.optimizeForAccuracy
+        ? formatSRTTime(segment.start).replace(',', '.')
+        : await calculateClosestKeyframeTime(
+            keyframeTimes,
+            segment.start,
+            true,
+          );
+      const segmentEnd = job.optimizeForAccuracy
+        ? formatSRTTime(segment.end).replace(',', '.')
+        : await calculateClosestKeyframeTime(keyframeTimes, segment.end, false);
+      await trimVideo(filePath, videoSegmentPath, segmentStart, segmentEnd, job.optimizeForAccuracy);
 
       const clippedTranscript: string = clipWordsToSRT(
         words,
@@ -167,7 +166,7 @@ const runJob = async (job: Job) => {
 
       const portraitVideoFilename = `${clipPublicId}-portrait.mp4`;
       const portraitVideoPath = path.join(outputDir, portraitVideoFilename);
-      cropLandscapeToPortrait(videoSegmentPath, portraitVideoPath)
+      cropLandscapeToPortrait(videoSegmentPath, portraitVideoPath, job.keepGraphics, job.useStackCrop)
         .then(async () => {
           console.log(`generated portrait video for ${clipPublicId}`);
           const croppedVideoUrl = baseUrl + portraitVideoFilename;
@@ -213,9 +212,10 @@ const runJob = async (job: Job) => {
     await JobModel.update(jobId, { status: 'completed' });
   } else {
     await JobModel.update(jobId, { status: 'cropping-full-video' });
+    const inputVideoPath = path.join(process.cwd(), filePath);
     const video = await VideoModel.create({
       jobId: jobId,
-      filePath: filePath,
+      filePath: inputVideoPath,
       publicId: jobId,
       transcript: transcript,
       title: 'Full Video',
@@ -228,7 +228,7 @@ const runJob = async (job: Job) => {
     const portraitVideoFilename = `${jobId}-portrait.mp4`;
     const portraitVideoPath = path.join(outputDir, portraitVideoFilename);
 
-    cropLandscapeToPortrait(filePath, portraitVideoPath).then(async () => {
+    cropLandscapeToPortrait(inputVideoPath, portraitVideoPath, job.keepGraphics, job.useStackCrop).then(async () => {
       const croppedVideoUrl = baseUrl + portraitVideoFilename;
       await VideoModel.update(video.id, { croppedVideoUrl });
       console.log(`generated portrait video for ${jobId}`);

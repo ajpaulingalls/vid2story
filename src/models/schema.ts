@@ -15,6 +15,15 @@ export const jobs = sqliteTable('jobs', {
   pickSegments: integer('pick_segments', { mode: 'boolean' })
     .notNull()
     .default(false),
+  optimizeForAccuracy: integer('optimize_for_accuracy', { mode: 'boolean' })
+    .notNull()
+    .default(false),
+  keepGraphics: integer('keep_graphics', { mode: 'boolean' })
+    .notNull()
+    .default(true),
+  useStackCrop: integer('use_stack_crop', { mode: 'boolean' })
+    .notNull()
+    .default(true),
   status: text('status', {
     enum: [
       'starting',

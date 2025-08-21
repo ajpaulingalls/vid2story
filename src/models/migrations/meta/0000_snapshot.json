@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "41a8f14a-32a2-4ca9-a4c4-203dc1f56184",
+  "id": "7f16a4af-786a-4112-b348-e240381812f8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "jobs": {
@@ -35,6 +35,13 @@
           "notNull": true,
           "autoincrement": false
         },
+        "words": {
+          "name": "words",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "segments": {
           "name": "segments",
           "type": "text",
@@ -50,6 +57,30 @@
           "autoincrement": false,
           "default": false
         },
+        "optimize_for_accuracy": {
+          "name": "optimize_for_accuracy",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "keep_graphics": {
+          "name": "keep_graphics",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": true
+        },
+        "use_stack_crop": {
+          "name": "use_stack_crop",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": true
+        },
         "status": {
           "name": "status",
           "type": "text",
@@ -64,7 +95,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-08-15T02:15:28.922Z\"'"
+          "default": "'\"2025-08-21T19:53:37.729Z\"'"
         }
       },
       "indexes": {},
@@ -153,6 +184,13 @@
           "notNull": true,
           "autoincrement": false
         },
+        "caption": {
+          "name": "caption",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "start_time": {
           "name": "start_time",
           "type": "text",
@@ -173,7 +211,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'\"2025-08-15T02:15:28.923Z\"'"
+          "default": "'\"2025-08-21T19:53:37.730Z\"'"
         }
       },
       "indexes": {},

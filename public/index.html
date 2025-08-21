@@ -48,6 +48,32 @@
             align-items: center;
             gap: 8px;
         }
+        .advanced-toggle {
+            background-color: #6c757d;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .advanced-toggle:hover {
+            background-color: #5a6268;
+        }
+        .advanced-toggle.active {
+            background-color: #007bff;
+        }
+        .advanced-options {
+            display: none;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        .advanced-options.show {
+            display: block;
+        }
         button {
             background-color: #007bff;
             color: white;
@@ -72,14 +98,52 @@
                 <label for="video">Select MP4 Video File:</label>
                 <input type="file" id="video" name="video" accept=".mp4" required>
             </div>
-            <div class="form-group">
-                <div class="checkbox-group">
-                    <input type="checkbox" id="pickSegments" name="pickSegments" checked>
-                    <label for="pickSegments">Pick Segments</label>
+            
+            <button type="button" class="advanced-toggle" id="advancedToggle">
+                Advanced Options
+            </button>
+            
+            <div class="advanced-options" id="advancedOptions">
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="pickSegments" name="pickSegments" checked>
+                        <label for="pickSegments">Pick Segments</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="optimizeForAccuracy" name="optimizeForAccuracy">
+                        <label for="optimizeForAccuracy">Optimize for Accuracy</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="keepGraphics" name="keepGraphics" checked>
+                        <label for="keepGraphics">Keep Graphics</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="useStackCrop" name="useStackCrop" checked>
+                        <label for="useStackCrop">Use Stack Crop</label>
+                    </div>
                 </div>
             </div>
+            
             <button type="submit">Convert Video</button>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const advancedToggle = document.getElementById('advancedToggle');
+            const advancedOptions = document.getElementById('advancedOptions');
+            
+            advancedToggle.addEventListener('click', function() {
+                advancedOptions.classList.toggle('show');
+                advancedToggle.classList.toggle('active');
+                
+                if (advancedOptions.classList.contains('show')) {
+                    advancedToggle.textContent = 'Hide Advanced Options';
+                } else {
+                    advancedToggle.textContent = 'Advanced Options';
+                }
+            });
+        });
+    </script>
 </body>
 </html> 

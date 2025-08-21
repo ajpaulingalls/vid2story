@@ -2,6 +2,12 @@ import { ffmpegPath, ffprobePath } from 'ffmpeg-ffprobe-static';
 import moment from 'moment';
 import { spawn } from 'child_process';
 
+/**
+ * Extract audio from a video file using FFmpeg.
+ * @param videoPath - Path to the input video file
+ * @param outputPath - Path where the output audio file should be saved
+ * @returns Promise<void> - Promise that resolves when the audio extraction is complete
+ */
 export const extractAudio = async (
   videoPath: string,
   outputPath: string,
@@ -41,11 +47,21 @@ export const extractAudio = async (
   });
 };
 
+/**
+ * Trim a video file using FFmpeg.
+ * @param videoPath - Path to the input video file
+ * @param outputPath - Path where the output trimmed video should be saved
+ * @param trimStart - Start time of the trimmed video in HH:mm:ss.SSS format
+ * @param trimStop - End time of the trimmed video in HH:mm:ss.SSS format
+ * @param optimizeForAccuracy - Whether to optimize for accuracy
+ * @returns Promise<string> - URL to the new trimmed video file
+ */
 export const trimVideo = async (
   videoPath: string,
   outputPath: string,
   trimStart: string,
   trimStop: string,
+  optimizeForAccuracy: boolean,
 ): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
     if (!ffmpegPath) {
@@ -62,8 +78,7 @@ export const trimVideo = async (
       trimStart,
       '-t',
       duration,
-      '-c',
-      'copy',
+      ...(optimizeForAccuracy ? [] : ['-c', 'copy']),
       outputPath,
     ];
 
@@ -84,6 +99,13 @@ export const trimVideo = async (
   });
 };
 
+/**
+ * Add captions to a video file using FFmpeg.
+ * @param videoPath - Path to the input video file
+ * @param srtPath - Path to the SRT file containing the captions
+ * @param outputPath - Path where the output video file with captions should be saved
+ * @returns Promise<void> - Promise that resolves when the captions are added
+ */
 export const addCaptions = async (
   videoPath: string,
   srtPath: string,
@@ -121,6 +143,13 @@ export const addCaptions = async (
   });
 };
 
+/**
+ * Copy audio from one video file to another using FFmpeg.
+ * @param inputVideoPath - Path to the input video file
+ * @param targetVideoPath - Path to the target video file
+ * @param outputPath - Path where the output video file with copied audio should be saved
+ * @returns Promise<void> - Promise that resolves when the audio is copied
+ */
 export const copyAudio = async (
   inputVideoPath: string,
   targetVideoPath: string,
@@ -225,6 +254,13 @@ export const getKeyframeTimes = async (filepath: string): Promise<string> => {
   });
 };
 
+/**
+ * Calculate the closest keyframe time to a given time in seconds.
+ * @param csvData - CSV data containing keyframe times
+ * @param timeInSeconds - The time in seconds to find the closest keyframe to
+ * @param before - Whether to find the closest keyframe before or after the given time
+ * @returns Promise<string> - The closest keyframe time in HH:mm:ss.SSS format
+ */
 export const calculateClosestKeyframeTime = async (
   csvData: string,
   timeInSeconds: number,
