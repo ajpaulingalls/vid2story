@@ -160,6 +160,7 @@ const runJob = async (job: Job) => {
         transcript: clippedTranscript,
         title: segment.title,
         description: segment.summary,
+        caption: segment.caption,
         startTime: segmentStart,
         endTime: segmentEnd,
       });
@@ -219,6 +220,7 @@ const runJob = async (job: Job) => {
       transcript: transcript,
       title: 'Full Video',
       description: 'Full Video',
+      caption: 'Full Video',
       startTime: '00:00:00',
       endTime: '00:00:00',
     });

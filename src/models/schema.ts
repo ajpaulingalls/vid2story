@@ -55,6 +55,7 @@ export const videos = sqliteTable('videos', {
   transcript: text('transcript').notNull(),
   title: text('title').notNull(),
   description: text('description').notNull(),
+  caption: text('caption').notNull(),
   startTime: text('start_time').notNull(),
   endTime: text('end_time').notNull(),
   createdAt: integer('created_at', { mode: 'timestamp' })

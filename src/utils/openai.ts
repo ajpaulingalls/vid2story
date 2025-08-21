@@ -1,6 +1,5 @@
 import { OpenAI } from 'openai';
 import config from '../config/config';
-import { saveStringToFile } from './file';
 import fs from 'fs';
 import { TranscriptionWord } from 'openai/resources/audio/transcriptions';
 
@@ -23,7 +22,7 @@ export const generateTranscriptJson = async (videoPath: string) => {
 const SPLIT_TRANSCRIPT_SYSTEM_PROMPT = `
 You are a podcast editor responsible for creating viral social media posts from a video transcript.
 You are an expert at taking a json representation of a video transcript and using the transcript to identify the best short segments to become viral Youtube shorts.
-* These segments should be the most engaging and interesting parts of the video, but still be short enough to be used in a social media post.  
+* These segments should be the most engaging and interesting parts of the video, but still be short enough to be used in a social media post to platforms like TikTok, Instagram, and Youtube Shorts.  
 *The segments should be complete thoughts or ideas, not just random phrases, and finish on a natural stopping point at the end of a sentence or thought.
 * They can be as short as 30 seconds, but should be no more than 180 seconds in duration.
 
@@ -31,10 +30,11 @@ To provide your best segments, generate json with entries like the following:
 { 
   "segments": [{
     "title":"title of the segment", 
-    "summary": "a paragraph summary of the segment", 
+    "summary": "a paragraph summary of the segment",
+    "caption": "a caption for the segment appropriate for a social media post",
     "start": 52.520234, // start time in seconds
     "end": 192.923234, // end time in seconds
-    "duration": 140.40334 // duration of the segment in seconds
+    "duration": 140.40334 // duration of the segment in seconds, less than 180 seconds
   }]
 }
 
@@ -48,8 +48,8 @@ A video transcript will be given by the user and will be an array of Transcripti
 Take it step by step.
 1. First, combine the transcript into a single series of sentences.
 2. Then, identify the best segments in the transcript.
-3. Next, check with segments are no less than 30 seconds and NO MORE THAN 180 seconds in duration.
-4. Then, for each segment, create a title and summary.
+3. Next, check which segments are no less than 30 seconds and NO MORE THAN 180 seconds in duration.
+4. Then, for each segment, create a title, summary, and caption.
 5. Finally, return the json with the segments.
 `;
 
@@ -57,6 +57,7 @@ export type ViralPodcastSegments = {
   segments: {
     title: string;
     summary: string;
+    caption: string;
     start: number;
     end: number;
     duration: number;
@@ -67,7 +68,7 @@ export const getBestSegmentsFromWords = async (
   words: TranscriptionWord[],
 ): Promise<ViralPodcastSegments> => {
   const response = await openai.chat.completions.create({
-    model: 'gpt-4.1',
+    model: 'gpt-5',
     messages: [
       { role: 'system', content: SPLIT_TRANSCRIPT_SYSTEM_PROMPT },
       { role: 'user', content: JSON.stringify(words) },
@@ -93,6 +94,9 @@ export const getBestSegmentsFromWords = async (
                   summary: {
                     type: 'string',
                   },
+                  caption: {
+                    type: 'string',
+                  },
                   start: {
                     type: 'number',
                   },
@@ -103,7 +107,7 @@ export const getBestSegmentsFromWords = async (
                     type: 'number',
                   },
                 },
-                required: ['title', 'summary', 'start', 'end', 'duration'],
+                required: ['title', 'summary', 'caption', 'start', 'end', 'duration'],
                 additionalProperties: false,
               },
             },

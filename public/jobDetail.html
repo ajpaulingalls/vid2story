@@ -74,6 +74,15 @@
             margin: 10px 0;
             color: #666;
         }
+        .video-caption {
+            margin: 10px 0;
+            padding: 8px 12px;
+            background-color: #f0f8ff;
+            border-left: 3px solid #0066cc;
+            border-radius: 4px;
+            color: #333;
+            font-style: italic;
+        }
         .video-timing {
             color: #888;
             font-size: 0.9em;
@@ -275,6 +284,7 @@
                             videoElement.innerHTML = `
                                 <div class="video-title">${video.title}</div>
                                 <div class="video-description">${video.description}</div>
+                                <div class="video-caption"><strong>Caption:</strong> ${video.caption || 'No caption available'}</div>
                                 <div class="video-timing">
                                     Start: ${video.startTime} - End: ${video.endTime}
                                 </div>
