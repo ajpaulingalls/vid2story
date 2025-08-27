@@ -11,12 +11,13 @@
     "lint": "eslint 'src/**/*.ts'",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "create-image": "docker build -t vid2story .",
     "test": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.7.0",
+  "packageManager": "pnpm@10.15.0",
   "dependencies": {
     "@paralleldrive/cuid2": "^2.2.2",
     "better-sqlite3": "12.2.0",
