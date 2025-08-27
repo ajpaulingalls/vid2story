@@ -1,35 +1,54 @@
-# --- Stage 1: Build the Rust executable ---
-    FROM rust:latest AS rust_builder
-    WORKDIR /rust-project
-    
-    # Install git, needed to clone the repository
-    RUN apt-get update && apt-get install -y git
-    RUN apt-get install -y python3
-    
-    # Clone the Rust project from GitHub and build it
-    RUN git clone https://github.com/paulingalls/land2port .
-    RUN cargo build --release
-    
-    # --- Stage 2: Create the final Node.js image ---
-    FROM node:22-slim AS base
-    ENV PNPM_HOME="/pnpm"
-    ENV PATH="$PNPM_HOME:$PATH"
-    ENV LAND2PORT_PATH="/rust-project"
-    ENV PORT=3000
-    ENV NODE_ENV=production
-    RUN corepack enable
-    COPY . /app
-    WORKDIR /app
-    
-    FROM base AS prod-deps
-    RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
-    
-    FROM base AS build
-    RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-    RUN pnpm run build
-    
-    FROM base
-    COPY --from=prod-deps /app/node_modules /app/node_modules
-    COPY --from=build /app/dist /app/dist
-    EXPOSE 3000
-    CMD [ "pnpm", "start" ]
+# Use Rust as base image and install Node.js
+FROM rust:latest
+
+# Set environment variables
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+ENV LAND2PORT_PATH="/rust-project"
+ENV PORT=3000
+ENV NODE_ENV=production
+
+# Install system dependencies including Node.js
+RUN apt-get update && apt-get install -y \
+    curl \
+    build-essential \
+    git \
+    git-lfs \
+    python3 \
+    libavutil-dev \
+    libavcodec-dev \
+    libavformat-dev \
+    libavfilter-dev \
+    libavdevice-dev \
+    libclang-dev \
+    libssl3 \
+    libssl-dev \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js using NodeSource repository
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Clone and build the Rust project
+WORKDIR /rust-project
+RUN git clone https://github.com/paulingalls/land2port .
+RUN cargo build --release
+
+# Set up the Node.js application
+WORKDIR /app
+COPY . .
+
+# Install dependencies and build
+RUN pnpm install --frozen-lockfile
+RUN pnpm run build
+RUN pnpm run db:migrate
+
+# Expose port
+EXPOSE 3000
+
+# Start the application
+CMD [ "pnpm", "start" ]

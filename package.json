@@ -12,6 +12,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "create-image": "docker build -t vid2story .",
+    "docker:build": "docker buildx build --platform linux/amd64,linux/arm64 -t vid2story:latest -t vid2story:$npm_package_version .",
+    "docker:build-local": "docker buildx build --platform linux/amd64,linux/arm64 -t vid2story:latest -t vid2story:$npm_package_version --load .",
     "test": "jest"
   },
   "keywords": [],

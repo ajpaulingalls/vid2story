@@ -15,6 +15,7 @@ export const generateTranscriptJson = async (videoPath: string) => {
     response_format: 'verbose_json',
     timestamp_granularities: ['word'],
   });
+  console.log('Transcripting complete');
 
   return transcript.words;
 };
@@ -67,6 +68,7 @@ export type ViralPodcastSegments = {
 export const getBestSegmentsFromWords = async (
   words: TranscriptionWord[],
 ): Promise<ViralPodcastSegments> => {
+  console.log('Generating segments...');
   const response = await openai.chat.completions.create({
     model: 'gpt-5',
     messages: [
@@ -118,6 +120,8 @@ export const getBestSegmentsFromWords = async (
       },
     },
   });
+
+  console.log('Generating segments complete');
 
   return JSON.parse(response.choices[0].message.content || '{}');
 };
