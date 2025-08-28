@@ -120,6 +120,8 @@ export const addCaptions = async (
     const args = [
       '-i',
       videoPath,
+      '-nostdin',
+      '-y',
       '-vf',
       `"subtitles=${srtPath}:force_style='FontName=Arial,FontSize=8,PrimaryColour=&HFFFFFF,OutlineColour=&H000000,Outline=1,Alignment=2,MarginV=20'"`,
       outputPath,
