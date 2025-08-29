@@ -17,7 +17,7 @@ import {
 import fs from 'fs';
 import { clipWordsToSRT, formatSRTTime, wordsToSRT } from '../utils/transcript';
 import { saveStringToFile } from '../utils/file';
-import { Video, VideoModel } from '../models/video';
+import { VideoModel } from '../models/video';
 import { cropLandscapeToPortrait } from '../utils/land2port';
 
 // Configure multer for video upload
@@ -175,7 +175,7 @@ const runJob = async (job: Job) => {
 
           const captionVideoFilename = `${clipPublicId}-captions.mp4`;
           const captionVideoPath = path.join(outputDir, captionVideoFilename);
-          addCaptions(croppedVideoUrl, transcriptPath, captionVideoPath)
+          addCaptions(portraitVideoPath, transcriptPath, captionVideoPath)
             .then(async () => {
               const captionVideoUrl = baseUrl + captionVideoFilename;
               await VideoModel.update(video.id, { captionVideoUrl });
