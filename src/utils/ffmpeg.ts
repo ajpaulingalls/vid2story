@@ -140,6 +140,15 @@ export const addCaptions = async (
       }
     });
 
+    ffmpegProcess.stdout.on('data', (data) => {
+      console.log('ffmpegProcess stdout:', data.toString());
+    });
+
+    ffmpegProcess.stderr.on('data', (data) => {
+      console.warn('ffmpegProcess stderr:', data.toString());
+    });
+
+
     ffmpegProcess.on('error', (err: Error) => {
       console.error('Error burning in captions:', err.message);
       reject(err);
