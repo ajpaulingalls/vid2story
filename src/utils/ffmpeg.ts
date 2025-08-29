@@ -117,6 +117,8 @@ export const addCaptions = async (
       return;
     }
 
+    console.log(`adding captions to ${videoPath} from ${srtPath} and saving to ${outputPath}`);
+
     const args = [
       '-i',
       videoPath,
