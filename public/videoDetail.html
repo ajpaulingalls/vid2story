@@ -4,134 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Detail</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #0066cc;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        .video-header {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        .video-title {
-            font-size: 1.8em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        .video-type {
-            display: inline-block;
-            padding: 6px 12px;
-            background-color: #e3f2fd;
-            color: #1976d2;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 500;
-        }
-        .video-container {
-            width: 50%;
-            max-width: 450px;
-            margin: 0 auto;
-            background-color: #000;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-        .video-player {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        .video-info {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #0066cc;
-        }
-        .video-info h3 {
-            margin-top: 0;
-            color: #333;
-        }
-        .video-info p {
-            margin: 10px 0;
-        }
-        .video-info strong {
-            color: #495057;
-        }
-        .video-description {
-            background-color: #e9ecef;
-            padding: 15px;
-            border-radius: 4px;
-            margin: 10px 0;
-            line-height: 1.6;
-        }
-        .video-caption {
-            background-color: #f0f8ff;
-            padding: 15px;
-            border-radius: 4px;
-            margin: 10px 0;
-            line-height: 1.6;
-            border-left: 4px solid #0066cc;
-            font-style: italic;
-        }
-        .video-transcript {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 4px;
-            margin: 10px 0;
-            font-family: monospace;
-            white-space: pre-wrap;
-            line-height: 1.5;
-            max-height: 200px;
-            overflow-y: auto;
-            border: 1px solid #dee2e6;
-        }
-        .error-message {
-            text-align: center;
-            color: #dc3545;
-            padding: 40px;
-            font-size: 1.1em;
-        }
-        .loading {
-            text-align: center;
-            color: #6c757d;
-            padding: 40px;
-            font-size: 1.1em;
-        }
-        .video-url {
-            word-break: break-all;
-            background-color: #e9ecef;
-            padding: 10px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.9em;
-            color: #495057;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header class="app-header">
+        <div class="title"><span class="brand">Vid2Story</span> <span>Video Detail</span></div>
+        <nav class="links">
+            <a href="index.html">Home</a>
+            <a href="jobs.html">Jobs</a>
+            <a href="#" id="backLink">Back to Job</a>
+        </nav>
+    </header>
     <div class="container">
-        <a href="#" class="back-link" id="backLink">← Back to Job Details</a>
         
         <div class="video-header">
             <h1 class="video-title" id="videoTitle">Loading...</h1>

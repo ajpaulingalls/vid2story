@@ -4,134 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Jobs</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #eee;
-        }
-        .jobs-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-        }
-        .jobs-table th,
-        .jobs-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-        .jobs-table th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-            color: #495057;
-        }
-        .jobs-table tr:hover {
-            background-color: #f8f9fa;
-        }
-        .status-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            font-weight: bold;
-            text-transform: capitalize;
-        }
-        .status-starting { background-color: #e3f2fd; color: #1976d2; }
-        .status-cropping-portrait-video { background-color: #fff3e0; color: #f57c00; }
-        .status-generating-transcript { background-color: #e8f5e8; color: #388e3c; }
-        .status-generating-segments { background-color: #f3e5f5; color: #7b1fa2; }
-        .status-cropping-segments { background-color: #fff8e1; color: #fbc02d; }
-        .status-cropping-full-video { background-color: #e0f2f1; color: #00796b; }
-        .status-adding-captions { background-color: #fce4ec; color: #c2185b; }
-        .status-completed { background-color: #e8f5e8; color: #388e3c; }
-        .status-failed { background-color: #ffebee; color: #d32f2f; }
-        .job-link {
-            color: #0066cc;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .job-link:hover {
-            text-decoration: underline;
-        }
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .pagination button {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            background-color: white;
-            color: #333;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .pagination button:hover:not(:disabled) {
-            background-color: #f0f0f0;
-        }
-        .pagination button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .pagination .current-page {
-            padding: 8px 12px;
-            background-color: #0066cc;
-            color: white;
-            border-radius: 4px;
-        }
-        .pagination-info {
-            margin: 0 20px;
-            color: #666;
-        }
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-        .error {
-            text-align: center;
-            padding: 40px;
-            color: #d32f2f;
-            background-color: #ffebee;
-            border-radius: 4px;
-        }
-        .file-name {
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .created-date {
-            white-space: nowrap;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header class="app-header">
+        <div class="title"><span class="brand">Vid2Story</span> <span>All Jobs</span></div>
+        <nav class="links">
+            <a href="index.html">Home</a>
+            <a href="jobs.html">Jobs</a>
+        </nav>
+    </header>
     <div class="container">
         <div class="header">
             <h1>All Jobs</h1>
-            <div>
-                <a href="index.html" style="color: #0066cc; text-decoration: none;">← Back to Home</a>
-            </div>
         </div>
 
         <div id="jobsContent">
@@ -201,7 +86,7 @@
                                     <a href="jobDetail.html?id=${job.id}" class="job-link">${job.id}</a>
                                 </td>
                                 <td>${job.name || 'N/A'}</td>
-                                <td class="file-name" title="${job.filePath}">${job.filePath ? job.filePath.split('/').pop() : 'N/A'}</td>
+                                <td class="file-name-cell" title="${job.filePath}">${job.filePath ? job.filePath.split('/').pop() : 'N/A'}</td>
                                 <td>
                                     <span class="status-badge status-${job.status}">${job.status}</span>
                                 </td>

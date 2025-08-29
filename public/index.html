@@ -4,106 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Short Generator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .nav-links {
-            margin-bottom: 20px;
-        }
-        .nav-links a {
-            display: inline-block;
-            margin-right: 20px;
-            color: #0066cc;
-            text-decoration: none;
-        }
-        .nav-links a:hover {
-            text-decoration: underline;
-        }
-        .form-container {
-            background-color: #f5f5f5;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input[type="file"] {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .advanced-toggle {
-            background-color: #6c757d;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-        .advanced-toggle:hover {
-            background-color: #5a6268;
-        }
-        .advanced-toggle.active {
-            background-color: #007bff;
-        }
-        .advanced-options {
-            display: none;
-            padding: 15px;
-            background-color: #e9ecef;
-            border-radius: 4px;
-            margin-bottom: 15px;
-        }
-        .advanced-options.show {
-            display: block;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="nav-links">
-        <a href="jobs.html">View All Jobs</a>
-    </div>
+    <header class="app-header">
+        <div class="title"><span class="brand">Vid2Story</span> <span>Video Short Generator</span></div>
+        <nav class="links">
+            <a href="index.html">Home</a>
+            <a href="jobs.html">Jobs</a>
+        </nav>
+    </header>
     <div class="form-container">
         <h1>Video Short Generator</h1>
+        <h3>Proof of Concept</h3>
         <form action="/api/convertToPortrait" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="video">Select MP4 Video File:</label>
-                <input type="file" id="video" name="video" accept=".mp4" required>
+                <div class="file-drop" id="fileDrop" tabindex="0" role="button" aria-controls="video" aria-label="Drag and drop MP4 file here or click to browse">
+                    Drag & drop your .mp4 here, or click to browse
+                    <div class="file-name" id="fileName">No file selected</div>
+                </div>
+                <input class="sr-only" type="file" id="video" name="video" accept=".mp4" required>
+                <div class="help-text">Supported format: .mp4 • Max length depends on server limits.</div>
+                <div class="upload-progress" id="uploadProgress" hidden>
+                    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+                    <div class="progress-text" id="progressText">Uploading… 0%</div>
+                </div>
             </div>
             
-            <button type="button" class="advanced-toggle" id="advancedToggle">
+            <button type="button" class="advanced-toggle" id="advancedToggle" aria-controls="advancedOptions" aria-expanded="false">
                 Advanced Options
             </button>
             
-            <div class="advanced-options" id="advancedOptions">
+            <div class="advanced-options" id="advancedOptions" role="region" aria-labelledby="advancedToggle" aria-hidden="true">
                 <div class="form-group">
                     <div class="checkbox-group">
                         <input type="checkbox" id="pickSegments" name="pickSegments" checked>
@@ -132,16 +65,110 @@
         document.addEventListener('DOMContentLoaded', function() {
             const advancedToggle = document.getElementById('advancedToggle');
             const advancedOptions = document.getElementById('advancedOptions');
+            const form = document.querySelector('form');
+            const fileInput = document.getElementById('video');
+            const fileDrop = document.getElementById('fileDrop');
+            const fileName = document.getElementById('fileName');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const uploadProgress = document.getElementById('uploadProgress');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
             
             advancedToggle.addEventListener('click', function() {
                 advancedOptions.classList.toggle('show');
                 advancedToggle.classList.toggle('active');
-                
-                if (advancedOptions.classList.contains('show')) {
-                    advancedToggle.textContent = 'Hide Advanced Options';
-                } else {
-                    advancedToggle.textContent = 'Advanced Options';
+                const isOpen = advancedOptions.classList.contains('show');
+                advancedToggle.setAttribute('aria-expanded', String(isOpen));
+                advancedOptions.setAttribute('aria-hidden', String(!isOpen));
+                advancedToggle.textContent = isOpen ? 'Hide Advanced Options' : 'Advanced Options';
+            });
+
+            // Drag & Drop handlers
+            const preventDefaults = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            };
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                fileDrop.addEventListener(eventName, preventDefaults, false);
+            });
+            ['dragenter', 'dragover'].forEach(eventName => {
+                fileDrop.addEventListener(eventName, () => fileDrop.classList.add('dragover'), false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                fileDrop.addEventListener(eventName, () => fileDrop.classList.remove('dragover'), false);
+            });
+            fileDrop.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt && dt.files ? dt.files : null;
+                if (!files || !files.length) return;
+                const file = files[0];
+                if (file && file.type !== 'video/mp4') {
+                    alert('Only MP4 files are allowed.');
+                    return;
                 }
+                fileInput.files = files;
+                fileName.textContent = file.name;
+            });
+            fileDrop.addEventListener('click', () => fileInput.click());
+            fileDrop.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    fileInput.click();
+                }
+            });
+            fileInput.addEventListener('change', () => {
+                const file = fileInput.files && fileInput.files[0];
+                fileName.textContent = file ? file.name : 'No file selected';
+            });
+
+            // AJAX form submit with upload progress
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (!fileInput.files || !fileInput.files.length) {
+                    alert('Please select an MP4 file first.');
+                    return;
+                }
+                const file = fileInput.files[0];
+                if (file.type !== 'video/mp4') {
+                    alert('Only MP4 files are allowed.');
+                    return;
+                }
+
+                const formData = new FormData(form);
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', form.action, true);
+
+                // Show progress UI
+                uploadProgress.hidden = false;
+                submitBtn.disabled = true;
+
+                xhr.upload.onprogress = function(event) {
+                    if (event.lengthComputable) {
+                        const percent = Math.round((event.loaded / event.total) * 100);
+                        progressBar.style.width = percent + '%';
+                        progressText.textContent = 'Uploading… ' + percent + '%';
+                    } else {
+                        progressText.textContent = 'Uploading…';
+                    }
+                };
+
+                xhr.onload = function() {
+                    // After upload completes, server redirects to job page. Use responseURL to navigate.
+                    if (xhr.status >= 200 && xhr.status < 400) {
+                        const target = xhr.responseURL || '/jobs.html';
+                        window.location.assign(target);
+                    } else {
+                        alert('Upload failed. Please try again.');
+                        submitBtn.disabled = false;
+                    }
+                };
+
+                xhr.onerror = function() {
+                    alert('Network error during upload.');
+                    submitBtn.disabled = false;
+                };
+
+                xhr.send(formData);
             });
         });
     </script>

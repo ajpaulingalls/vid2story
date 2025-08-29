@@ -4,184 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Details</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .container {
-            background-color: #f5f5f5;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .job-info {
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: white;
-            border-radius: 4px;
-        }
-        .video-list {
-            display: grid;
-            gap: 20px;
-        }
-        .video-item {
-            background-color: white;
-            padding: 20px;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .status-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.9em;
-            font-weight: bold;
-        }
-        .status-pending { background-color: #ffd700; }
-        .status-processing { background-color: #87ceeb; }
-        .status-completed { background-color: #90ee90; }
-        .status-failed { background-color: #ff6b6b; }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #0066cc;
-            text-decoration: none;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        .nav-links {
-            margin-bottom: 20px;
-        }
-        .nav-links a {
-            display: inline-block;
-            margin-right: 20px;
-            color: #0066cc;
-            text-decoration: none;
-        }
-        .nav-links a:hover {
-            text-decoration: underline;
-        }
-        .video-title {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .video-description {
-            margin: 10px 0;
-            color: #666;
-        }
-        .video-caption {
-            margin: 10px 0;
-            padding: 8px 12px;
-            background-color: #f0f8ff;
-            border-left: 3px solid #0066cc;
-            border-radius: 4px;
-            color: #333;
-            font-style: italic;
-        }
-        .video-timing {
-            color: #888;
-            font-size: 0.9em;
-        }
-        .video-link {
-            display: inline-block;
-            margin-top: 10px;
-            color: #0066cc;
-            text-decoration: none;
-        }
-        .video-link:hover {
-            text-decoration: underline;
-        }
-        .video-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .video-links .video-link {
-            padding: 5px 10px;
-            background-color: #f0f0f0;
-            border-radius: 4px;
-            font-size: 0.9em;
-        }
-        .video-links .video-link:hover {
-            background-color: #e0e0e0;
-        }
-        #transcript {
-            background-color: #f8f8f8;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: monospace;
-            white-space: pre-wrap;
-            line-height: 1.5;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        #words {
-            background-color: #f8f8f8;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: monospace;
-            white-space: pre-wrap;
-            line-height: 1.5;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        #segments {
-            background-color: #f8f8f8;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: monospace;
-            white-space: pre-wrap;
-            line-height: 1.5;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        .collapsible-section {
-            margin: 15px 0;
-        }
-        .collapsible-header {
-            background-color: #e0e0e0;
-            padding: 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            user-select: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .collapsible-header:hover {
-            background-color: #d0d0d0;
-        }
-        .collapsible-content {
-            display: none;
-            margin-top: 10px;
-        }
-        .collapsible-content.expanded {
-            display: block;
-        }
-        .toggle-icon {
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="jobs.html">All Jobs</a>
-    </div>
-    <a href="jobStatus.html" class="back-link" id="backLink">← Back to Job Status</a>
+    <header class="app-header">
+        <div class="title"><span class="brand">Vid2Story</span> <span>Job Details</span></div>
+        <nav class="links">
+            <a href="index.html">Home</a>
+            <a href="jobs.html">Jobs</a>
+            <a href="jobStatus.html" id="backLink">Back to Status</a>
+        </nav>
+    </header>
     <div class="container">
         <h1>Job Details</h1>
-        <div id="jobInfo" class="job-info">
+        <div id="jobInfo" class="card">
             <h2>Job Information</h2>
             <p><strong>Job ID:</strong> <span id="jobId"></span></p>
             <p><strong>Status:</strong> <span id="jobStatus" class="status-badge"></span></p>
@@ -195,7 +31,7 @@
                     <span class="toggle-icon" id="transcript-toggle">▶</span>
                 </div>
                 <div class="collapsible-content" id="transcript-content">
-                    <div id="transcript"></div>
+                    <pre id="transcript" class="code-block"></pre>
                 </div>
             </div>
             
@@ -205,7 +41,7 @@
                     <span class="toggle-icon" id="words-toggle">▶</span>
                 </div>
                 <div class="collapsible-content" id="words-content">
-                    <div id="words"></div>
+                    <pre id="words" class="code-block"></pre>
                 </div>
             
             <div class="collapsible-section">
@@ -214,7 +50,7 @@
                     <span class="toggle-icon" id="segments-toggle">▶</span>
                 </div>
                 <div class="collapsible-content" id="segments-content">
-                    <div id="segments"></div>
+                    <pre id="segments" class="code-block"></pre>
                 </div>
             </div>
         </div>
