@@ -19,6 +19,7 @@ sudo apt install -y git-lfs
 sudo apt install -y build-essential pkg-config libclang-dev
 sudo apt install -y libssl-dev ca-certificates
 sudo apt install -y libavutil-dev libavcodec-dev libavformat-dev libavfilter-dev libavdevice-dev
+sudo apt install ttf-mscorefonts-installer
 ```
 
 ## 2. Data Drive Setup
