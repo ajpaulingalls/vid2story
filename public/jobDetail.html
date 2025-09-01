@@ -62,6 +62,7 @@
         </div>
     </div>
 
+    <script src="app.js"></script>
     <script>
         function toggleSection(sectionName) {
             const content = document.getElementById(`${sectionName}-content`);
@@ -78,39 +79,6 @@
         
         const urlParams = new URLSearchParams(window.location.search);
         const jobId = urlParams.get('id');
-
-        function computeProgress(job) {
-            if (job && job.progress) return job.progress;
-            const videos = Array.isArray(job.videos) ? job.videos : [];
-            const totalFromSegments = job && job.segments && job.segments.segments ? job.segments.segments.length : 0;
-            const total = job.pickSegments ? (totalFromSegments || videos.length) : 1;
-            const clipped = videos.filter(v => !!v.clippedVideoUrl).length;
-            const cropped = videos.filter(v => !!v.croppedVideoUrl).length;
-            const captioned = videos.filter(v => !!v.captionVideoUrl).length;
-            const finalized = videos.filter(v => !!v.finalVideoUrl).length;
-            return { total, clipped, cropped, captioned, finalized };
-        }
-
-        function formatStatus(job) {
-            const { total, clipped, cropped, captioned, finalized } = computeProgress(job);
-            const s = job.status;
-            if (!job.pickSegments) return s;
-            if (!total || total === 0) return s;
-            if (s === 'clipping-segments') return `Clipping Segments ${clipped}/${total}`;
-            if (s === 'cropping-segments') return `Cropping Segments ${cropped}/${total}`;
-            if (s === 'adding-captions') return `Adding Captions ${captioned}/${total}`;
-            if (s === 'completed') return `Completed ${finalized}/${total}`;
-            return s;
-        }
-
-        function segmentStatus(video) {
-            if (video.status) return video.status;
-            if (video.finalVideoUrl) return 'finalized';
-            if (video.captionVideoUrl) return 'captioned';
-            if (video.croppedVideoUrl) return 'cropped';
-            if (video.clippedVideoUrl) return 'clipped';
-            return 'pending';
-        }
 
         async function loadJob() {
             if (!jobId) {
