@@ -45,3 +45,27 @@ function toggleSection(sectionName) {
     toggle.textContent = '▼';
   }
 }
+
+// Time helpers
+function parseTimeToSeconds(timeStr) {
+  if (!timeStr || typeof timeStr !== 'string') return 0;
+  const normalized = timeStr.replace(',', '.');
+  const parts = normalized.split(':');
+  if (parts.length !== 3) return 0;
+  const hours = parseInt(parts[0], 10) || 0;
+  const minutes = parseInt(parts[1], 10) || 0;
+  const seconds = parseFloat(parts[2]) || 0;
+  return hours * 3600 + minutes * 60 + seconds;
+}
+
+function formatSecondsToMinSec(totalSeconds) {
+  const total = Math.max(0, Math.round(totalSeconds));
+  const minutes = Math.floor(total / 60);
+  const seconds = total % 60;
+  return `${minutes}:${String(seconds).padStart(2, '0')}`;
+}
+
+function computeDurationString(startTime, endTime) {
+  const duration = parseTimeToSeconds(endTime) - parseTimeToSeconds(startTime);
+  return formatSecondsToMinSec(duration);
+}

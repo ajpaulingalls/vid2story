@@ -8,9 +8,8 @@
 </head>
 <body>
     <header class="app-header">
-        <div class="title"><span class="brand">Vid2Story</span> <span>Job Details</span></div>
+        <div class="title"><a class="brand" href="index.html">Vid2Story</a> <span>Job Details</span></div>
         <nav class="links">
-            <a href="index.html">Home</a>
             <a href="jobs.html">Jobs</a>
             <a href="jobStatus.html" id="backLink">Back to Status</a>
         </nav>
@@ -130,7 +129,7 @@
                             <div class="video-description">${video.description}</div>
                             <div class="video-caption"><strong>Caption:</strong> ${video.caption || 'No caption available'}</div>
                             <div class="video-timing">
-                                Start: ${video.startTime} - End: ${video.endTime}
+                                Start: ${video.startTime} - End: ${video.endTime} (Duration: ${computeDurationString(video.startTime, video.endTime)})
                             </div>
                             <div class="video-links">
                                 <span class="status-badge" style="margin-right: 8px;">${status}</span>

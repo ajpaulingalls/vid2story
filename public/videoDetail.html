@@ -8,9 +8,8 @@
 </head>
 <body>
     <header class="app-header">
-        <div class="title"><span class="brand">Vid2Story</span> <span>Video Detail</span></div>
+        <div class="title"><a class="brand" href="index.html">Vid2Story</a> <span>Video Detail</span></div>
         <nav class="links">
-            <a href="index.html">Home</a>
             <a href="jobs.html">Jobs</a>
             <a href="#" id="backLink">Back to Job</a>
         </nav>
@@ -36,6 +35,7 @@
             <p><strong>Type:</strong> <span id="videoTypeInfo">Loading...</span></p>
             <p><strong>Start Time:</strong> <span id="videoStartTime">Loading...</span></p>
             <p><strong>End Time:</strong> <span id="videoEndTime">Loading...</span></p>
+            <p><strong>Duration:</strong> <span id="videoDuration">Loading...</span></p>
             <p><strong>Created:</strong> <span id="videoCreatedAt">Loading...</span></p>
             <p><strong>Transcript:</strong></p>
             <div class="video-transcript" id="videoTranscript">Loading...</div>
@@ -44,6 +44,7 @@
         </div>
     </div>
 
+    <script src="app.js"></script>
     <script>
         // Get video ID and type from URL
         const urlParams = new URLSearchParams(window.location.search);
@@ -82,6 +83,9 @@
                     document.getElementById('videoEndTime').textContent = video.endTime;
                     document.getElementById('videoCreatedAt').textContent = new Date(video.createdAt).toLocaleString();
                     document.getElementById('videoTranscript').textContent = video.transcript;
+                    // Duration
+                    const duration = computeDurationString(video.startTime, video.endTime);
+                    document.getElementById('videoDuration').textContent = duration;
                     
                     // Set back link to job details
                     document.getElementById('backLink').href = `jobDetail.html?id=${video.jobId}`;

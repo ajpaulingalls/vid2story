@@ -208,7 +208,8 @@ button[disabled] { opacity: .6; cursor: not-allowed; }
 /* App header */
 .app-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
 .app-header .title { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--text); letter-spacing: -0.01em; }
-.app-header .title .brand { color: var(--primary); }
+.app-header .title .brand { color: var(--primary); text-decoration: none; padding: 6px 10px; border-radius: 8px; }
+.app-header .title .brand:hover { background: #eff6ff; color: var(--primary-600); }
 .app-header .links { display: flex; gap: 8px; }
 .app-header .links a { color: var(--primary); text-decoration: none; font-weight: 600; padding: 6px 10px; border-radius: 8px; }
 .app-header .links a:hover { background: #eff6ff; color: var(--primary-600); }
