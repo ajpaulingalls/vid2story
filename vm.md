@@ -140,27 +140,27 @@ sudo vi /etc/nginx/sites-available/vid2story.conf
 Add the following configuration to `/etc/nginx/sites-available/vid2story.conf`:
 
 ```nginx
-server {
-    listen 80;
-    server_name vid2story.eastus.cloudapp.azure.com; # Replace with your domain or server IP
-    client_max_body_size 3G;
+    server {
+        listen 80;
+        server_name vid2story.eastus.cloudapp.azure.com; # Replace with your domain or server IP
+        client_max_body_size 3G;
 
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
+        location / {
+            proxy_pass http://localhost:3000;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+        }
+
+        # Optional: Serve static files directly with Nginx for performance
+        # location /static/ {
+        #     alias /path/to/your/nodejs/app/public/;
+        #     expires 30d;
+        #     add_header Cache-Control "public";
+        # }
     }
-
-    # Optional: Serve static files directly with Nginx for performance
-    # location /static/ {
-    #     alias /path/to/your/nodejs/app/public/;
-    #     expires 30d;
-    #     add_header Cache-Control "public";
-    # }
-}
 ```
 
 Enable the site and restart Nginx:
@@ -174,6 +174,14 @@ sudo nginx -t
 
 # Restart Nginx
 sudo systemctl restart nginx
+```
+
+Add https certs to Nginx
+
+```bash
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx
 ```
 
 ## 6. CUDA and TensorRT Installation

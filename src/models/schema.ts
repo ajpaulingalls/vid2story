@@ -30,6 +30,7 @@ export const jobs = sqliteTable('jobs', {
       'cropping-portrait-video',
       'generating-transcript',
       'generating-segments',
+      'clipping-segments',
       'cropping-segments',
       'cropping-full-video',
       'adding-captions',
