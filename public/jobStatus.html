@@ -32,35 +32,63 @@
     </div>
 
     <script>
-        // Get job ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const jobId = urlParams.get('id');
 
-        if (!jobId) {
-            document.body.innerHTML = '<div class="status-container"><h1>Error</h1><p>No job ID provided</p></div>';
-        } else {
-            // Fetch job details
-            fetch(`/api/jobs/${jobId}`)
-                .then(response => response.json())
-                .then(job => {
-                    document.getElementById('jobId').textContent = job.id;
-                    document.getElementById('jobStatus').textContent = job.status;
-                    document.getElementById('jobStatus').classList.add(`status-${job.status}`);
-                    document.getElementById('createdAt').textContent = new Date(job.createdAt).toLocaleString();
-                    document.getElementById('fileName').textContent = job.filePath.split('/').pop();
-                    document.getElementById('pickSegments').textContent = job.pickSegments ? 'Yes' : 'No';
-                    document.getElementById('optimizeForAccuracy').textContent = job.optimizeForAccuracy ? 'Yes' : 'No';
-                    document.getElementById('keepGraphics').textContent = job.keepGraphics ? 'Yes' : 'No';
-                    document.getElementById('useStackCrop').textContent = job.useStackCrop ? 'Yes' : 'No';
-                    
-                    // Add link to details page
-                    const detailsLink = document.getElementById('viewDetails');
-                    detailsLink.href = `jobDetail.html?id=${job.id}`;
-                })
-                .catch(error => {
-                    document.body.innerHTML = '<div class="status-container"><h1>Error</h1><p>Failed to load job details</p></div>';
-                });
+        function computeProgress(job) {
+            if (job && job.progress) return job.progress;
+            const videos = Array.isArray(job.videos) ? job.videos : [];
+            const totalFromSegments = job && job.segments && job.segments.segments ? job.segments.segments.length : 0;
+            const total = job.pickSegments ? (totalFromSegments || videos.length) : 1;
+            const clipped = videos.filter(v => !!v.clippedVideoUrl).length;
+            const cropped = videos.filter(v => !!v.croppedVideoUrl).length;
+            const captioned = videos.filter(v => !!v.captionVideoUrl).length;
+            const finalized = videos.filter(v => !!v.finalVideoUrl).length;
+            return { total, clipped, cropped, captioned, finalized };
         }
+
+        function formatStatus(job) {
+            const { total, clipped, cropped, captioned, finalized } = computeProgress(job);
+            const s = job.status;
+            if (!job.pickSegments) return s;
+            if (!total || total === 0) return s;
+            if (s === 'clipping-segments') return `Clipping Segments ${clipped}/${total}`;
+            if (s === 'cropping-segments') return `Cropping Segments ${cropped}/${total}`;
+            if (s === 'adding-captions') return `Adding Captions ${captioned}/${total}`;
+            if (s === 'completed') return `Completed ${finalized}/${total}`;
+            return s;
+        }
+
+        async function loadJob() {
+            if (!jobId) {
+                document.body.innerHTML = '<div class="status-container"><h1>Error</h1><p>No job ID provided</p></div>';
+                return;
+            }
+            try {
+                const response = await fetch(`/api/jobs/${jobId}`);
+                const job = await response.json();
+
+                document.getElementById('jobId').textContent = job.id;
+                const statusEl = document.getElementById('jobStatus');
+                statusEl.textContent = formatStatus(job);
+                statusEl.className = `status-badge status-${job.status}`;
+                document.getElementById('createdAt').textContent = new Date(job.createdAt).toLocaleString();
+                document.getElementById('fileName').textContent = job.filePath.split('/').pop();
+                document.getElementById('pickSegments').textContent = job.pickSegments ? 'Yes' : 'No';
+                document.getElementById('optimizeForAccuracy').textContent = job.optimizeForAccuracy ? 'Yes' : 'No';
+                document.getElementById('keepGraphics').textContent = job.keepGraphics ? 'Yes' : 'No';
+                document.getElementById('useStackCrop').textContent = job.useStackCrop ? 'Yes' : 'No';
+                
+                const detailsLink = document.getElementById('viewDetails');
+                detailsLink.href = `jobDetail.html?id=${job.id}`;
+            } catch (error) {
+                document.body.innerHTML = '<div class="status-container"><h1>Error</h1><p>Failed to load job details</p></div>';
+            }
+        }
+
+        loadJob();
+        const intervalId = setInterval(loadJob, 5000);
+        window.addEventListener('beforeunload', () => clearInterval(intervalId));
     </script>
 </body>
 </html> 

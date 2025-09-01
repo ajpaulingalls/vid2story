@@ -24,6 +24,7 @@
             <p><strong>Created:</strong> <span id="createdAt"></span></p>
             <p><strong>File:</strong> <span id="fileName"></span></p>
             <p><strong>Pick Segments:</strong> <span id="pickSegments"></span></p>
+            <p id="progressRow" style="display:none;"></p>
             
             <div class="collapsible-section">
                 <div class="collapsible-header" onclick="toggleSection('transcript')">
@@ -62,7 +63,6 @@
     </div>
 
     <script>
-        // Function to toggle collapsible sections
         function toggleSection(sectionName) {
             const content = document.getElementById(`${sectionName}-content`);
             const toggle = document.getElementById(`${sectionName}-toggle`);
@@ -76,83 +76,127 @@
             }
         }
         
-        // Get job ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const jobId = urlParams.get('id');
 
-        if (!jobId) {
-            document.body.innerHTML = '<div class="container"><h1>Error</h1><p>No job ID provided</p></div>';
-        } else {
-            // Fetch job details
-            fetch(`/api/jobs/${jobId}`)
-                .then(response => response.json())
-                .then(job => {
-                    // Update job information
-                    document.getElementById('jobId').textContent = job.id;
-                    document.getElementById('backLink').href = `jobStatus.html?id=${job.id}`;
-                    document.getElementById('jobStatus').textContent = job.status;
-                    document.getElementById('jobStatus').classList.add(`status-${job.status}`);
-                    document.getElementById('createdAt').textContent = new Date(job.createdAt).toLocaleString();
-                    document.getElementById('fileName').textContent = job.filePath.split('/').pop();
-                    document.getElementById('pickSegments').textContent = job.pickSegments ? 'Yes' : 'No';
-                    document.getElementById('transcript').textContent = job.transcript;
-                    
-                    // Display words data if available
-                    if (job.words) {
-                        document.getElementById('words').textContent = JSON.stringify(job.words, null, 2);
-                    } else {
-                        document.getElementById('words').textContent = 'No words data available';
-                    }
-
-                    // Display segments data if available
-                    if (job.segments) {
-                        document.getElementById('segments').textContent = JSON.stringify(job.segments, null, 2);
-                    } else {
-                        document.getElementById('segments').textContent = 'No segments data available';
-                    }
-
-                    // Update videos list
-                    const videoList = document.getElementById('videoList');
-                    if (job.videos && job.videos.length > 0) {
-                        job.videos.forEach(video => {
-                            const videoElement = document.createElement('div');
-                            videoElement.className = 'video-item';
-                            videoElement.innerHTML = `
-                                <div class="video-title">${video.title}</div>
-                                <div class="video-description">${video.description}</div>
-                                <div class="video-caption"><strong>Caption:</strong> ${video.caption || 'No caption available'}</div>
-                                <div class="video-timing">
-                                    Start: ${video.startTime} - End: ${video.endTime}
-                                </div>
-                                <div class="video-links">
-                                    ${video.clippedVideoUrl ? 
-                                        `<a href="videoDetail.html?id=${video.id}&type=clipped" class="video-link">Clipped Video</a>` :
-                                        `<span class="video-link" style="color: #666;">Clipped Video - Waiting for completion</span>`
-                                    }
-                                    ${video.croppedVideoUrl ? 
-                                        `<a href="videoDetail.html?id=${video.id}&type=cropped" class="video-link">Cropped Video</a>` :
-                                        `<span class="video-link" style="color: #666;">Cropped Video - Waiting for completion</span>`
-                                    }
-                                    ${video.captionVideoUrl ? 
-                                        `<a href="videoDetail.html?id=${video.id}&type=caption" class="video-link">Captioned Video</a>` :
-                                        `<span class="video-link" style="color: #666;">Caption Video - Waiting for completion</span>`
-                                    }
-                                    ${video.finalVideoUrl ? 
-                                        `<a href="videoDetail.html?id=${video.id}&type=final" class="video-link">Final Video</a>` :
-                                        `<span class="video-link" style="color: #666;">Final Video - Waiting for completion</span>`
-                                    }
-                                </div>
-                            `;
-                            videoList.appendChild(videoElement);
-                        });
-                    } else {
-                        videoList.innerHTML = '<p>No videos generated yet.</p>';
-                    }
-                })
-                .catch(error => {
-                    document.body.innerHTML = '<div class="container"><h1>Error</h1><p>Failed to load job details</p></div>';
-                });
+        function computeProgress(job) {
+            if (job && job.progress) return job.progress;
+            const videos = Array.isArray(job.videos) ? job.videos : [];
+            const totalFromSegments = job && job.segments && job.segments.segments ? job.segments.segments.length : 0;
+            const total = job.pickSegments ? (totalFromSegments || videos.length) : 1;
+            const clipped = videos.filter(v => !!v.clippedVideoUrl).length;
+            const cropped = videos.filter(v => !!v.croppedVideoUrl).length;
+            const captioned = videos.filter(v => !!v.captionVideoUrl).length;
+            const finalized = videos.filter(v => !!v.finalVideoUrl).length;
+            return { total, clipped, cropped, captioned, finalized };
         }
+
+        function formatStatus(job) {
+            const { total, clipped, cropped, captioned, finalized } = computeProgress(job);
+            const s = job.status;
+            if (!job.pickSegments) return s;
+            if (!total || total === 0) return s;
+            if (s === 'clipping-segments') return `Clipping Segments ${clipped}/${total}`;
+            if (s === 'cropping-segments') return `Cropping Segments ${cropped}/${total}`;
+            if (s === 'adding-captions') return `Adding Captions ${captioned}/${total}`;
+            if (s === 'completed') return `Completed ${finalized}/${total}`;
+            return s;
+        }
+
+        function segmentStatus(video) {
+            if (video.status) return video.status;
+            if (video.finalVideoUrl) return 'finalized';
+            if (video.captionVideoUrl) return 'captioned';
+            if (video.croppedVideoUrl) return 'cropped';
+            if (video.clippedVideoUrl) return 'clipped';
+            return 'pending';
+        }
+
+        async function loadJob() {
+            if (!jobId) {
+                document.body.innerHTML = '<div class="container"><h1>Error</h1><p>No job ID provided</p></div>';
+                return;
+            }
+            try {
+                const response = await fetch(`/api/jobs/${jobId}`);
+                const job = await response.json();
+
+                document.getElementById('jobId').textContent = job.id;
+                document.getElementById('backLink').href = `jobStatus.html?id=${job.id}`;
+                const statusEl = document.getElementById('jobStatus');
+                statusEl.textContent = formatStatus(job);
+                statusEl.className = `status-badge status-${job.status}`;
+                document.getElementById('createdAt').textContent = new Date(job.createdAt).toLocaleString();
+                document.getElementById('fileName').textContent = job.filePath.split('/').pop();
+                document.getElementById('pickSegments').textContent = job.pickSegments ? 'Yes' : 'No';
+                document.getElementById('transcript').textContent = job.transcript;
+                if (job.words) {
+                    document.getElementById('words').textContent = JSON.stringify(job.words, null, 2);
+                } else {
+                    document.getElementById('words').textContent = 'No words data available';
+                }
+                if (job.segments) {
+                    document.getElementById('segments').textContent = JSON.stringify(job.segments, null, 2);
+                } else {
+                    document.getElementById('segments').textContent = 'No segments data available';
+                }
+
+                const { total, clipped, cropped, captioned, finalized } = computeProgress(job);
+                const progressRow = document.getElementById('progressRow');
+                if (job.pickSegments && total > 0) {
+                    progressRow.style.display = '';
+                    progressRow.innerHTML = `<strong>Progress:</strong> Clipped ${clipped}/${total} · Cropped ${cropped}/${total} · Captioned ${captioned}/${total} · Finalized ${finalized}/${total}`;
+                } else {
+                    progressRow.style.display = 'none';
+                }
+
+                const videoList = document.getElementById('videoList');
+                videoList.innerHTML = '';
+                if (job.videos && job.videos.length > 0) {
+                    job.videos.forEach(video => {
+                        const status = segmentStatus(video);
+                        const videoElement = document.createElement('div');
+                        videoElement.className = 'video-item';
+                        videoElement.innerHTML = `
+                            <div class="video-title">${video.title}</div>
+                            <div class="video-description">${video.description}</div>
+                            <div class="video-caption"><strong>Caption:</strong> ${video.caption || 'No caption available'}</div>
+                            <div class="video-timing">
+                                Start: ${video.startTime} - End: ${video.endTime}
+                            </div>
+                            <div class="video-links">
+                                <span class="status-badge" style="margin-right: 8px;">${status}</span>
+                                ${video.clippedVideoUrl ? 
+                                    `<a href="videoDetail.html?id=${video.id}&type=clipped" class="video-link">Clipped</a>` :
+                                    `<span class="video-link" style="color: #666;">Clipped - pending</span>`
+                                }
+                                ${video.croppedVideoUrl ? 
+                                    `<a href="videoDetail.html?id=${video.id}&type=cropped" class="video-link">Cropped</a>` :
+                                    `<span class="video-link" style="color: #666;">Cropped - pending</span>`
+                                }
+                                ${video.captionVideoUrl ? 
+                                    `<a href="videoDetail.html?id=${video.id}&type=caption" class="video-link">Captioned</a>` :
+                                    `<span class="video-link" style="color: #666;">Captioned - pending</span>`
+                                }
+                                ${video.finalVideoUrl ? 
+                                    `<a href="videoDetail.html?id=${video.id}&type=final" class="video-link">Final</a>` :
+                                    `<span class="video-link" style="color: #666;">Final - pending</span>`
+                                }
+                            </div>
+                        `;
+                        videoList.appendChild(videoElement);
+                    });
+                } else {
+                    videoList.innerHTML = '<p>No videos generated yet.</p>';
+                }
+            } catch (error) {
+                document.body.innerHTML = '<div class="container"><h1>Error</h1><p>Failed to load job details</p></div>';
+            }
+        }
+
+        loadJob();
+        const intervalId = setInterval(loadJob, 5000);
+        window.addEventListener('beforeunload', () => clearInterval(intervalId));
     </script>
 </body>
 </html> 
