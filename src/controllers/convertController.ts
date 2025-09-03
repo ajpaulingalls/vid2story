@@ -33,10 +33,10 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    if (file.mimetype === 'video/mp4') {
+    if (file.mimetype === 'video/mp4' || file.mimetype === 'video/webm') {
       cb(null, true);
     } else {
-      cb(new Error('Only MP4 files are allowed'));
+      cb(new Error('Only MP4 and WEBM files are allowed'));
     }
   },
   limits: {
@@ -147,6 +147,18 @@ const runJob = async (job: Job) => {
               false,
             );
 
+        const video = await VideoModel.create({
+          jobId: jobId,
+          filePath: videoSegmentPath,
+          publicId: clipPublicId,
+          transcript: '',
+          title: segment.title,
+          description: segment.summary,
+          caption: segment.caption,
+          startTime: segmentStart,
+          endTime: segmentEnd,
+        });
+
         await trimVideo(
           filePath,
           videoSegmentPath,
@@ -164,19 +176,11 @@ const runJob = async (job: Job) => {
         const segmentTranscriptPath = path.join(outputDir, transcriptPublicId);
         saveStringToFile(segmentTranscriptPath, clippedTranscript);
 
-        const video = await VideoModel.create({
-          jobId: jobId,
-          filePath: videoSegmentPath,
-          publicId: clipPublicId,
-          clippedVideoUrl: baseUrl + clipPublicId + '.mp4',
+        await VideoModel.update(video.id, {
           transcript: clippedTranscript,
-          title: segment.title,
-          description: segment.summary,
-          caption: segment.caption,
-          startTime: segmentStart,
-          endTime: segmentEnd,
+          clippedVideoUrl: baseUrl + clipPublicId + '.mp4',
         });
-
+        
         await JobModel.update(jobId, { status: 'cropping-segments' });
 
         const portraitVideoFilename = `${clipPublicId}-portrait.mp4`;
@@ -217,7 +221,9 @@ const runJob = async (job: Job) => {
 
     const results = await Promise.allSettled(segmentPromises);
     const hasFailure = results.some((r) => r.status === 'rejected');
-    await JobModel.update(jobId, { status: hasFailure ? 'failed' : 'completed' });
+    await JobModel.update(jobId, {
+      status: hasFailure ? 'failed' : 'completed',
+    });
   } else {
     await JobModel.update(jobId, { status: 'cropping-full-video' });
     const inputVideoPath = path.join(process.cwd(), filePath);
@@ -236,7 +242,12 @@ const runJob = async (job: Job) => {
     const portraitVideoFilename = `${jobId}-portrait.mp4`;
     const portraitVideoPath = path.join(outputDir, portraitVideoFilename);
 
-    cropLandscapeToPortrait(inputVideoPath, portraitVideoPath, job.keepGraphics, job.useStackCrop).then(async () => {
+    cropLandscapeToPortrait(
+      inputVideoPath,
+      portraitVideoPath,
+      job.keepGraphics,
+      job.useStackCrop,
+    ).then(async () => {
       const croppedVideoUrl = baseUrl + portraitVideoFilename;
       await VideoModel.update(video.id, { croppedVideoUrl });
       console.log(`generated portrait video for ${jobId}`);

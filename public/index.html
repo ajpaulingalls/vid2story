@@ -20,11 +20,11 @@
             <div class="form-group">
                 <label for="video">Select MP4 Video File:</label>
                 <div class="file-drop" id="fileDrop" tabindex="0" role="button" aria-controls="video" aria-label="Drag and drop MP4 file here or click to browse">
-                    Drag & drop your .mp4 here, or click to browse
+                    Drag & drop your .mp4 or .webm here, or click to browse
                     <div class="file-name" id="fileName">No file selected</div>
                 </div>
                 <input class="sr-only" type="file" id="video" name="video" accept=".mp4" required>
-                <div class="help-text">Supported format: .mp4 • Max length 30 minutes.</div>
+                <div class="help-text">Supported format: .mp4, .webm • Max length 30 minutes.</div>
                 <div class="upload-progress" id="uploadProgress" hidden>
                     <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
                     <div class="progress-text" id="progressText">Uploading… 0%</div>
@@ -101,8 +101,8 @@
                 const files = dt && dt.files ? dt.files : null;
                 if (!files || !files.length) return;
                 const file = files[0];
-                if (file && file.type !== 'video/mp4') {
-                    alert('Only MP4 files are allowed.');
+                if (file && file.type !== 'video/mp4' && file.type !== 'video/webm') {
+                    alert('Only MP4 and WEBM files are allowed.');
                     return;
                 }
                 fileInput.files = files;
@@ -124,12 +124,12 @@
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 if (!fileInput.files || !fileInput.files.length) {
-                    alert('Please select an MP4 file first.');
+                    alert('Please select an MP4 or WEBM file first.');
                     return;
                 }
                 const file = fileInput.files[0];
-                if (file.type !== 'video/mp4') {
-                    alert('Only MP4 files are allowed.');
+                if (file.type !== 'video/mp4' && file.type !== 'video/webm') {
+                    alert('Only MP4 and WEBM files are allowed.');
                     return;
                 }
 
