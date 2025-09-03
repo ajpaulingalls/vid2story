@@ -89,6 +89,23 @@
                     
                     // Set back link to job details
                     document.getElementById('backLink').href = `jobDetail.html?id=${video.jobId}`;
+
+                    // Fetch parent job to read language and apply RTL if needed
+                    fetch(`/api/jobs/${video.jobId}`)
+                        .then(r => r.ok ? r.json() : null)
+                        .then(job => {
+                            if (job) {
+                                applyRtlIfArabic(job.language, [
+                                    document.body,
+                                    '#videoContainer',
+                                    '.video-info',
+                                    '.video-description',
+                                    '.video-caption',
+                                    '.video-transcript'
+                                ]);
+                            }
+                        })
+                        .catch(()=>{});
                     
                     // Determine which video URL to use based on type
                     let videoUrl = '';

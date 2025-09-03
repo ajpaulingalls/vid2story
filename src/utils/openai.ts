@@ -179,3 +179,75 @@ export const getBestSegmentsFromWords = async (
 
   return result;
 };
+
+const DETECT_LANGUAGE_SYSTEM_PROMPT = `
+You are a speech language detection engine. Given several short snippets formed by concatenating recognized words from a transcript, determine the primary spoken language.
+
+Return JSON only, with a single key "lang" whose value is a valid ISO 639-1 two-letter lowercase language code (e.g., "en", "ar", "es", "fr", "de", "zh", "hi"). If unsure, choose the most likely language.`;
+
+export const detectTranscriptLanguage = async (
+  words: TranscriptionWord[],
+): Promise<string> => {
+  if (!words || words.length === 0) return 'en';
+
+  const totalWords = words.length;
+
+  // Build representative snippets from across the transcript
+  const windowSize = Math.min(30, Math.max(5, Math.floor(totalWords * 0.05)));
+  const pickIndex = (ratio: number) => Math.min(totalWords - 1, Math.max(0, Math.floor(totalWords * ratio)));
+  const indices = Array.from(new Set([pickIndex(0.05), pickIndex(0.5), pickIndex(0.95)]));
+
+  const snippets: string[] = indices
+    .map((center) => {
+      const start = Math.max(0, center - Math.floor(windowSize / 2));
+      const end = Math.min(totalWords, start + windowSize);
+      return words.slice(start, end).map((w) => w.word).join(' ');
+    })
+    .filter(Boolean);
+
+  let sampleText = snippets.join(' ... ').trim();
+  if (!sampleText) {
+    sampleText = words.slice(0, Math.min(totalWords, 50)).map((w) => w.word).join(' ');
+  }
+  if (sampleText.length > 600) sampleText = sampleText.slice(0, 600);
+
+  const response = await openai.chat.completions.create({
+    model: 'gpt-5',
+    messages: [
+      { role: 'system', content: DETECT_LANGUAGE_SYSTEM_PROMPT },
+      { role: 'user', content: sampleText },
+    ],
+    response_format: {
+      type: 'json_schema',
+      json_schema: {
+        name: 'languageCode',
+        description: 'Primary language code',
+        strict: true,
+        schema: {
+          type: 'object',
+          properties: {
+            lang: {
+              type: 'string',
+              description: 'ISO 639-1 two-letter lowercase language code',
+              pattern: '^[a-z]{2}$',
+            },
+          },
+          required: ['lang'],
+          additionalProperties: false,
+        },
+      },
+    },
+  });
+
+  try {
+    const parsed = JSON.parse(response.choices[0].message.content || '{}') as { lang?: string };
+    const code = (parsed.lang || '').toLowerCase();
+    if (/^[a-z]{2}$/.test(code)) return code;
+  } catch (_) {
+    // Ignore and fall back below
+  }
+
+  // Heuristic fallback if the model output is unavailable or malformed
+  if (/[\u0600-\u06FF]/.test(sampleText)) return 'ar';
+  return 'en';
+};

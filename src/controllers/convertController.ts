@@ -5,6 +5,7 @@ import { Job, NewJob, JobModel } from '../models/job';
 import {
   generateTranscriptJson,
   getBestSegmentsFromWords,
+  detectTranscriptLanguage,
 } from '../utils/openai';
 import {
   addCaptions,
@@ -95,13 +96,14 @@ const runJob = async (job: Job) => {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  await JobModel.update(jobId, { status: 'generating-transcript' });
+  await JobModel.update(jobId, { status: 'extracting-audio' });
 
   // Extract audio from video
   const audioPath = path.join(outputDir, 'audio.mp3');
   await extractAudio(filePath, audioPath);
 
   // Generate transcript
+  await JobModel.update(jobId, { status: 'generating-transcript' });
   const transcriptPath = path.join(outputDir, 'transcript.srt');
   const words = await generateTranscriptJson(audioPath);
   if (!words) {
@@ -112,6 +114,11 @@ const runJob = async (job: Job) => {
   const transcript = wordsToSRT(words);
   await saveStringToFile(transcriptPath, transcript);
   await JobModel.update(jobId, { transcript, words });
+
+  // Detect language
+  await JobModel.update(jobId, { status: 'detecting-language' });
+  const language = await detectTranscriptLanguage(words);
+  await JobModel.update(jobId, { language });
 
   if (pickSegments) {
     await JobModel.update(jobId, { status: 'generating-segments' });
@@ -180,7 +187,7 @@ const runJob = async (job: Job) => {
           transcript: clippedTranscript,
           clippedVideoUrl: baseUrl + clipPublicId + '.mp4',
         });
-        
+
         await JobModel.update(jobId, { status: 'cropping-segments' });
 
         const portraitVideoFilename = `${clipPublicId}-portrait.mp4`;

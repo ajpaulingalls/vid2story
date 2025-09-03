@@ -10,6 +10,7 @@ export const jobs = sqliteTable('jobs', {
   name: text('name').notNull(),
   filePath: text('file_path').notNull(),
   transcript: text('transcript').notNull(),
+  language: text('language').notNull().default('en'),
   words: text('words', { mode: 'json' }),
   segments: text('segments', { mode: 'json' }).$type<ViralPodcastSegments>(),
   pickSegments: integer('pick_segments', { mode: 'boolean' })
@@ -27,8 +28,9 @@ export const jobs = sqliteTable('jobs', {
   status: text('status', {
     enum: [
       'starting',
-      'cropping-portrait-video',
+      'extracting-audio',
       'generating-transcript',
+      'detecting-language',
       'generating-segments',
       'clipping-segments',
       'cropping-segments',

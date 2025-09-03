@@ -97,6 +97,14 @@
                 document.getElementById('fileName').textContent = job.filePath.split('/').pop();
                 document.getElementById('pickSegments').textContent = job.pickSegments ? 'Yes' : 'No';
                 document.getElementById('transcript').textContent = job.transcript;
+
+                // Apply RTL for Arabic language on relevant containers
+                applyRtlIfArabic(job.language, [
+                    '.video-list',
+                    '#transcript',
+                    '#words',
+                    '#segments',
+                ]);
                 if (job.words) {
                     document.getElementById('words').textContent = JSON.stringify(job.words, null, 2);
                 } else {

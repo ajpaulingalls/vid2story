@@ -69,3 +69,20 @@ function computeDurationString(startTime, endTime) {
   const duration = parseTimeToSeconds(endTime) - parseTimeToSeconds(startTime);
   return formatSecondsToMinSec(duration);
 }
+
+// RTL helper: apply or remove RTL class based on language
+function applyRtlIfArabic(language, elementsOrSelectors) {
+  const isArabic = String(language || '').toLowerCase().startsWith('ar');
+  const refs = Array.isArray(elementsOrSelectors) ? elementsOrSelectors : [elementsOrSelectors];
+  refs.forEach((ref) => {
+    let el = null;
+    if (typeof ref === 'string') {
+      el = document.querySelector(ref);
+    } else if (ref && typeof ref === 'object' && ref.nodeType === 1) {
+      el = ref;
+    }
+    if (!el) return;
+    if (isArabic) el.classList.add('rtl');
+    else el.classList.remove('rtl');
+  });
+}

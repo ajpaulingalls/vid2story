@@ -215,3 +215,18 @@ button[disabled] { opacity: .6; cursor: not-allowed; }
 .app-header .links a:hover { background: #eff6ff; color: var(--primary-600); }
 
 
+/* RTL utilities */
+.rtl { direction: rtl; unicode-bidi: plaintext; }
+.rtl .video-title,
+.rtl .video-description,
+.rtl .video-caption,
+.rtl .video-transcript,
+.rtl .code-block,
+.rtl p,
+.rtl h1,
+.rtl h2,
+.rtl h3,
+.rtl h4,
+.rtl h5,
+.rtl h6 { text-align: right; }
+
