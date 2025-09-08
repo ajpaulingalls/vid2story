@@ -38,6 +38,8 @@ export const cropLandscapeToPortrait = (
       land2portDevice,
       ...(keepGraphics ? ['--keep-graphic'] : []),
       ...(useStackCrop ? ['--use-stack-crop'] : []),
+      '--object-area-threshold',
+      '0.009',
       '--headless',
       '--source',
       videoSegmentPath,

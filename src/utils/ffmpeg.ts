@@ -104,11 +104,13 @@ export const trimVideo = async (
  * @param videoPath - Path to the input video file
  * @param srtPath - Path to the SRT file containing the captions
  * @param outputPath - Path where the output video file with captions should be saved
+ * @param language - Language of the captions
  * @returns Promise<void> - Promise that resolves when the captions are added
  */
 export const addCaptions = async (
   videoPath: string,
   srtPath: string,
+  language: string,
   outputPath: string,
 ): Promise<void> => {
   return new Promise<void>((resolve, reject) => {
@@ -117,7 +119,9 @@ export const addCaptions = async (
       return;
     }
 
-    console.log(`adding captions to ${videoPath} from ${srtPath} and saving to ${outputPath}`);
+    console.log(`adding ${language} captions to ${videoPath} from ${srtPath} and saving to ${outputPath}`);
+    const fontName = language === 'ar' ? 'Noto Naskh Arabic' : 'Arial';
+    const fontSize = language === 'ar' ? 12 : 8;
 
     const args = [
       '-i',
@@ -125,7 +129,7 @@ export const addCaptions = async (
       '-nostdin',
       '-y',
       '-vf',
-      `subtitles=${srtPath}:force_style='FontName=Arial,FontSize=8,PrimaryColour=&HFFFFFF,OutlineColour=&H000000,Outline=1,Alignment=2,MarginV=20'`,
+      `subtitles=${srtPath}:force_style='FontName=${fontName},FontSize=${fontSize},PrimaryColour=&HFFFFFF,OutlineColour=&H000000,Outline=1,Alignment=2,MarginV=20'`,
       outputPath,
     ];
 

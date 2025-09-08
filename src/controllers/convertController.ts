@@ -208,6 +208,7 @@ const runJob = async (job: Job) => {
         await addCaptions(
           portraitVideoPath,
           segmentTranscriptPath,
+          language,
           captionVideoPath,
         );
         const captionVideoUrl = baseUrl + captionVideoFilename;
@@ -261,7 +262,7 @@ const runJob = async (job: Job) => {
 
       const captionVideoFilename = `${jobId}-captions.mp4`;
       const captionVideoPath = path.join(outputDir, captionVideoFilename);
-      addCaptions(portraitVideoPath, transcriptPath, captionVideoPath).then(
+      addCaptions(portraitVideoPath, transcriptPath, language, captionVideoPath).then(
         async () => {
           const captionVideoUrl = baseUrl + captionVideoFilename;
           await VideoModel.update(video.id, { captionVideoUrl });
