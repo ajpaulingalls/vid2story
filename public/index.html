@@ -72,6 +72,26 @@
             const uploadProgress = document.getElementById('uploadProgress');
             const progressBar = document.getElementById('progressBar');
             const progressText = document.getElementById('progressText');
+            const pickSegmentsCheckbox = document.getElementById('pickSegments');
+            const optimizeForAccuracyCheckbox = document.getElementById('optimizeForAccuracy');
+            
+            // Handle pickSegments checkbox change
+            pickSegmentsCheckbox.addEventListener('change', function() {
+                if (!this.checked) {
+                    // If pickSegments is unchecked, uncheck and disable optimizeForAccuracy
+                    optimizeForAccuracyCheckbox.checked = false;
+                    optimizeForAccuracyCheckbox.disabled = true;
+                } else {
+                    // If pickSegments is checked, enable optimizeForAccuracy
+                    optimizeForAccuracyCheckbox.disabled = false;
+                }
+            });
+            
+            // Initialize the state on page load
+            if (!pickSegmentsCheckbox.checked) {
+                optimizeForAccuracyCheckbox.checked = false;
+                optimizeForAccuracyCheckbox.disabled = true;
+            }
             
             advancedToggle.addEventListener('click', function() {
                 advancedOptions.classList.toggle('show');

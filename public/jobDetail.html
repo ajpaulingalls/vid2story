@@ -44,7 +44,7 @@
                     <pre id="words" class="code-block"></pre>
                 </div>
             
-            <div class="collapsible-section">
+            <div class="collapsible-section" id="segments-section" style="display: none;">
                 <div class="collapsible-header" onclick="toggleSection('segments')">
                     <span><strong>Segments</strong></span>
                     <span class="toggle-icon" id="segments-toggle">▶</span>
@@ -110,10 +110,15 @@
                 } else {
                     document.getElementById('words').textContent = 'No words data available';
                 }
-                if (job.segments) {
-                    document.getElementById('segments').textContent = JSON.stringify(job.segments, null, 2);
+                if (job.pickSegments) {
+                    document.getElementById('segments-section').style.display = '';
+                    if (job.segments) {
+                        document.getElementById('segments').textContent = JSON.stringify(job.segments, null, 2);
+                    } else {
+                        document.getElementById('segments').textContent = 'No segments data available';
+                    }
                 } else {
-                    document.getElementById('segments').textContent = 'No segments data available';
+                    document.getElementById('segments-section').style.display = 'none';
                 }
 
                 const { total, clipped, cropped, captioned, finalized } = computeProgress(job);
@@ -141,10 +146,11 @@
                             </div>
                             <div class="video-links">
                                 <span class="status-badge" style="margin-right: 8px;">${status}</span>
-                                ${video.clippedVideoUrl ? 
-                                    `<a href="videoDetail.html?id=${video.id}&type=clipped" class="video-link">Clipped</a>` :
-                                    `<span class="video-link" style="color: #666;">Clipped - pending</span>`
-                                }
+                                ${job.pickSegments ? (
+                                    video.clippedVideoUrl ? 
+                                        `<a href="videoDetail.html?id=${video.id}&type=clipped" class="video-link">Clipped</a>` :
+                                        `<span class="video-link" style="color: #666;">Clipped - pending</span>`
+                                ) : ''}
                                 ${video.croppedVideoUrl ? 
                                     `<a href="videoDetail.html?id=${video.id}&type=cropped" class="video-link">Cropped</a>` :
                                     `<span class="video-link" style="color: #666;">Cropped - pending</span>`
