@@ -72,7 +72,6 @@
                         <tr>
                             <th>Job ID</th>
                             <th>Name</th>
-                            <th>File</th>
                             <th>Status</th>
                             <th>Pick Segments</th>
                             <th>Created</th>
@@ -85,7 +84,6 @@
                                     <a href="jobDetail.html?id=${job.id}" class="job-link">${job.id}</a>
                                 </td>
                                 <td>${job.name || 'N/A'}</td>
-                                <td class="file-name-cell" title="${job.filePath}">${job.filePath ? job.filePath.split('/').pop() : 'N/A'}</td>
                                 <td>
                                     <span class="status-badge status-${job.status}">${job.status}</span>
                                 </td>
