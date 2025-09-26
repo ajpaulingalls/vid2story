@@ -76,7 +76,7 @@ export const convertToPortrait = async (
       // Add job to the jobs array
       const job = await JobModel.create(newJob);
       runJob(job).then(() => {
-        console.log('job started');
+        console.log('job completed');
       });
 
       // Redirect to the job status page
