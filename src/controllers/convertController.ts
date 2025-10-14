@@ -69,6 +69,7 @@ export const convertToPortrait = async (
         optimizeForAccuracy: req.body.optimizeForAccuracy === 'on',
         keepGraphics: req.body.keepGraphics === 'on',
         useStackCrop: req.body.useStackCrop === 'on',
+        prioritizeGraphics: req.body.prioritizeGraphics === 'on',
         status: 'starting',
         createdAt: new Date(),
       };
@@ -197,6 +198,7 @@ const runJob = async (job: Job) => {
           portraitVideoPath,
           job.keepGraphics,
           job.useStackCrop,
+          job.prioritizeGraphics,
         );
         console.log(`generated portrait video for ${clipPublicId}`);
         const croppedVideoUrl = baseUrl + portraitVideoFilename;
@@ -255,6 +257,7 @@ const runJob = async (job: Job) => {
       portraitVideoPath,
       job.keepGraphics,
       job.useStackCrop,
+      job.prioritizeGraphics,
     ).then(async () => {
       const croppedVideoUrl = baseUrl + portraitVideoFilename;
       await VideoModel.update(video.id, { croppedVideoUrl });

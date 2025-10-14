@@ -15,6 +15,13 @@
       "when": 1756936218052,
       "tag": "0001_cool_bucky",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1760478395182,
+      "tag": "0002_lying_hitman",
+      "breakpoints": true
     }
   ]
 }

@@ -1,0 +1,1 @@
+alter table jobs add column prioritize_graphics integer not null default false;

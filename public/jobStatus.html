@@ -23,7 +23,8 @@
                 <p>File: <span id="fileName"></span></p>
                 <p>Pick Segments: <span id="pickSegments"></span></p>
                 <p>Optimize for Accuracy: <span id="optimizeForAccuracy"></span></p>
-                <p>Keep Graphics: <span id="keepGraphics"></span></p>
+                <p>Keep Text: <span id="keepGraphics"></span></p>
+                <p>Prioritize Text: <span id="prioritizeGraphics"></span></p>
                 <p>Use Stack Crop: <span id="useStackCrop"></span></p>
                 <a href="#" id="viewDetails" class="view-details">View Details</a>
             </div>
@@ -53,6 +54,7 @@
                 document.getElementById('pickSegments').textContent = job.pickSegments ? 'Yes' : 'No';
                 document.getElementById('optimizeForAccuracy').textContent = job.optimizeForAccuracy ? 'Yes' : 'No';
                 document.getElementById('keepGraphics').textContent = job.keepGraphics ? 'Yes' : 'No';
+                document.getElementById('prioritizeGraphics').textContent = job.prioritizeGraphics ? 'Yes' : 'No';
                 document.getElementById('useStackCrop').textContent = job.useStackCrop ? 'Yes' : 'No';
                 
                 const detailsLink = document.getElementById('viewDetails');

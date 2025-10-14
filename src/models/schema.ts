@@ -25,6 +25,9 @@ export const jobs = sqliteTable('jobs', {
   useStackCrop: integer('use_stack_crop', { mode: 'boolean' })
     .notNull()
     .default(true),
+  prioritizeGraphics: integer('prioritize_graphics', { mode: 'boolean' })
+    .notNull()
+    .default(false),
   status: text('status', {
     enum: [
       'starting',

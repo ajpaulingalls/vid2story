@@ -8,6 +8,7 @@ import path from 'path';
  * @param outputPath - Path where the output portrait video should be saved
  * @param keepGraphics - Whether to keep graphics
  * @param useStackCrop - Whether to use stack crop
+ * @param prioritizeGraphics - Whether to prioritize graphics
  * @returns Promise<string> - URL to the new cropped video file
  */
 export const cropLandscapeToPortrait = (
@@ -15,6 +16,7 @@ export const cropLandscapeToPortrait = (
   outputPath: string,
   keepGraphics: boolean,
   useStackCrop: boolean,
+  prioritizeGraphics: boolean,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     // Get the land2port executable path from environment variable
@@ -38,6 +40,7 @@ export const cropLandscapeToPortrait = (
       land2portDevice,
       ...(keepGraphics ? ['--keep-graphic'] : []),
       ...(useStackCrop ? ['--use-stack-crop'] : []),
+      ...(prioritizeGraphics ? ['--prioritize-graphic'] : []),
       '--object-area-threshold',
       '0.009',
       '--headless',

@@ -23,6 +23,10 @@
             <p><strong>Created:</strong> <span id="createdAt"></span></p>
             <p><strong>File:</strong> <span id="fileName"></span></p>
             <p><strong>Pick Segments:</strong> <span id="pickSegments"></span></p>
+            <p><strong>Optimize for Accuracy:</strong> <span id="optimizeForAccuracy"></span></p>
+            <p><strong>Use Stack Crop:</strong> <span id="useStackCrop"></span></p>
+            <p><strong>Keep Text:</strong> <span id="keepGraphics"></span></p>
+            <p><strong>Prioritize Text:</strong> <span id="prioritizeGraphics"></span></p>
             <p id="progressRow" style="display:none;"></p>
             
             <div class="collapsible-section">
@@ -96,6 +100,10 @@
                 document.getElementById('createdAt').textContent = new Date(job.createdAt).toLocaleString();
                 document.getElementById('fileName').textContent = job.filePath.split('/').pop();
                 document.getElementById('pickSegments').textContent = job.pickSegments ? 'Yes' : 'No';
+                document.getElementById('optimizeForAccuracy').textContent = job.optimizeForAccuracy ? 'Yes' : 'No';
+                document.getElementById('keepGraphics').textContent = job.keepGraphics ? 'Yes' : 'No';
+                document.getElementById('useStackCrop').textContent = job.useStackCrop ? 'Yes' : 'No';
+                document.getElementById('prioritizeGraphics').textContent = job.prioritizeGraphics ? 'Yes' : 'No';
                 document.getElementById('transcript').textContent = job.transcript;
 
                 // Apply RTL for Arabic language on relevant containers
