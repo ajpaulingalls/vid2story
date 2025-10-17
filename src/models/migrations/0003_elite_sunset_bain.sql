@@ -1,0 +1,1 @@
+ALTER TABLE jobs ADD COLUMN additional_instructions TEXT;

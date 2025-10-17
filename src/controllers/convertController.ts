@@ -70,6 +70,7 @@ export const convertToPortrait = async (
         keepGraphics: req.body.keepGraphics === 'on',
         useStackCrop: req.body.useStackCrop === 'on',
         prioritizeGraphics: req.body.prioritizeGraphics === 'on',
+        additionalInstructions: req.body.additionalInstructions || null,
         status: 'starting',
         createdAt: new Date(),
       };
@@ -124,7 +125,7 @@ const runJob = async (job: Job) => {
   if (pickSegments) {
     await JobModel.update(jobId, { status: 'generating-segments' });
 
-    const segments = await getBestSegmentsFromWords(words);
+    const segments = await getBestSegmentsFromWords(words, job.additionalInstructions);
     console.log(segments);
     await JobModel.update(jobId, { segments, status: 'clipping-segments' });
 

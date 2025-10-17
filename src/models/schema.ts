@@ -28,6 +28,7 @@ export const jobs = sqliteTable('jobs', {
   prioritizeGraphics: integer('prioritize_graphics', { mode: 'boolean' })
     .notNull()
     .default(false),
+  additionalInstructions: text('additional_instructions'),
   status: text('status', {
     enum: [
       'starting',

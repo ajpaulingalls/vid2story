@@ -26,6 +26,7 @@
                 <p>Keep Text: <span id="keepGraphics"></span></p>
                 <p>Prioritize Text: <span id="prioritizeGraphics"></span></p>
                 <p>Use Stack Crop: <span id="useStackCrop"></span></p>
+                <p>Additional Instructions: <span id="additionalInstructions"></span></p>
                 <a href="#" id="viewDetails" class="view-details">View Details</a>
             </div>
         </div>
@@ -56,6 +57,7 @@
                 document.getElementById('keepGraphics').textContent = job.keepGraphics ? 'Yes' : 'No';
                 document.getElementById('prioritizeGraphics').textContent = job.prioritizeGraphics ? 'Yes' : 'No';
                 document.getElementById('useStackCrop').textContent = job.useStackCrop ? 'Yes' : 'No';
+                document.getElementById('additionalInstructions').textContent = job.additionalInstructions || 'None';
                 
                 const detailsLink = document.getElementById('viewDetails');
                 detailsLink.href = `jobDetail.html?id=${job.id}`;

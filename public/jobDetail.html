@@ -27,6 +27,7 @@
             <p><strong>Use Stack Crop:</strong> <span id="useStackCrop"></span></p>
             <p><strong>Keep Text:</strong> <span id="keepGraphics"></span></p>
             <p><strong>Prioritize Text:</strong> <span id="prioritizeGraphics"></span></p>
+            <p><strong>Additional Instructions:</strong> <span id="additionalInstructions"></span></p>
             <p id="progressRow" style="display:none;"></p>
             
             <div class="collapsible-section">
@@ -104,6 +105,7 @@
                 document.getElementById('keepGraphics').textContent = job.keepGraphics ? 'Yes' : 'No';
                 document.getElementById('useStackCrop').textContent = job.useStackCrop ? 'Yes' : 'No';
                 document.getElementById('prioritizeGraphics').textContent = job.prioritizeGraphics ? 'Yes' : 'No';
+                document.getElementById('additionalInstructions').textContent = job.additionalInstructions || 'None';
                 document.getElementById('transcript').textContent = job.transcript;
 
                 // Apply RTL for Arabic language on relevant containers

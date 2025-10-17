@@ -67,12 +67,20 @@ export type ViralPodcastSegments = {
 
 export const getBestSegmentsFromWords = async (
   words: TranscriptionWord[],
+  additionalInstructions?: string | null,
 ): Promise<ViralPodcastSegments> => {
   console.log('Generating segments...');
+  
+  // Build the system prompt with additional instructions if provided
+  let systemPrompt = SPLIT_TRANSCRIPT_SYSTEM_PROMPT;
+  if (additionalInstructions) {
+    systemPrompt += `\nAdditional Instructions from the user for this segment selection: ${additionalInstructions}\nPlease pay close attention to these instructions as you generate the segments`;
+  }
+  
   const response = await openai.chat.completions.create({
     model: 'gpt-5',
     messages: [
-      { role: 'system', content: SPLIT_TRANSCRIPT_SYSTEM_PROMPT },
+      { role: 'system', content: systemPrompt },
       { role: 'user', content: JSON.stringify(words) },
     ],
     response_format: {

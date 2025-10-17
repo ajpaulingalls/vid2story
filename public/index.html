@@ -54,8 +54,18 @@
                         <label for="prioritizeGraphics">Prioritize Text (even when faces detected)</label>
                     </div>
                     <div class="checkbox-group">
-                        <input type="checkbox" id="useStackCrop" name="useStackCrop" checked>
-                        <label for="useStackCrop">Use Stack Crop (best for interviews)</label>
+                        <input type="checkbox" id="useStackCrop" name="useStackCrop">
+                        <label for="useStackCrop">Use Stack Crop (best for interviews with 2 or 3 people on screen at once)</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="additionalInstructions">Additional Instructions (Optional):</label>
+                        <textarea 
+                            id="additionalInstructions" 
+                            name="additionalInstructions" 
+                            rows="3" 
+                            placeholder="Enter any specific instructions for segment selection..."
+                        ></textarea>
+                        <div class="help-text">Provide specific guidance for how segments should be selected (e.g., focus on specific topics, avoid certain content, etc.)</div>
                     </div>
                 </div>
             </div>
