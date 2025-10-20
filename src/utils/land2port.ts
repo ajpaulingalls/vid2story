@@ -41,8 +41,6 @@ export const cropLandscapeToPortrait = (
       ...(keepGraphics ? ['--keep-graphic'] : []),
       ...(useStackCrop ? ['--use-stack-crop'] : []),
       ...(prioritizeGraphics ? ['--prioritize-graphic'] : []),
-      '--object-area-threshold',
-      '0.009',
       '--headless',
       '--source',
       videoSegmentPath,

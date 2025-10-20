@@ -4,8 +4,8 @@ This guide provides step-by-step instructions for setting up a virtual machine t
 
 ## Prerequisites
 
-- Ubuntu 22.04 LTS VM
-- Azure VM with sufficient storage and compute resources
+- Ubuntu 24.04 LTS VM
+- Azure VM with sufficient storage and compute resources (eg Standard NC8as T4 v3 (8 vcpus, 56 GiB memory))
 - Root/sudo access
 
 ## 1. System Updates and Package Installation
@@ -15,14 +15,64 @@ Update the system and install essential packages:
 ```bash
 sudo apt update
 sudo apt upgrade -y
-sudo apt install -y git-lfs
-sudo apt install -y build-essential pkg-config libclang-dev
+sudo apt install -y git-lfs build-essential pkg-config libclang-dev
 sudo apt install -y libssl-dev ca-certificates
 sudo apt install -y libavutil-dev libavcodec-dev libavformat-dev libavfilter-dev libavdevice-dev
 sudo apt install ttf-mscorefonts-installer
 ```
 
-## 2. Data Drive Setup
+## 2. NVIDIA Driver Setup
+
+**Note:** This section requires additional configuration to ensure NVIDIA drivers are properly recognized by CUDA. The specific steps may vary depending on your VM configuration and GPU setup.
+
+```bash
+wget https://us.download.nvidia.com/tesla/580.95.05/nvidia-driver-local-repo-ubuntu2404-580.95.05_1.0-1_amd64.deb
+sudo dpkg -i nvidia-driver-local-repo-ubuntu2404-580.95.05_1.0-1_amd64.deb
+sudo cp /var/nvidia-driver-local-repo-ubuntu2404-580.95.05/nvidia-driver-local-73FDEB09-keyring.gpg /usr/share/keyrings/
+sudo apt update
+sudo apt install cuda-drivers
+sudo reboot
+nvidia-smi
+```
+
+
+## 3. CUDA, CUDNN and TensorRT Installation
+
+Install CUDA toolkit and TensorRT for GPU acceleration:
+
+```bash
+# cuda
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-ubuntu2404.pin
+sudo mv cuda-ubuntu2404.pin /etc/apt/preferences.d/cuda-repository-pin-600
+wget https://developer.download.nvidia.com/compute/cuda/13.0.2/local_installers/cuda-repo-ubuntu2404-13-0-local_13.0.2-580.95.05-1_amd64.deb
+sudo dpkg -i cuda-repo-ubuntu2404-13-0-local_13.0.2-580.95.05-1_amd64.deb
+sudo cp /var/cuda-repo-ubuntu2404-13-0-local/cuda-*-keyring.gpg /usr/share/keyrings/
+sudo apt update
+sudo apt install cuda-toolkit-13-0
+
+# cudnn - 9:16
+wget https://developer.download.nvidia.com/compute/cudnn/9.14.0/local_installers/cudnn-local-repo-ubuntu2404-9.14.0_1.0-1_amd64.deb
+sudo dpkg -i cudnn-local-repo-ubuntu2404-9.14.0_1.0-1_amd64.deb
+sudo cp /var/cudnn-local-repo-ubuntu2404-9.14.0/cudnn-local-6F04C4A9-keyring.gpg /usr/share/keyrings/
+sudo apt update
+sudo apt install cudnn
+
+# tensorrt - 7:47
+wget https://developer.download.nvidia.com/compute/tensorrt/10.13.3/local_installers/nv-tensorrt-local-repo-ubuntu2404-10.13.3-cuda-13.0_1.0-1_amd64.deb
+sudo dpkg -i nv-tensorrt-local-repo-ubuntu2404-10.13.3-cuda-13.0_1.0-1_amd64.deb
+sudo cp /var/nv-tensorrt-local-repo-ubuntu2404-10.13.3-cuda-13.0/nv-tensorrt-local-4B177B4F-keyring.gpg /usr/share/keyrings/
+sudo apt update
+sudo apt install tensorrt
+
+
+#older versions for onnx
+sudo apt install libcublas12
+sudo apt install libcudart12
+sudo apt install libcufft11
+```
+
+
+## 4. Data Drive Setup
 
 Mount and configure a dedicated data drive for the application:
 
@@ -71,7 +121,7 @@ sudo mount -a
 sudo chown azureuser:azureuser /datadrive
 ```
 
-## 3. Rust and land2port Installation
+## 5. Rust and land2port Installation
 
 Install Rust and the land2port utility:
 
@@ -123,6 +173,12 @@ mkdir uploads
 # Configure environment
 cp .env.example .env
 vi .env
+
+npm install -g pm2
+pm2 start ./dist/server.js
+pm2 save
+pm2 startup
+pm2 list
 ```
 
 ## 5. Nginx Configuration
@@ -184,27 +240,6 @@ sudo ln -s /snap/bin/certbot /usr/bin/certbot
 sudo certbot --nginx
 ```
 
-## 6. CUDA and TensorRT Installation
-
-Install CUDA toolkit and TensorRT for GPU acceleration:
-
-```bash
-cd /datadrive
-mkdir cuda
-cd cuda
-
-# Download and install CUDA keyring
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
-sudo dpkg -i cuda-keyring_1.1-1_all.deb
-
-# Update package list and install CUDA components
-sudo apt update
-sudo apt install -y cuda-toolkit-12 tensorrt cudnn
-```
-
-## 7. NVIDIA Driver Setup
-
-**Note:** This section requires additional configuration to ensure NVIDIA drivers are properly recognized by CUDA. The specific steps may vary depending on your VM configuration and GPU setup.
 
 ## Next Steps
 
