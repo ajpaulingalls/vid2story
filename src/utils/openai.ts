@@ -74,6 +74,7 @@ export const getBestSegmentsFromWords = async (
   // Build the system prompt with additional instructions if provided
   let systemPrompt = SPLIT_TRANSCRIPT_SYSTEM_PROMPT;
   if (additionalInstructions) {
+    console.log('Additional Instructions from the user for this segment selection:', additionalInstructions);
     systemPrompt += `\nAdditional Instructions from the user for this segment selection: ${additionalInstructions}\nPlease pay close attention to these instructions as you generate the segments`;
   }
   

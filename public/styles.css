@@ -151,6 +151,7 @@ button[disabled] { opacity: .6; cursor: not-allowed; }
 .jobs-table th { background-color: #f8fafc; font-weight: 700; color: #334155; }
 .jobs-table tr:hover { background-color: #f8fafc; }
 .file-name-cell { max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.job-name-cell { max-width: 310px; word-wrap: break-word; word-break: break-word; }
 
 /* Pagination */
 .pagination { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px; }
