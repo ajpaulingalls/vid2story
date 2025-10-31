@@ -18,10 +18,17 @@
         <h1>Job Details</h1>
         <div id="jobInfo" class="card">
             <h2>Job Information</h2>
+            <div id="originalVideoContainer" style="margin-bottom: 20px; display: none;">
+                <h3>Original Video</h3>
+                <video id="originalVideo" controls style="width: 100%; max-width: 800px; border-radius: 4px;">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
             <p><strong>Job ID:</strong> <span id="jobId"></span></p>
             <p><strong>Status:</strong> <span id="jobStatus" class="status-badge"></span></p>
             <p><strong>Created:</strong> <span id="createdAt"></span></p>
             <p><strong>File:</strong> <span id="fileName"></span></p>
+            <p><strong>Duration:</strong> <span id="originalVideoDuration"></span></p>
             <p><strong>Pick Segments:</strong> <span id="pickSegments"></span></p>
             <p><strong>Optimize for Accuracy:</strong> <span id="optimizeForAccuracy"></span></p>
             <p><strong>Use Stack Crop:</strong> <span id="useStackCrop"></span></p>
@@ -95,12 +102,34 @@
 
                 document.getElementById('jobId').textContent = job.id;
                 document.getElementById('backLink').href = `jobStatus.html?id=${job.id}`;
+                
+                // Display original video if available
+                const originalVideoContainer = document.getElementById('originalVideoContainer');
+                const originalVideo = document.getElementById('originalVideo');
+                if (job.originalVideoUrl) {
+                    originalVideo.src = job.originalVideoUrl;
+                    originalVideoContainer.style.display = 'block';
+                } else {
+                    originalVideoContainer.style.display = 'none';
+                }
+                
                 const statusEl = document.getElementById('jobStatus');
                 statusEl.textContent = formatStatus(job);
                 statusEl.className = `status-badge status-${job.status}`;
                 document.getElementById('createdAt').textContent = new Date(job.createdAt).toLocaleString();
                 document.getElementById('fileName').textContent = job.filePath.split('/').pop();
-                document.getElementById('pickSegments').textContent = job.pickSegments ? 'Yes' : 'No';
+                if (job.originalVideoDuration) {
+                    const minutes = Math.floor(job.originalVideoDuration / 60);
+                    const seconds = Math.floor(job.originalVideoDuration % 60);
+                    document.getElementById('originalVideoDuration').textContent = `${minutes}:${seconds.toString().padStart(2, '0')} (${job.originalVideoDuration} seconds)`;
+                } else {
+                    document.getElementById('originalVideoDuration').textContent = 'Not available';
+                }
+                let pickSegmentsText = job.pickSegments ? 'Yes' : 'No';
+                if (job.pickSegments && job.originalVideoDuration && job.originalVideoDuration < 180) {
+                    pickSegmentsText += ' (But the video was less than 3 minutes, so no segments selected)';
+                }
+                document.getElementById('pickSegments').textContent = pickSegmentsText;
                 document.getElementById('optimizeForAccuracy').textContent = job.optimizeForAccuracy ? 'Yes' : 'No';
                 document.getElementById('keepGraphics').textContent = job.keepGraphics ? 'Yes' : 'No';
                 document.getElementById('useStackCrop').textContent = job.useStackCrop ? 'Yes' : 'No';
@@ -120,7 +149,11 @@
                 } else {
                     document.getElementById('words').textContent = 'No words data available';
                 }
-                if (job.pickSegments) {
+                let showSegments = job.pickSegments;
+                if (job.originalVideoDuration && job.originalVideoDuration < 180) {
+                    showSegments = false;
+                }
+                if (showSegments) {
                     document.getElementById('segments-section').style.display = '';
                     if (job.segments) {
                         document.getElementById('segments').textContent = JSON.stringify(job.segments, null, 2);
@@ -133,7 +166,8 @@
 
                 const { total, clipped, cropped, captioned, finalized } = computeProgress(job);
                 const progressRow = document.getElementById('progressRow');
-                if (job.pickSegments && total > 0) {
+                const showProgress = showSegments && total > 0;
+                if (showProgress) {
                     progressRow.style.display = '';
                     progressRow.innerHTML = `<strong>Progress:</strong> Clipped ${clipped}/${total} · Cropped ${cropped}/${total} · Captioned ${captioned}/${total} · Finalized ${finalized}/${total}`;
                 } else {
@@ -156,7 +190,7 @@
                             </div>
                             <div class="video-links">
                                 <span class="status-badge" style="margin-right: 8px;">${status}</span>
-                                ${job.pickSegments ? (
+                                ${showSegments ? (
                                     video.clippedVideoUrl ? 
                                         `<a href="videoDetail.html?id=${video.id}&type=clipped" class="video-link">Clipped</a>` :
                                         `<span class="video-link" style="color: #666;">Clipped - pending</span>`
@@ -186,8 +220,6 @@
         }
 
         loadJob();
-        const intervalId = setInterval(loadJob, 5000);
-        window.addEventListener('beforeunload', () => clearInterval(intervalId));
     </script>
 </body>
 </html> 

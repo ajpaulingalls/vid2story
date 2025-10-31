@@ -92,14 +92,29 @@ export const convertToPortrait = async (
 };
 
 const runJob = async (job: Job) => {
-  const { filePath, pickSegments, id: jobId } = job;
+  const { pickSegments, id: jobId } = job;
+  let { filePath } = job;
   const baseUrl = `${process.env.BASE_URL}/generated/${jobId}/`;
   const outputDir = path.join(process.cwd(), 'public', 'generated', jobId);
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  await JobModel.update(jobId, { status: 'extracting-audio' });
+  const originalFileName = path.basename(filePath);
+  const newFilePath = path.join(outputDir, originalFileName);
+  await fs.promises.copyFile(filePath, newFilePath);
+  filePath = newFilePath;
+  const originalVideoUrl = `${baseUrl}${originalFileName}`;
+
+  const originalVideoDuration = await getVideoDuration(filePath);
+  console.log(`video duration: ${originalVideoDuration}`);
+
+  await JobModel.update(jobId, {
+    status: 'extracting-audio',
+    filePath,
+    originalVideoDuration,
+    originalVideoUrl,
+  });
 
   // Extract audio from video
   const audioPath = path.join(outputDir, 'audio.mp3');
@@ -123,13 +138,13 @@ const runJob = async (job: Job) => {
   const language = await detectTranscriptLanguage(words);
   await JobModel.update(jobId, { language });
 
-  const videoDuration = await getVideoDuration(filePath);
-  console.log(`video duration: ${videoDuration}`);
-
-  if (pickSegments && videoDuration > 180) {
+  if (pickSegments && originalVideoDuration > 180) {
     await JobModel.update(jobId, { status: 'generating-segments' });
 
-    const segments = await getBestSegmentsFromWords(words, job.additionalInstructions);
+    const segments = await getBestSegmentsFromWords(
+      words,
+      job.additionalInstructions,
+    );
     console.log(segments);
     await JobModel.update(jobId, { segments, status: 'clipping-segments' });
 
@@ -241,10 +256,9 @@ const runJob = async (job: Job) => {
     });
   } else {
     await JobModel.update(jobId, { status: 'cropping-full-video' });
-    const inputVideoPath = path.join(process.cwd(), filePath);
     const video = await VideoModel.create({
       jobId: jobId,
-      filePath: inputVideoPath,
+      filePath,
       publicId: jobId,
       transcript: transcript,
       title: 'Full Video',
@@ -258,7 +272,7 @@ const runJob = async (job: Job) => {
     const portraitVideoPath = path.join(outputDir, portraitVideoFilename);
 
     cropLandscapeToPortrait(
-      inputVideoPath,
+      filePath,
       portraitVideoPath,
       job.keepGraphics,
       job.useStackCrop,
@@ -270,7 +284,12 @@ const runJob = async (job: Job) => {
 
       const captionVideoFilename = `${jobId}-captions.mp4`;
       const captionVideoPath = path.join(outputDir, captionVideoFilename);
-      addCaptions(portraitVideoPath, transcriptPath, language, captionVideoPath).then(
+      addCaptions(
+        portraitVideoPath,
+        transcriptPath,
+        language,
+        captionVideoPath,
+      ).then(
         async () => {
           const captionVideoUrl = baseUrl + captionVideoFilename;
           await VideoModel.update(video.id, { captionVideoUrl });

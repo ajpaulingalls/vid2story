@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, text, integer, real } from 'drizzle-orm/sqlite-core';
 import { ViralPodcastSegments } from '../utils/openai';
 import { createId } from '@paralleldrive/cuid2';
 
@@ -9,6 +9,8 @@ export const jobs = sqliteTable('jobs', {
     .primaryKey(),
   name: text('name').notNull(),
   filePath: text('file_path').notNull(),
+  originalVideoUrl: text('original_video_url'),
+  originalVideoDuration: real('original_video_duration'),
   transcript: text('transcript').notNull(),
   language: text('language').notNull().default('en'),
   words: text('words', { mode: 'json' }),

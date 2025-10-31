@@ -29,6 +29,20 @@
       "when": 1760543866578,
       "tag": "0003_elite_sunset_bain",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1761949075350,
+      "tag": "0004_brief_vivisector",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1761949107430,
+      "tag": "0005_regular_harpoon",
+      "breakpoints": true
     }
   ]
 }
