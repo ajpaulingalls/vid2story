@@ -272,6 +272,65 @@ export const getKeyframeTimes = async (filepath: string): Promise<string> => {
 };
 
 /**
+ * Get the duration of a video file using ffprobe.
+ * @param filepath - Path to the video file
+ * @returns Promise<number> - The duration in seconds
+ */
+export const getVideoDuration = async (filepath: string): Promise<number> => {
+  return new Promise<number>((resolve, reject) => {
+    if (!ffprobePath) {
+      reject(new Error('FFprobe path not found'));
+      return;
+    }
+
+    const args = [
+      '-v',
+      'quiet',
+      '-show_entries',
+      'format=duration',
+      '-of',
+      'default=noprint_wrappers=1:nokey=1',
+      filepath,
+    ];
+
+    const ffprobeProcess = spawn(ffprobePath, args);
+    let output = '';
+    let errorOutput = '';
+
+    ffprobeProcess.stdout.on('data', (data: Buffer) => {
+      output += data.toString();
+    });
+
+    ffprobeProcess.stderr.on('data', (data: Buffer) => {
+      errorOutput += data.toString();
+    });
+
+    ffprobeProcess.on('close', (code: number) => {
+      if (code !== 0) {
+        reject(
+          new Error(`FFprobe process failed with code ${code}: ${errorOutput}`),
+        );
+        return;
+      }
+
+      const duration = parseFloat(output.trim());
+      if (isNaN(duration)) {
+        reject(
+          new Error(`Failed to parse duration from ffprobe output: ${output}`),
+        );
+        return;
+      }
+
+      resolve(duration);
+    });
+
+    ffprobeProcess.on('error', (processError: Error) => {
+      reject(new Error(`FFprobe process error: ${processError.message}`));
+    });
+  });
+};
+
+/**
  * Calculate the closest keyframe time to a given time in seconds.
  * @param csvData - CSV data containing keyframe times
  * @param timeInSeconds - The time in seconds to find the closest keyframe to

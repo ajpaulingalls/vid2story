@@ -13,6 +13,7 @@ import {
   copyAudio,
   extractAudio,
   getKeyframeTimes,
+  getVideoDuration,
   trimVideo,
 } from '../utils/ffmpeg';
 import fs from 'fs';
@@ -122,7 +123,10 @@ const runJob = async (job: Job) => {
   const language = await detectTranscriptLanguage(words);
   await JobModel.update(jobId, { language });
 
-  if (pickSegments) {
+  const videoDuration = await getVideoDuration(filePath);
+  console.log(`video duration: ${videoDuration}`);
+
+  if (pickSegments && videoDuration > 180) {
     await JobModel.update(jobId, { status: 'generating-segments' });
 
     const segments = await getBestSegmentsFromWords(words, job.additionalInstructions);
