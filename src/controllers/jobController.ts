@@ -1,11 +1,22 @@
 import { Request, Response, NextFunction } from 'express';
 import { JobModel } from '../models/job';
 
-// Read all jobs
+// Read all jobs with pagination
 export const getJobs = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const jobs = await JobModel.findAll();
-    res.json(jobs);
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 20;
+
+    // Validate pagination parameters
+    const validPage = Math.max(1, page);
+    const validLimit = Math.max(1, Math.min(100, limit)); // Limit max to 100 per page
+
+    const result = await JobModel.findAllPaginated({
+      page: validPage,
+      limit: validLimit,
+    });
+
+    res.json(result);
   } catch (error) {
     next(error);
   }

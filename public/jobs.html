@@ -24,39 +24,35 @@
     </div>
 
     <script>
-        let allJobs = [];
         let currentPage = 1;
-        const jobsPerPage = 50;
+        const jobsPerPage = 20;
+        let paginationInfo = null;
 
-        // Fetch all jobs
-        async function fetchJobs() {
+        // Fetch jobs for current page
+        async function fetchJobs(page = 1) {
             try {
-                const response = await fetch('/api/jobs');
+                const response = await fetch(`/api/jobs?page=${page}&limit=${jobsPerPage}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch jobs');
                 }
-                allJobs = await response.json();
-                displayJobs();
+                const result = await response.json();
+                paginationInfo = result.pagination;
+                displayJobs(result.data);
             } catch (error) {
                 console.error('Error fetching jobs:', error);
                 document.getElementById('jobsContent').innerHTML = `
                     <div class="error">
                         <h3>Error Loading Jobs</h3>
                         <p>Failed to load jobs. Please try again later.</p>
-                        <button onclick="fetchJobs()" style="padding: 8px 16px; background: #0066cc; color: white; border: none; border-radius: 4px; cursor: pointer;">Retry</button>
+                        <button onclick="fetchJobs(currentPage)" style="padding: 8px 16px; background: #0066cc; color: white; border: none; border-radius: 4px; cursor: pointer;">Retry</button>
                     </div>
                 `;
             }
         }
 
         // Display jobs for current page
-        function displayJobs() {
-            const startIndex = (currentPage - 1) * jobsPerPage;
-            const endIndex = startIndex + jobsPerPage;
-            const currentJobs = allJobs.slice(startIndex, endIndex);
-            const totalPages = Math.ceil(allJobs.length / jobsPerPage);
-
-            if (allJobs.length === 0) {
+        function displayJobs(jobs) {
+            if (!paginationInfo || jobs.length === 0) {
                 document.getElementById('jobsContent').innerHTML = `
                     <div style="text-align: center; padding: 40px; color: #666;">
                         <h3>No Jobs Found</h3>
@@ -65,6 +61,10 @@
                 `;
                 return;
             }
+
+            const { page, total, totalPages, limit } = paginationInfo;
+            const startIndex = (page - 1) * limit;
+            const endIndex = Math.min(startIndex + jobs.length, total);
 
             const jobsTable = `
                 <table class="jobs-table">
@@ -78,7 +78,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        ${currentJobs.map(job => `
+                        ${jobs.map(job => `
                             <tr>
                                 <td>
                                     <a href="jobDetail.html?id=${job.id}" class="job-link">${job.id}</a>
@@ -97,27 +97,27 @@
 
             const pagination = `
                 <div class="pagination">
-                    <button onclick="changePage(1)" ${currentPage === 1 ? 'disabled' : ''}>
+                    <button onclick="changePage(1)" ${page === 1 ? 'disabled' : ''}>
                         First
                     </button>
-                    <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    <button onclick="changePage(${page - 1})" ${page === 1 ? 'disabled' : ''}>
                         Previous
                     </button>
                     
                     <span class="pagination-info">
-                        Page ${currentPage} of ${totalPages}
+                        Page ${page} of ${totalPages}
                     </span>
                     
-                    <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    <button onclick="changePage(${page + 1})" ${page === totalPages ? 'disabled' : ''}>
                         Next
                     </button>
-                    <button onclick="changePage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    <button onclick="changePage(${totalPages})" ${page === totalPages ? 'disabled' : ''}>
                         Last
                     </button>
                 </div>
                 
                 <div style="text-align: center; margin-top: 10px; color: #666;">
-                    Showing ${startIndex + 1}-${Math.min(endIndex, allJobs.length)} of ${allJobs.length} jobs
+                    Showing ${startIndex + 1}-${endIndex} of ${total} jobs
                 </div>
             `;
 
@@ -126,17 +126,16 @@
 
         // Change page
         function changePage(page) {
-            const totalPages = Math.ceil(allJobs.length / jobsPerPage);
-            if (page >= 1 && page <= totalPages) {
+            if (paginationInfo && page >= 1 && page <= paginationInfo.totalPages) {
                 currentPage = page;
-                displayJobs();
+                fetchJobs(page);
                 // Scroll to top of jobs content
                 document.getElementById('jobsContent').scrollIntoView({ behavior: 'smooth' });
             }
         }
 
         // Initialize page
-        document.addEventListener('DOMContentLoaded', fetchJobs);
+        document.addEventListener('DOMContentLoaded', () => fetchJobs(currentPage));
     </script>
 </body>
 </html>
