@@ -1,4 +1,8 @@
-import { OpenAI } from 'openai';
+import {
+  AuthenticationError,
+  OpenAI,
+  PermissionDeniedError,
+} from 'openai';
 import config from '../config/config';
 import fs from 'fs';
 import { TranscriptionWord } from 'openai/resources/audio/transcriptions';
@@ -7,17 +11,57 @@ const openai = new OpenAI({
   apiKey: config.openaiApiKey,
 });
 
-export const generateTranscriptJson = async (videoPath: string) => {
-  console.log('Transcripting audio...');
-  const transcript = await openai.audio.transcriptions.create({
-    file: fs.createReadStream(videoPath),
-    model: 'whisper-1',
-    response_format: 'verbose_json',
-    timestamp_granularities: ['word'],
-  });
-  console.log('Transcripting complete');
+const MAX_TRANSCRIPTION_RETRIES = 3;
+const BASE_RETRY_DELAY_MS = 1000;
 
-  return transcript.words;
+const sleep = (durationMs: number) =>
+  new Promise(resolve => setTimeout(resolve, durationMs));
+
+export const generateTranscriptJson = async (
+  videoPath: string,
+): Promise<TranscriptionWord[]> => {
+  console.log('Transcripting audio...');
+
+  for (let attempt = 0; attempt <= MAX_TRANSCRIPTION_RETRIES; attempt++) {
+    try {
+      const transcript = await openai.audio.transcriptions.create({
+        file: fs.createReadStream(videoPath),
+        model: 'whisper-1',
+        response_format: 'verbose_json',
+        timestamp_granularities: ['word'],
+      });
+
+      console.log('Transcripting complete');
+      return transcript.words ?? [];
+    } catch (error) {
+      const isPermissionError =
+        error instanceof PermissionDeniedError ||
+        error instanceof AuthenticationError;
+
+      if (isPermissionError) {
+        console.error('Transcripting failed due to permission error', error);
+        throw error;
+      }
+
+      const finalAttempt = attempt === MAX_TRANSCRIPTION_RETRIES;
+      console.warn(
+        `Transcripting attempt ${attempt + 1} failed${
+          finalAttempt ? '' : ', retrying with backoff...'
+        }`,
+        error,
+      );
+
+      if (finalAttempt) {
+        throw error;
+      }
+
+      const backoffDelay = BASE_RETRY_DELAY_MS * 2 ** attempt;
+      await sleep(backoffDelay);
+    }
+  }
+
+  // Should not be reached, but keeps TypeScript satisfied.
+  return [];
 };
 
 const SPLIT_TRANSCRIPT_SYSTEM_PROMPT = `

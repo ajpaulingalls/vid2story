@@ -2,11 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import multer from 'multer';
 import path from 'path';
 import { Job, NewJob, JobModel } from '../models/job';
-import {
-  generateTranscriptJson,
-  getBestSegmentsFromWords,
-  detectTranscriptLanguage,
-} from '../utils/openai';
+import { getBestSegmentsFromWords, detectTranscriptLanguage } from '../utils/openai';
 import {
   addCaptions,
   calculateClosestKeyframeTime,
@@ -19,6 +15,7 @@ import {
 import fs from 'fs';
 import { clipWordsToSRT, formatSRTTime, wordsToSRT } from '../utils/transcript';
 import { saveStringToFile } from '../utils/file';
+import { transcribeFile } from '../utils/transcribe';
 import { VideoModel } from '../models/video';
 import { cropLandscapeToPortrait } from '../utils/land2port';
 
@@ -79,7 +76,7 @@ export const convertToPortrait = async (
       // Add job to the jobs array
       const job = await JobModel.create(newJob);
       runJob(job).then(() => {
-        console.log('job completed');
+        console.log('job running');
       });
 
       // Redirect to the job status page
@@ -123,7 +120,7 @@ const runJob = async (job: Job) => {
   // Generate transcript
   await JobModel.update(jobId, { status: 'generating-transcript' });
   const transcriptPath = path.join(outputDir, 'transcript.srt');
-  const words = await generateTranscriptJson(audioPath);
+  const words = await transcribeFile(audioPath);
   if (!words) {
     console.error('Failed to generate transcript');
     await JobModel.update(jobId, { status: 'failed' });
