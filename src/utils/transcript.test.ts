@@ -1,5 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
-import { wordsToSRT, clipWordsToSRT } from './transcript';
+import { wordsToSRT, clipWordsToSRT, formatSRTTime } from './transcript';
+import { REAL_SEGMENTS, REAL_WORDS } from './testData';
 
 describe('wordsToSRT', () => {
   it('should handle empty array', () => {
@@ -169,8 +170,8 @@ describe('clipWordsToSRT', () => {
   it('should clip words to specified time range and start at 0', () => {
     const result = clipWordsToSRT(
       sampleWords,
-      '00:00:04,000',
-      '00:00:06,000',
+      '00:00:04.000',
+      '00:00:06.000',
     );
     const expected = `1
 00:00:00,000 --> 00:00:01,200
@@ -179,15 +180,15 @@ This is a test`;
   });
 
   it('should handle empty words array', () => {
-    const result = clipWordsToSRT([], '00:00:01,000', '00:00:04,000');
+    const result = clipWordsToSRT([], '00:00:01.000', '00:00:04.000');
     expect(result).toBe('');
   });
 
   it('should handle words with no entries in time range', () => {
     const result = clipWordsToSRT(
       sampleWords,
-      '00:00:20,000',
-      '00:00:25,000',
+      '00:00:20.000',
+      '00:00:25.000',
     );
     expect(result).toBe('');
   });
@@ -195,8 +196,8 @@ This is a test`;
   it('should handle partial overlap with start time', () => {
     const result = clipWordsToSRT(
       sampleWords,
-      '00:00:01,500',
-      '00:00:03,000',
+      '00:00:01.500',
+      '00:00:03.000',
     );
     const expected = `1
 00:00:00,000 --> 00:00:00,400
@@ -207,8 +208,8 @@ world`;
   it('should handle partial overlap with end time', () => {
     const result = clipWordsToSRT(
       sampleWords,
-      '00:00:07,000',
-      '00:00:08,500',
+      '00:00:07.000',
+      '00:00:08.500',
     );
     const expected = `1
 00:00:00,000 --> 00:00:00,500
@@ -219,8 +220,8 @@ Goodbye`;
   it('should handle words that span across the time range', () => {
     const result = clipWordsToSRT(
       sampleWords,
-      '00:00:00,500',
-      '00:00:09,500',
+      '00:00:00.500',
+      '00:00:09.500',
     );
     const expected = `1
 00:00:00,000 --> 00:00:01,200
@@ -239,12 +240,36 @@ Goodbye everyone`;
   it('should handle single word in time range', () => {
     const result = clipWordsToSRT(
       sampleWords,
-      '00:00:01,500',
-      '00:00:02,000',
+      '00:00:01.500',
+      '00:00:02.000',
     );
     const expected = `1
 00:00:00,000 --> 00:00:00,200
 world`;
     expect(result).toBe(expected);
+  });
+
+  it('should handle words ending exactly at end boundary', () => {
+    const words = [
+      { word: 'Hello', start: 1.0, end: 1.5 },
+      { word: 'world', start: 1.8, end: 2.2 },
+      { word: 'test', start: 2.2, end: 2.2 }, // Zero duration word ending at boundary
+    ];
+    const result = clipWordsToSRT(
+      words,
+      '00:00:01.000',
+      '00:00:02.200',
+    );
+    expect(result).toContain('test');
+    expect(result).toContain('Hello world');
+  });
+
+  it('should handle real words and segments', () => {
+    const result = clipWordsToSRT(
+      REAL_WORDS,
+      formatSRTTime(REAL_SEGMENTS.segments[2].start).replace(',', '.'),
+      formatSRTTime(REAL_SEGMENTS.segments[2].end).replace(',', '.'),
+    );
+    expect(result).toContain('Wanjiru has lived it firsthand');
   });
 });

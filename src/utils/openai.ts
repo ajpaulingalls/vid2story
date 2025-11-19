@@ -13,6 +13,11 @@ const openai = new OpenAI({
 
 const MAX_TRANSCRIPTION_RETRIES = 3;
 const BASE_RETRY_DELAY_MS = 1000;
+const CHUNK_DURATION_SECONDS = 45 * 60; // 45 minutes
+const CHUNK_OVERLAP_SECONDS = 3 * 60; // 3 minutes
+const SEGMENT_DEDUPE_TOLERANCE_SECONDS = 1;
+const MAX_START_BOUNDARY_ADJUSTMENT_SECONDS = 0.2;
+const MAX_END_BOUNDARY_ADJUSTMENT_SECONDS = 0.1;
 
 const sleep = (durationMs: number) =>
   new Promise(resolve => setTimeout(resolve, durationMs));
@@ -109,24 +114,90 @@ export type ViralPodcastSegments = {
   }[];
 };
 
-export const getBestSegmentsFromWords = async (
-  words: TranscriptionWord[],
-  additionalInstructions?: string | null,
-): Promise<ViralPodcastSegments> => {
-  console.log('Generating segments...');
-  
-  // Build the system prompt with additional instructions if provided
-  let systemPrompt = SPLIT_TRANSCRIPT_SYSTEM_PROMPT;
-  if (additionalInstructions) {
-    console.log('Additional Instructions from the user for this segment selection:', additionalInstructions);
-    systemPrompt += `\nAdditional Instructions from the user for this segment selection: ${additionalInstructions}\nPlease pay close attention to these instructions as you generate the segments`;
+type TranscriptChunk = {
+  words: TranscriptionWord[];
+  start: number;
+  end: number;
+};
+
+const getWordStartTime = (word: TranscriptionWord): number =>
+  typeof word.start === 'number'
+    ? word.start
+    : typeof word.end === 'number'
+      ? word.end
+      : 0;
+
+const getWordEndTime = (word: TranscriptionWord): number =>
+  typeof word.end === 'number'
+    ? word.end
+    : typeof word.start === 'number'
+      ? word.start
+      : 0;
+
+const buildTranscriptChunks = (words: TranscriptionWord[]): TranscriptChunk[] => {
+  if (!words.length) {
+    return [];
   }
-  
+
+  const sortedWords = [...words].sort(
+    (a, b) => getWordStartTime(a) - getWordStartTime(b),
+  );
+
+  const overallStart = getWordStartTime(sortedWords[0]);
+  const overallEnd = getWordEndTime(sortedWords[sortedWords.length - 1]);
+  const totalDuration = overallEnd - overallStart;
+
+  if (totalDuration <= CHUNK_DURATION_SECONDS) {
+    return [
+      {
+        words: sortedWords,
+        start: overallStart,
+        end: overallEnd,
+      },
+    ];
+  }
+
+  const chunks: TranscriptChunk[] = [];
+  let windowStart = overallStart;
+
+  while (windowStart < overallEnd) {
+    const windowEnd = Math.min(windowStart + CHUNK_DURATION_SECONDS, overallEnd);
+    const chunkWords = sortedWords.filter(
+      word =>
+        getWordEndTime(word) > windowStart && getWordStartTime(word) < windowEnd,
+    );
+
+    if (chunkWords.length > 0) {
+      chunks.push({
+        words: chunkWords,
+        start: windowStart,
+        end: getWordEndTime(chunkWords[chunkWords.length - 1]),
+      });
+    }
+
+    if (windowEnd >= overallEnd) {
+      break;
+    }
+
+    windowStart = windowEnd - CHUNK_OVERLAP_SECONDS;
+  }
+
+  return chunks;
+};
+
+const requestSegmentsForChunk = async (
+  chunkWords: TranscriptionWord[],
+  systemPrompt: string,
+): Promise<ViralPodcastSegments['segments']> => {
+  if (!chunkWords.length) {
+    return [];
+  }
+
   const response = await openai.chat.completions.create({
     model: 'gpt-5',
     messages: [
       { role: 'system', content: systemPrompt },
-      { role: 'user', content: JSON.stringify(words) },
+      { role: 'user', content: JSON.stringify(chunkWords) },
     ],
     response_format: {
       type: 'json_schema',
@@ -174,51 +245,109 @@ export const getBestSegmentsFromWords = async (
     },
   });
 
-  console.log('Generating segments complete');
+  const parsed = JSON.parse(
+    response.choices[0].message.content || '{}',
+  ) as ViralPodcastSegments;
 
-  const result = JSON.parse(response.choices[0].message.content || '{}') as ViralPodcastSegments;
-  
-  // Helper function to find the word just before a given time
-  const findWordBefore = (time: number): TranscriptionWord | null => {
-    let lastWord: TranscriptionWord | null = null;
-    for (const word of words) {
-      if (word.start >= time) {
-        break;
-      }
-      lastWord = word;
+  return parsed.segments ?? [];
+};
+
+const dedupeSegments = (
+  segments: ViralPodcastSegments['segments'],
+): ViralPodcastSegments['segments'] => {
+  const uniqueSegments: ViralPodcastSegments['segments'] = [];
+
+  for (const segment of segments) {
+    if (
+      !Number.isFinite(segment.start) ||
+      !Number.isFinite(segment.end) ||
+      segment.start >= segment.end
+    ) {
+      continue;
     }
-    return lastWord;
+
+    const alreadyExists = uniqueSegments.some(existing => {
+      const startDelta = Math.abs(existing.start - segment.start);
+      const endDelta = Math.abs(existing.end - segment.end);
+      return (
+        startDelta <= SEGMENT_DEDUPE_TOLERANCE_SECONDS &&
+        endDelta <= SEGMENT_DEDUPE_TOLERANCE_SECONDS
+      );
+    });
+
+    if (!alreadyExists) {
+      uniqueSegments.push({
+        ...segment,
+        duration: segment.end - segment.start,
+      });
+    }
+  }
+
+  return uniqueSegments.sort((a, b) => a.start - b.start);
+};
+
+export const adjustSegmentsToWordBoundaries = (
+  segments: ViralPodcastSegments['segments'],
+  words: TranscriptionWord[],
+): ViralPodcastSegments['segments'] => {
+  if (!segments.length || !words.length) {
+    return segments;
+  }
+
+  const sortedWords = [...words].sort(
+    (a, b) => getWordStartTime(a) - getWordStartTime(b),
+  );
+
+  const findWordBefore = (time: number): TranscriptionWord | null => {
+    for (let i = sortedWords.length - 1; i >= 0; i--) {
+      if (getWordStartTime(sortedWords[i]) <= time) {
+        return sortedWords[i];
+      }
+    }
+    return null;
   };
 
-  // Helper function to find the word just after a given time
   const findWordAfter = (time: number): TranscriptionWord | null => {
-    for (const word of words) {
-      if (word.start > time) {
+    for (const word of sortedWords) {
+      if (getWordStartTime(word) > time) {
         return word;
       }
     }
     return null;
   };
 
-  // Adjust timing using word boundaries
-  result.segments = result.segments.map(segment => {
-    // Find the word just before the start time and calculate the difference
+  return segments.map(segment => {
     const wordBeforeStart = findWordBefore(segment.start);
     let newStart = segment.start;
     if (wordBeforeStart) {
-      const wordBoundaryDifference = segment.start - wordBeforeStart.end;
-      const maxAdjustment = 0.2; // Maximum 0.2 seconds adjustment
-      const adjustment = Math.min(wordBoundaryDifference, maxAdjustment);
-      newStart = segment.start - adjustment;
+      const wordStart = getWordStartTime(wordBeforeStart);
+      const wordEnd = getWordEndTime(wordBeforeStart);
+      
+      // Check if segment starts within a word (between word.start and word.end)
+      if (segment.start >= wordStart && segment.start <= wordEnd) {
+        // Segment starts in the middle of a word - adjust to word start
+        const adjustmentNeeded = segment.start - wordStart;
+        const adjustment = Math.min(
+          adjustmentNeeded,
+          MAX_START_BOUNDARY_ADJUSTMENT_SECONDS,
+        );
+        newStart = segment.start - adjustment;
+      } else {
+        // Segment starts after word ends - check for gap
+        const gap = Math.max(0, segment.start - wordEnd);
+        const adjustment = Math.min(
+          gap,
+          MAX_START_BOUNDARY_ADJUSTMENT_SECONDS,
+        );
+        newStart = segment.start - adjustment;
+      }
     }
 
-    // Find the word just after the end time and calculate the difference
     const wordAfterEnd = findWordAfter(segment.end);
     let newEnd = segment.end;
     if (wordAfterEnd) {
-      const wordBoundaryDifference = wordAfterEnd.start - segment.end;
-      const maxAdjustment = 0.1; // Maximum 0.1 seconds adjustment
-      const adjustment = Math.min(wordBoundaryDifference, maxAdjustment);
+      const gap = Math.max(0, getWordStartTime(wordAfterEnd) - segment.end);
+      const adjustment = Math.min(gap, MAX_END_BOUNDARY_ADJUSTMENT_SECONDS);
       newEnd = segment.end + adjustment;
     }
 
@@ -226,11 +355,58 @@ export const getBestSegmentsFromWords = async (
       ...segment,
       start: newStart,
       end: newEnd,
-      duration: newEnd - newStart
+      duration: newEnd - newStart,
     };
   });
+};
 
-  return result;
+export const getBestSegmentsFromWords = async (
+  words: TranscriptionWord[],
+  additionalInstructions?: string | null,
+): Promise<ViralPodcastSegments> => {
+  console.log('Generating segments...');
+
+  if (!words || words.length === 0) {
+    return { segments: [] };
+  }
+
+  const normalizedWords = [...words].sort(
+    (a, b) => getWordStartTime(a) - getWordStartTime(b),
+  );
+
+  // Build the system prompt with additional instructions if provided
+  let systemPrompt = SPLIT_TRANSCRIPT_SYSTEM_PROMPT;
+  if (additionalInstructions) {
+    console.log(
+      'Additional Instructions from the user for this segment selection:',
+      additionalInstructions,
+    );
+    systemPrompt += `\nAdditional Instructions from the user for this segment selection: ${additionalInstructions}\nPlease pay close attention to these instructions as you generate the segments`;
+  }
+
+  const chunks = buildTranscriptChunks(normalizedWords);
+  const aggregatedSegments: ViralPodcastSegments['segments'] = [];
+
+  for (let i = 0; i < chunks.length; i++) {
+    const chunk = chunks[i];
+    if (chunks.length > 1) {
+      console.log(
+        `Processing transcript chunk ${i + 1}/${chunks.length} (${chunk.words.length} words, ${Math.round(chunk.start)}s-${Math.round(chunk.end)}s)`,
+      );
+    }
+    const chunkSegments = await requestSegmentsForChunk(chunk.words, systemPrompt);
+    aggregatedSegments.push(...chunkSegments);
+  }
+
+  const dedupedSegments = dedupeSegments(aggregatedSegments);
+  const adjustedSegments = adjustSegmentsToWordBoundaries(
+    dedupedSegments,
+    normalizedWords,
+  );
+
+  console.log('Generating segments complete');
+
+  return { segments: adjustedSegments };
 };
 
 const DETECT_LANGUAGE_SYSTEM_PROMPT = `

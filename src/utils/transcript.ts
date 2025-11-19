@@ -131,18 +131,37 @@ export function clipWordsToSRT(
   const endSeconds = moment.duration(endTime).asSeconds();
 
   // Filter words that overlap the time range
-  const clippedWords = words.filter((word) => {
-    return word.start < endSeconds && word.end > startSeconds;
-  });
+  // Include words that start exactly at startSeconds or end exactly at endSeconds (even with zero duration)
+  // Use a small epsilon for floating point comparison
+  const EPSILON = 0.0001;
+  const clippedWords = words
+    .filter((word) => {
+      const startsAtBoundary = Math.abs(word.start - startSeconds) < EPSILON;
+      const endsAtBoundary = Math.abs(word.end - endSeconds) < EPSILON;
+      // Include if word overlaps the range, or starts at start boundary, or ends at end boundary
+      const overlaps = word.start < endSeconds && word.end > startSeconds;
+      return overlaps || startsAtBoundary || endsAtBoundary;
+    })
+    .sort((a, b) => {
+      // Sort by start time, then by end time for words with same start
+      if (a.start !== b.start) return a.start - b.start;
+      return a.end - b.end;
+    });
 
   if (clippedWords.length === 0) return '';
 
   // Adjust word timestamps to start from 0 and trim to fit within the range
-  const adjustedWords = clippedWords.map((word) => ({
-    ...word,
-    start: Math.max(word.start, startSeconds) - startSeconds,
-    end: Math.min(word.end, endSeconds) - startSeconds,
-  }));
+  const adjustedWords = clippedWords.map((word) => {
+    const adjustedStart = Math.max(word.start, startSeconds) - startSeconds;
+    const adjustedEnd = Math.min(word.end, endSeconds) - startSeconds;
+    // Ensure zero-duration words have a minimum duration to be processed correctly
+    const finalEnd = adjustedEnd <= adjustedStart ? adjustedStart + 0.001 : adjustedEnd;
+    return {
+      ...word,
+      start: adjustedStart,
+      end: finalEnd,
+    };
+  });
 
   // Convert adjusted words to SRT format
   const srtResult = wordsToSRT(adjustedWords);
