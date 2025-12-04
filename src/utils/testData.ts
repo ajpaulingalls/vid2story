@@ -1,5 +1,5 @@
 import { TranscriptionWord } from "openai/resources/audio/transcriptions";
-import { ViralPodcastSegments } from "./openai";
+import { ViralPodcastSegments } from "./segment";
 
 export const REAL_SEGMENTS_PRE_ADJUSTMENT = {
     "segments": [

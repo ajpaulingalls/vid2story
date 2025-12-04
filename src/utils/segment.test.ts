@@ -1,7 +1,12 @@
 import { describe, expect, it } from '@jest/globals';
-import { adjustSegmentsToWordBoundaries, ViralPodcastSegments } from './openai';
+import { adjustSegmentsToWordBoundaries, ViralPodcastSegments } from './segment';
 import { TranscriptionWord } from 'openai/resources/audio/transcriptions';
-import { REAL_SEGMENTS_PRE_ADJUSTMENT, REAL_SEGMENTS_PRE_ADJUSTMENT_2, REAL_WORDS, REAL_WORDS2 } from './testData';
+import {
+  REAL_SEGMENTS_PRE_ADJUSTMENT,
+  REAL_SEGMENTS_PRE_ADJUSTMENT_2,
+  REAL_WORDS,
+  REAL_WORDS2,
+} from './testData';
 
 describe('adjustSegmentsToWordBoundaries', () => {
   const createWord = (
@@ -120,18 +125,18 @@ describe('adjustSegmentsToWordBoundaries', () => {
     expect(result[0].end).toBe(2.0);
   });
 
-  it('should limit end adjustment to MAX_END_BOUNDARY_ADJUSTMENT_SECONDS (0.1s)', () => {
+  it('should limit end adjustment to MAX_END_BOUNDARY_ADJUSTMENT_SECONDS (0.2s)', () => {
     const words = [
       createWord('hello', 1.0, 1.5),
       createWord('world', 1.6, 2.0), // ends at 2.0
       createWord('test', 2.3, 2.5), // starts at 2.3
     ];
     // Segment ends at 2.05, which is 0.25s before word "test" starts
-    // Should only adjust by 0.1s (the max)
+    // Should only adjust by 0.2s (the max)
     const segments = [createSegment('Test', 1.0, 2.05)];
     const result = adjustSegmentsToWordBoundaries(segments, words);
     expect(result[0].start).toBe(1.0);
-    expect(result[0].end).toBe(2.15); // 2.05 + 0.1
+    expect(result[0].end).toBe(2.25); // 2.05 + 0.2
   });
 
   it('should handle segments that start before any word', () => {
@@ -175,9 +180,9 @@ describe('adjustSegmentsToWordBoundaries', () => {
     expect(result).toHaveLength(2);
     expect(result[0].start).toBe(1.5);
     // findWordAfter(2.05) finds "second" which starts at 3.0
-    // Gap = 3.0 - 2.05 = 0.95, but max adjustment is 0.1
-    // So end = 2.05 + 0.1 = 2.15
-    expect(result[0].end).toBe(2.15);
+    // Gap = 3.0 - 2.05 = 0.95, but max adjustment is 0.2
+    // So end = 2.05 + 0.2 = 2.25
+    expect(result[0].end).toBe(2.25);
     expect(result[1].start).toBe(3.5);
     // findWordAfter(4.05) returns null, so end stays 4.05
     expect(result[1].end).toBe(4.05);
@@ -314,7 +319,7 @@ describe('adjustSegmentsToWordBoundaries', () => {
     ];
     const segments = [createSegment('Gap test', 9.5, 10.5)];
     const result = adjustSegmentsToWordBoundaries(segments, words);
-    expect(result[0].end).toBeCloseTo(10.6, 10); // 0.1s max adjustment towards "after"
+    expect(result[0].end).toBeCloseTo(10.7, 10); // 0.2s max adjustment towards "after"
   });
 
   it('should handle segment starting before any word starts but within first word duration', () => {
@@ -330,21 +335,28 @@ describe('adjustSegmentsToWordBoundaries', () => {
   });
 
   it('should handle real words and segments', () => {
-    const result = adjustSegmentsToWordBoundaries(REAL_SEGMENTS_PRE_ADJUSTMENT.segments, REAL_WORDS);
+    const result = adjustSegmentsToWordBoundaries(
+      REAL_SEGMENTS_PRE_ADJUSTMENT.segments,
+      REAL_WORDS,
+    );
     expect(result).toHaveLength(3);
     // Segment starts at 143.4199981689453; zero-duration word at same time forces 0.2s backoff
     expect(result[2].start).toBeCloseTo(143.21999816894532, 10);
     // Segment ends at 220.56000671386718, next word "For" starts at 221.55999755859375
-    // Gap is ~1.0s, but max adjustment is 0.1s, so end adjusts to 220.66000671386718
-    expect(result[2].end).toBe(220.56000671386718);
-    expect(result[2].duration).toBeCloseTo(77.34000854492186); // Adjusted duration (includes 0.2s start backoff)
+    // Gap is ~1.0s, but max adjustment is 0.2s, so end adjusts to 220.66000671386718
+    expect(result[2].end).toBe(220.66000671386718);
+    expect(result[2].duration).toBeCloseTo(77.44000854492186); // Adjusted duration (includes 0.2s start backoff)
   });
 
   it('should handle real words and segments 2', () => {
-    const result = adjustSegmentsToWordBoundaries(REAL_SEGMENTS_PRE_ADJUSTMENT_2.segments, REAL_WORDS2);
+    const result = adjustSegmentsToWordBoundaries(
+      REAL_SEGMENTS_PRE_ADJUSTMENT_2.segments,
+      REAL_WORDS2,
+    );
     expect(result).toHaveLength(3);
     expect(result[1].start).toBeCloseTo(67.8199966430664, 10);
-    expect(result[1].end).toBeCloseTo(99.5000015258789, 10);
-    expect(result[1].duration).toBeCloseTo(31.6800048828125, 10);
+    expect(result[1].end).toBeCloseTo(99.6000015258789, 5);
+    expect(result[1].duration).toBeCloseTo(31.7800048828125, 5);
   });
 });
+

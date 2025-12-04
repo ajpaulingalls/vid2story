@@ -7,15 +7,14 @@ import { TranscriptionWord } from 'openai/resources/audio/transcriptions';
 import { generateTranscriptJson } from './openai';
 import { getVideoDuration } from './ffmpeg';
 
-const MAX_AUDIO_UPLOAD_BYTES = 24 * 1024 * 1024;
-const SAFETY_BUFFER_BYTES = 512 * 1024; // 0.5 MB buffer to stay under limit
+const MAX_AUDIO_UPLOAD_BYTES = 20 * 1024 * 1024; // 20 MB, max is 25 MB so should be safe
 
 export const transcribeFile = async (
   audioPath: string,
   language: string = 'en',
 ): Promise<TranscriptionWord[]> => {
   const stats = await fs.promises.stat(audioPath);
-  if (stats.size <= (MAX_AUDIO_UPLOAD_BYTES - SAFETY_BUFFER_BYTES)) {
+  if (stats.size <= MAX_AUDIO_UPLOAD_BYTES) {
     return (await generateTranscriptJson(audioPath, language)) ?? [];
   }
 
@@ -80,12 +79,8 @@ const calculateChunkDurationSeconds = (
   fileSizeBytes: number,
   totalDurationSeconds: number,
 ): number => {
-  const effectiveLimit = Math.max(
-    1,
-    MAX_AUDIO_UPLOAD_BYTES - SAFETY_BUFFER_BYTES,
-  );
   const bytesPerSecond = fileSizeBytes / totalDurationSeconds;
-  const rawDuration = effectiveLimit / Math.max(bytesPerSecond, 1);
+  const rawDuration = MAX_AUDIO_UPLOAD_BYTES / Math.max(bytesPerSecond, 1);
 
   const duration = Math.floor(rawDuration);
   return Math.max(1, Math.min(duration || 1, totalDurationSeconds));

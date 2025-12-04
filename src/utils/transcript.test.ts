@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { wordsToSRT, clipWordsToSRT, formatSRTTime } from './transcript';
 import { REAL_SEGMENTS_PRE_ADJUSTMENT, REAL_WORDS } from './testData';
-import { adjustSegmentsToWordBoundaries } from './openai';
+import { adjustSegmentsToWordBoundaries } from './segment';
 
 describe('wordsToSRT', () => {
   it('should handle empty array', () => {
