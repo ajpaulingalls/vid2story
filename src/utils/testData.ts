@@ -1,46 +1,60 @@
+import { TranscriptionWord } from "openai/resources/audio/transcriptions";
 import { ViralPodcastSegments } from "./openai";
 
-export const REAL_SEGMENTS = {
+export const REAL_SEGMENTS_PRE_ADJUSTMENT = {
     "segments": [
       {
         "title": "We’ve Lost All Our Fear: Kenya’s Youth Rise Up",
         "summary": "A defiant opener captures Kenya’s emboldened youth declaring they will no longer accept impunity. It quickly frames the stakes: an IMF‑linked finance bill proposing harsh austerity in a country where nearly half live below the poverty line. This sets the emotional and political context for why a new generation is flooding the streets.",
         "caption": "“We’ve lost all our fear.” Why Kenya’s Gen Z took to the streets—from IMF taxes to everyday survival. #Kenya #GenZ #IMF #RejectFinanceBill",
         "start": 0,
-        "end": 40.89999923706055,
-        "duration": 40.89999923706055
+        "end": 40.79999923706055,
+        "duration": 40.79999923706055
       },
       {
         "title": "From Peaceful Protest to Tragedy: The Killing of Rex Masai",
         "summary": "What began as a peaceful demonstration against economic injustice turned deadly with the killing of protester Rex Masai. The clip connects his death to a decades‑long pattern of police violence and highlights a chilling statistic: not a single officer apprehended for dozens of documented killings. It closes on charges of deepening corruption at the top.",
         "caption": "A peaceful protest. A young life taken. “Not a single officer held to account.” #RexMasai #StopPoliceViolence #KenyaProtests",
         "start": 44.58000183105469,
-        "end": 82.79999694824218,
-        "duration": 38.219995117187494
+        "end": 82.69999694824219,
+        "duration": 38.119995117187494
       },
       {
         "title": "“He Lives in My Heart”: Wanjiru’s Story of Loss and Resolve",
         "summary": "Wanjiru recounts growing up in Mathare, where childhood memories are shadowed by police violence. At 12, she lost her brother Damason—shot during post‑election unrest. She remembers his promise and care, the moment he was killed while running, and the enduring pain. Her grief transforms into a lifelong commitment to justice, carrying his memory in her heart.",
         "caption": "At 12 she lost her brother to police bullets. She turned grief into courage—and a fight for justice. #Mathare #JusticeForAll #Kenya",
         "start": 143.4199981689453,
-        "end": 220.56000671386718,
-        "duration": 77.14000854492187
+        "end": 220.4600067138672,
+        "duration": 77.04000854492187
+      }
+    ]
+  } as ViralPodcastSegments;
+
+  export const REAL_SEGMENTS_PRE_ADJUSTMENT_2 = {
+    segments: [
+      {
+        title: 'Go, War, and the West Bank: The Hook',
+        summary: 'The episode opens with a stark strategic mantra—control access, encircle the opponent, then take their land—before revealing it’s the ancient Chinese game of Go. The host admits he’s learning and struggling with the game, but says its logic helps explain Israeli policy in the occupied West Bank, setting the stage for the investigation ahead.',
+        caption: 'Control the access points. Encircle. Annex. An ancient game explains a modern occupation. Stay with me. #Go #WestBank #Politics',
+        start: 0,
+        end: 61.119998931884766,
+        duration: 61.119998931884766
       },
       {
-        "title": "The Day Parliament Fell: How Youth Forced a U‑Turn",
-        "summary": "Kenya’s “mother of all protests” brought unprecedented unity—citizens brought water, doctors offered free aid, lawyers stood by. The uprising culminated in the storming of parliament and the withdrawal of the finance bill. The segment ends with a powerful declaration: this is no longer just activists—it’s ordinary Kenyans defending themselves.",
-        "caption": "Water bearers, doctors, lawyers—thousands united until the bill was withdrawn. “This is the ordinary Kenyan citizen.” #OccupyParliament #KenyaUprising",
-        "start": 298.1000061035156,
-        "end": 342.32000122070315,
-        "duration": 44.21999511718752
+        title: 'Go 101: The Strategy Behind the Board',
+        summary: 'A rapid, clear breakdown of Go: two players place stones to claim territory and limit movement. Cornering and surrounding forces the opponent’s stones off the board—and the land becomes yours. This concise primer sets up the strategic lens for the rest of the story.',
+        caption: 'Go in 30 seconds: surround your opponent, take the land. Simple to learn, brutal in practice. #GoGame #Strategy',
+        start: 68.0199966430664,
+        end: 99.4000015258789,
+        duration: 31.3800048828125
       },
       {
-        "title": "They Threw Me Into a Van. I Came Back Stronger.",
-        "summary": "Fitness instructor Shakira Ofula describes her first protest, a mother’s warning, and a swift, forceful arrest by plainclothes officers. Instead of silencing her, a night in a packed cell galvanized her resolve. Two days later she returned to the streets with a vow not to be intimidated—standing her ground even when confronted by armed men.",
-        "caption": "Plainclothes cops. A cell of 100 women. “I won’t be arrested again.” The courage of Kenya’s Gen Z. #ShakiraOfula #GenZRevolt #Kenya",
-        "start": 550.3200073242188,
-        "end": 615.4599853515625,
-        "duration": 65.13997802734377
+        title: 'The Matrix of Control',
+        summary: 'Anthropologist Jeff Halper explains Israel’s “matrix of control”: settlements, checkpoints, and roads positioned like nodes on a grid to immobilize Palestinians, enable rapid military response, and create a seamless system of dominance—mirroring how you win at Go by controlling key points across the board.',
+        caption: '“Immobilize by controlling the nodes.” The West Bank as a strategy board. #MatrixOfControl #WestBank #Go',
+        start: 212.63999938964844,
+        end: 260.2200012207031,
+        duration: 47.58000183105469
       }
     ]
   } as ViralPodcastSegments;
@@ -2930,6315 +2944,4133 @@ export const REAL_SEGMENTS = {
       "word": "activists",
       "start": 231.4600067138672,
       "end": 232.1199951171875
-    },
-    {
-      "word": "So",
-      "start": 232.55999755859375,
-      "end": 232.8000030517578
-    },
-    {
-      "word": "we",
-      "start": 232.8000030517578,
-      "end": 232.9600067138672
-    },
-    {
-      "word": "started",
-      "start": 232.9600067138672,
-      "end": 233.17999267578125
-    },
-    {
-      "word": "documenting",
-      "start": 233.17999267578125,
-      "end": 233.66000366210938
-    },
-    {
-      "word": "cases",
-      "start": 233.66000366210938,
-      "end": 234.0800018310547
-    },
-    {
-      "word": "of",
-      "start": 234.0800018310547,
-      "end": 234.25999450683594
-    },
-    {
-      "word": "extrajudicial",
-      "start": 234.25999450683594,
-      "end": 234.86000061035156
-    },
-    {
-      "word": "killings",
-      "start": 234.86000061035156,
-      "end": 235.3000030517578
-    },
-    {
-      "word": "We",
-      "start": 235.63999938964844,
-      "end": 235.63999938964844
-    },
-    {
-      "word": "were",
-      "start": 235.63999938964844,
-      "end": 236.02000427246094
-    },
-    {
-      "word": "able",
-      "start": 236.02000427246094,
-      "end": 236.02000427246094
-    },
-    {
-      "word": "to",
-      "start": 236.02000427246094,
-      "end": 236.27999877929688
-    },
-    {
-      "word": "take",
-      "start": 236.27999877929688,
-      "end": 236.52000427246094
-    },
-    {
-      "word": "the",
-      "start": 236.52000427246094,
-      "end": 237.1199951171875
-    },
-    {
-      "word": "most",
-      "start": 237.1199951171875,
-      "end": 237.4600067138672
-    },
-    {
-      "word": "notorious",
-      "start": 237.4600067138672,
-      "end": 237.8000030517578
-    },
-    {
-      "word": "killer",
-      "start": 237.8000030517578,
-      "end": 238.16000366210938
-    },
-    {
-      "word": "cop",
-      "start": 238.16000366210938,
-      "end": 238.39999389648438
-    },
-    {
-      "word": "in",
-      "start": 238.39999389648438,
-      "end": 238.52000427246094
-    },
-    {
-      "word": "this",
-      "start": 238.52000427246094,
-      "end": 238.74000549316406
-    },
-    {
-      "word": "community",
-      "start": 238.74000549316406,
-      "end": 239.10000610351562
-    },
-    {
-      "word": "to",
-      "start": 239.10000610351562,
-      "end": 239.66000366210938
-    },
-    {
-      "word": "court",
-      "start": 239.66000366210938,
-      "end": 239.66000366210938
-    },
-    {
-      "word": "Wanjiru's",
-      "start": 240.10000610351562,
-      "end": 240.6999969482422
-    },
-    {
-      "word": "fight",
-      "start": 240.6999969482422,
-      "end": 240.74000549316406
-    },
-    {
-      "word": "for",
-      "start": 240.74000549316406,
-      "end": 241.3800048828125
-    },
-    {
-      "word": "justice",
-      "start": 241.3800048828125,
-      "end": 241.3800048828125
-    },
-    {
-      "word": "became",
-      "start": 241.3800048828125,
-      "end": 241.8800048828125
-    },
-    {
-      "word": "a",
-      "start": 241.8800048828125,
-      "end": 242.10000610351562
-    },
-    {
-      "word": "collective",
-      "start": 242.10000610351562,
-      "end": 242.52000427246094
-    },
-    {
-      "word": "one",
-      "start": 242.52000427246094,
-      "end": 242.8800048828125
-    },
-    {
-      "word": "in",
-      "start": 242.8800048828125,
-      "end": 243.10000610351562
-    },
-    {
-      "word": "2024",
-      "start": 243.10000610351562,
-      "end": 243.9199981689453
-    },
-    {
-      "word": "when",
-      "start": 243.9199981689453,
-      "end": 244.5
-    },
-    {
-      "word": "President",
-      "start": 244.5,
-      "end": 245.16000366210938
-    },
-    {
-      "word": "Ruto's",
-      "start": 245.16000366210938,
-      "end": 245.9199981689453
-    },
-    {
-      "word": "government",
-      "start": 245.9199981689453,
-      "end": 245.9199981689453
-    },
-    {
-      "word": "introduced",
-      "start": 245.9199981689453,
-      "end": 246.44000244140625
-    },
-    {
-      "word": "a",
-      "start": 246.44000244140625,
-      "end": 246.72000122070312
-    },
-    {
-      "word": "finance",
-      "start": 246.72000122070312,
-      "end": 247.05999755859375
-    },
-    {
-      "word": "bill",
-      "start": 247.05999755859375,
-      "end": 247.32000732421875
-    },
-    {
-      "word": "that",
-      "start": 247.32000732421875,
-      "end": 247.82000732421875
-    },
-    {
-      "word": "put",
-      "start": 247.82000732421875,
-      "end": 248
-    },
-    {
-      "word": "higher",
-      "start": 248,
-      "end": 248.3800048828125
-    },
-    {
-      "word": "taxes",
-      "start": 248.3800048828125,
-      "end": 248.77999877929688
-    },
-    {
-      "word": "on",
-      "start": 248.77999877929688,
-      "end": 249.16000366210938
-    },
-    {
-      "word": "everyday",
-      "start": 249.16000366210938,
-      "end": 249.60000610351562
-    },
-    {
-      "word": "goods",
-      "start": 249.60000610351562,
-      "end": 249.97999572753906
-    },
-    {
-      "word": "such",
-      "start": 249.97999572753906,
-      "end": 250.5
-    },
-    {
-      "word": "as",
-      "start": 250.5,
-      "end": 251.05999755859375
-    },
-    {
-      "word": "bread",
-      "start": 251.05999755859375,
-      "end": 251.05999755859375
-    },
-    {
-      "word": "and",
-      "start": 251.05999755859375,
-      "end": 251.47999572753906
-    },
-    {
-      "word": "diapers",
-      "start": 251.47999572753906,
-      "end": 251.83999633789062
-    },
-    {
-      "word": "Everybody",
-      "start": 253.44000244140625,
-      "end": 253.44000244140625
-    },
-    {
-      "word": "was",
-      "start": 253.44000244140625,
-      "end": 253.67999267578125
-    },
-    {
-      "word": "doing",
-      "start": 253.67999267578125,
-      "end": 253.89999389648438
-    },
-    {
-      "word": "their",
-      "start": 253.89999389648438,
-      "end": 254.17999267578125
-    },
-    {
-      "word": "bit",
-      "start": 254.17999267578125,
-      "end": 254.44000244140625
-    },
-    {
-      "word": "to",
-      "start": 254.44000244140625,
-      "end": 254.75999450683594
-    },
-    {
-      "word": "reject",
-      "start": 254.75999450683594,
-      "end": 254.9199981689453
-    },
-    {
-      "word": "the",
-      "start": 254.9199981689453,
-      "end": 255.22000122070312
-    },
-    {
-      "word": "finance",
-      "start": 255.22000122070312,
-      "end": 255.47999572753906
-    },
-    {
-      "word": "bill",
-      "start": 255.47999572753906,
-      "end": 255.74000549316406
-    },
-    {
-      "word": "Other",
-      "start": 256,
-      "end": 256.1400146484375
-    },
-    {
-      "word": "people",
-      "start": 256.1400146484375,
-      "end": 256.44000244140625
-    },
-    {
-      "word": "translated",
-      "start": 256.44000244140625,
-      "end": 256.9200134277344
-    },
-    {
-      "word": "the",
-      "start": 256.9200134277344,
-      "end": 257.20001220703125
-    },
-    {
-      "word": "finance",
-      "start": 257.20001220703125,
-      "end": 257.5400085449219
-    },
-    {
-      "word": "bill",
-      "start": 257.5400085449219,
-      "end": 257.79998779296875
-    },
-    {
-      "word": "to",
-      "start": 257.79998779296875,
-      "end": 258.1400146484375
-    },
-    {
-      "word": "local",
-      "start": 258.1400146484375,
-      "end": 258.67999267578125
-    },
-    {
-      "word": "languages",
-      "start": 258.67999267578125,
-      "end": 259.260009765625
-    },
-    {
-      "word": "Many",
-      "start": 259.760009765625,
-      "end": 259.8999938964844
-    },
-    {
-      "word": "young",
-      "start": 259.8999938964844,
-      "end": 260.29998779296875
-    },
-    {
-      "word": "Kenyans",
-      "start": 260.29998779296875,
-      "end": 260.4800109863281
-    },
-    {
-      "word": "say",
-      "start": 260.4800109863281,
-      "end": 260.9800109863281
-    },
-    {
-      "word": "IMF",
-      "start": 260.9800109863281,
-      "end": 261.5199890136719
-    },
-    {
-      "word": "conditions",
-      "start": 261.5199890136719,
-      "end": 262.0199890136719
-    },
-    {
-      "word": "impact",
-      "start": 262.0199890136719,
-      "end": 262.6000061035156
-    },
-    {
-      "word": "ordinary",
-      "start": 262.6000061035156,
-      "end": 263.1000061035156
-    },
-    {
-      "word": "people",
-      "start": 263.1000061035156,
-      "end": 263.6199951171875
-    },
-    {
-      "word": "and",
-      "start": 263.6199951171875,
-      "end": 264.29998779296875
-    },
-    {
-      "word": "undermine",
-      "start": 264.29998779296875,
-      "end": 264.82000732421875
-    },
-    {
-      "word": "their",
-      "start": 264.82000732421875,
-      "end": 265.6199951171875
-    },
-    {
-      "word": "sovereignty",
-      "start": 265.6199951171875,
-      "end": 265.6199951171875
-    },
-    {
-      "word": "My",
-      "start": 265.82000732421875,
-      "end": 266.05999755859375
-    },
-    {
-      "word": "generation",
-      "start": 266.05999755859375,
-      "end": 266.3800048828125
-    },
-    {
-      "word": "is",
-      "start": 266.3800048828125,
-      "end": 266.6400146484375
-    },
-    {
-      "word": "getting",
-      "start": 266.6400146484375,
-      "end": 266.9599914550781
-    },
-    {
-      "word": "it",
-      "start": 266.9599914550781,
-      "end": 267.260009765625
-    },
-    {
-      "word": "Everybody",
-      "start": 267.5799865722656,
-      "end": 267.6600036621094
-    },
-    {
-      "word": "now",
-      "start": 267.6600036621094,
-      "end": 268
-    },
-    {
-      "word": "is",
-      "start": 268,
-      "end": 268.29998779296875
-    },
-    {
-      "word": "now",
-      "start": 268.29998779296875,
-      "end": 268.6400146484375
-    },
-    {
-      "word": "learning",
-      "start": 268.6400146484375,
-      "end": 269.0400085449219
-    },
-    {
-      "word": "that",
-      "start": 269.0400085449219,
-      "end": 269.8800048828125
-    },
-    {
-      "word": "it",
-      "start": 269.8800048828125,
-      "end": 270.0400085449219
-    },
-    {
-      "word": "is",
-      "start": 270.0400085449219,
-      "end": 270.2799987792969
-    },
-    {
-      "word": "extremely",
-      "start": 270.2799987792969,
-      "end": 270.6600036621094
-    },
-    {
-      "word": "important",
-      "start": 270.6600036621094,
-      "end": 271.260009765625
-    },
-    {
-      "word": "to",
-      "start": 271.260009765625,
-      "end": 271.3999938964844
-    },
-    {
-      "word": "centre",
-      "start": 271.3999938964844,
-      "end": 271.82000732421875
-    },
-    {
-      "word": "the",
-      "start": 271.82000732421875,
-      "end": 272.0799865722656
-    },
-    {
-      "word": "well",
-      "start": 272.0799865722656,
-      "end": 272.4599914550781
-    },
-    {
-      "word": "being",
-      "start": 272.4599914550781,
-      "end": 272.4599914550781
-    },
-    {
-      "word": "of",
-      "start": 272.4599914550781,
-      "end": 272.5400085449219
-    },
-    {
-      "word": "the",
-      "start": 272.5400085449219,
-      "end": 272.67999267578125
-    },
-    {
-      "word": "Kenyan",
-      "start": 272.67999267578125,
-      "end": 272.9200134277344
-    },
-    {
-      "word": "people",
-      "start": 272.9200134277344,
-      "end": 273.3599853515625
-    },
-    {
-      "word": "above",
-      "start": 273.3599853515625,
-      "end": 273.70001220703125
-    },
-    {
-      "word": "everything",
-      "start": 273.70001220703125,
-      "end": 274.20001220703125
-    },
-    {
-      "word": "else",
-      "start": 274.20001220703125,
-      "end": 274.8800048828125
-    },
-    {
-      "word": "Their",
-      "start": 275.20001220703125,
-      "end": 275.239990234375
-    },
-    {
-      "word": "struggle",
-      "start": 275.239990234375,
-      "end": 275.6400146484375
-    },
-    {
-      "word": "is",
-      "start": 275.6400146484375,
-      "end": 275.9599914550781
-    },
-    {
-      "word": "part",
-      "start": 275.9599914550781,
-      "end": 276.1400146484375
-    },
-    {
-      "word": "of",
-      "start": 276.1400146484375,
-      "end": 276.2799987792969
-    },
-    {
-      "word": "a",
-      "start": 276.2799987792969,
-      "end": 276.44000244140625
-    },
-    {
-      "word": "wider",
-      "start": 276.44000244140625,
-      "end": 276.82000732421875
-    },
-    {
-      "word": "pattern",
-      "start": 276.82000732421875,
-      "end": 277.32000732421875
-    },
-    {
-      "word": "across",
-      "start": 277.32000732421875,
-      "end": 277.739990234375
-    },
-    {
-      "word": "the",
-      "start": 277.739990234375,
-      "end": 277.8999938964844
-    },
-    {
-      "word": "Global",
-      "start": 277.8999938964844,
-      "end": 278.260009765625
-    },
-    {
-      "word": "South",
-      "start": 278.260009765625,
-      "end": 278.5799865722656
-    },
-    {
-      "word": "where",
-      "start": 279.20001220703125,
-      "end": 279.2799987792969
-    },
-    {
-      "word": "IMF",
-      "start": 279.2799987792969,
-      "end": 279.739990234375
-    },
-    {
-      "word": "loans",
-      "start": 279.739990234375,
-      "end": 280.0199890136719
-    },
-    {
-      "word": "are",
-      "start": 280.0199890136719,
-      "end": 280.4599914550781
-    },
-    {
-      "word": "tied",
-      "start": 280.4599914550781,
-      "end": 280.5
-    },
-    {
-      "word": "to",
-      "start": 280.5,
-      "end": 280.8999938964844
-    },
-    {
-      "word": "strict",
-      "start": 280.8999938964844,
-      "end": 281.2200012207031
-    },
-    {
-      "word": "austerity",
-      "start": 281.2200012207031,
-      "end": 281.82000732421875
-    },
-    {
-      "word": "conditions",
-      "start": 281.82000732421875,
-      "end": 282.2799987792969
-    },
-    {
-      "word": "that",
-      "start": 282.2799987792969,
-      "end": 282.8599853515625
-    },
-    {
-      "word": "often",
-      "start": 282.8599853515625,
-      "end": 283.260009765625
-    },
-    {
-      "word": "cut",
-      "start": 283.260009765625,
-      "end": 283.55999755859375
-    },
-    {
-      "word": "subsidies",
-      "start": 283.55999755859375,
-      "end": 284.0799865722656
-    },
-    {
-      "word": "raise",
-      "start": 284.8999938964844,
-      "end": 284.8999938964844
-    },
-    {
-      "word": "taxes",
-      "start": 284.8999938964844,
-      "end": 285.3999938964844
-    },
-    {
-      "word": "and",
-      "start": 285.3999938964844,
-      "end": 286.17999267578125
-    },
-    {
-      "word": "deepen",
-      "start": 286.17999267578125,
-      "end": 286.6199951171875
-    },
-    {
-      "word": "inequality",
-      "start": 286.6199951171875,
-      "end": 287.4599914550781
-    },
-    {
-      "word": "Critics",
-      "start": 289.5199890136719,
-      "end": 289.760009765625
-    },
-    {
-      "word": "have",
-      "start": 289.760009765625,
-      "end": 290.0400085449219
-    },
-    {
-      "word": "long",
-      "start": 290.0400085449219,
-      "end": 290.44000244140625
-    },
-    {
-      "word": "warned",
-      "start": 290.44000244140625,
-      "end": 290.5199890136719
-    },
-    {
-      "word": "that",
-      "start": 290.5199890136719,
-      "end": 290.9599914550781
-    },
-    {
-      "word": "IMF",
-      "start": 290.9599914550781,
-      "end": 291.3800048828125
-    },
-    {
-      "word": "policies",
-      "start": 291.3800048828125,
-      "end": 291.760009765625
-    },
-    {
-      "word": "are",
-      "start": 291.760009765625,
-      "end": 292.1400146484375
-    },
-    {
-      "word": "rooted",
-      "start": 292.1400146484375,
-      "end": 292.4200134277344
-    },
-    {
-      "word": "in",
-      "start": 292.4200134277344,
-      "end": 292.760009765625
-    },
-    {
-      "word": "colonial",
-      "start": 292.760009765625,
-      "end": 293.1600036621094
-    },
-    {
-      "word": "power",
-      "start": 293.1600036621094,
-      "end": 293.6000061035156
-    },
-    {
-      "word": "structures",
-      "start": 293.6000061035156,
-      "end": 293.9800109863281
-    },
-    {
-      "word": "that",
-      "start": 293.9800109863281,
-      "end": 294.67999267578125
-    },
-    {
-      "word": "force",
-      "start": 294.67999267578125,
-      "end": 294.9599914550781
-    },
-    {
-      "word": "countries",
-      "start": 294.9599914550781,
-      "end": 295.3800048828125
-    },
-    {
-      "word": "into",
-      "start": 295.3800048828125,
-      "end": 295.79998779296875
-    },
-    {
-      "word": "cycles",
-      "start": 295.79998779296875,
-      "end": 296.17999267578125
-    },
-    {
-      "word": "of",
-      "start": 296.17999267578125,
-      "end": 296.9800109863281
-    },
-    {
-      "word": "dependency",
-      "start": 296.9800109863281,
-      "end": 296.9800109863281
-    },
-    {
-      "word": "and",
-      "start": 296.9800109863281,
-      "end": 297.739990234375
-    },
-    {
-      "word": "debt",
-      "start": 297.739990234375,
-      "end": 298.1000061035156
-    },
-    {
-      "word": "Now",
-      "start": 298.1000061035156,
-      "end": 298.3800048828125
-    },
-    {
-      "word": "on",
-      "start": 298.3800048828125,
-      "end": 298.6600036621094
-    },
-    {
-      "word": "25th",
-      "start": 298.6600036621094,
-      "end": 299.55999755859375
-    },
-    {
-      "word": "was",
-      "start": 299.55999755859375,
-      "end": 299.9200134277344
-    },
-    {
-      "word": "the",
-      "start": 299.9200134277344,
-      "end": 300.1000061035156
-    },
-    {
-      "word": "mother",
-      "start": 300.1000061035156,
-      "end": 300.4200134277344
-    },
-    {
-      "word": "of",
-      "start": 300.4200134277344,
-      "end": 300.4800109863281
-    },
-    {
-      "word": "all",
-      "start": 300.4800109863281,
-      "end": 300.94000244140625
-    },
-    {
-      "word": "protests",
-      "start": 300.94000244140625,
-      "end": 301.29998779296875
-    },
-    {
-      "word": "this",
-      "start": 301.29998779296875,
-      "end": 301.8800048828125
-    },
-    {
-      "word": "country",
-      "start": 301.8800048828125,
-      "end": 302.20001220703125
-    },
-    {
-      "word": "has",
-      "start": 302.20001220703125,
-      "end": 302.4800109863281
-    },
-    {
-      "word": "ever",
-      "start": 302.4800109863281,
-      "end": 302.760009765625
-    },
-    {
-      "word": "seen",
-      "start": 302.760009765625,
-      "end": 303.1199951171875
-    },
-    {
-      "word": "Now",
-      "start": 303.17999267578125,
-      "end": 303.4599914550781
-    },
-    {
-      "word": "everybody",
-      "start": 303.4599914550781,
-      "end": 303.70001220703125
-    },
-    {
-      "word": "came",
-      "start": 303.70001220703125,
-      "end": 304.0199890136719
-    },
-    {
-      "word": "out",
-      "start": 304.0199890136719,
-      "end": 304.5
-    },
-    {
-      "word": "People",
-      "start": 305,
-      "end": 305
-    },
-    {
-      "word": "were",
-      "start": 305,
-      "end": 305.4599914550781
-    },
-    {
-      "word": "bringing",
-      "start": 305.4599914550781,
-      "end": 305.4599914550781
-    },
-    {
-      "word": "water",
-      "start": 305.4599914550781,
-      "end": 305.9599914550781
-    },
-    {
-      "word": "for",
-      "start": 305.9599914550781,
-      "end": 306.82000732421875
-    },
-    {
-      "word": "protesters",
-      "start": 306.82000732421875,
-      "end": 306.82000732421875
-    },
-    {
-      "word": "Doctors",
-      "start": 307.3599853515625,
-      "end": 307.3599853515625
-    },
-    {
-      "word": "were",
-      "start": 307.3599853515625,
-      "end": 308.0199890136719
-    },
-    {
-      "word": "offering",
-      "start": 308.0199890136719,
-      "end": 308.0199890136719
-    },
-    {
-      "word": "free",
-      "start": 308.0199890136719,
-      "end": 308.8599853515625
-    },
-    {
-      "word": "medical",
-      "start": 308.8599853515625,
-      "end": 309.2200012207031
-    },
-    {
-      "word": "aid",
-      "start": 309.2200012207031,
-      "end": 309.6400146484375
-    },
-    {
-      "word": "Lawyers",
-      "start": 310.29998779296875,
-      "end": 310.29998779296875
-    },
-    {
-      "word": "were",
-      "start": 310.29998779296875,
-      "end": 310.739990234375
-    },
-    {
-      "word": "on",
-      "start": 310.739990234375,
-      "end": 311.1199951171875
-    },
-    {
-      "word": "standby",
-      "start": 311.1199951171875,
-      "end": 311.5400085449219
-    },
-    {
-      "word": "Wanjiru",
-      "start": 312.4200134277344,
-      "end": 312.4200134277344
-    },
-    {
-      "word": "was",
-      "start": 312.4200134277344,
-      "end": 312.70001220703125
-    },
-    {
-      "word": "among",
-      "start": 312.70001220703125,
-      "end": 312.9800109863281
-    },
-    {
-      "word": "the",
-      "start": 312.9800109863281,
-      "end": 313.6400146484375
-    },
-    {
-      "word": "thousands",
-      "start": 313.6400146484375,
-      "end": 313.6400146484375
-    },
-    {
-      "word": "of",
-      "start": 313.6400146484375,
-      "end": 314.1400146484375
-    },
-    {
-      "word": "Kenyans",
-      "start": 314.1400146484375,
-      "end": 314.1400146484375
-    },
-    {
-      "word": "who",
-      "start": 314.1400146484375,
-      "end": 314.4599914550781
-    },
-    {
-      "word": "joined",
-      "start": 314.4599914550781,
-      "end": 314.739990234375
-    },
-    {
-      "word": "the",
-      "start": 314.739990234375,
-      "end": 315.0199890136719
-    },
-    {
-      "word": "uprising",
-      "start": 315.0199890136719,
-      "end": 315.32000732421875
-    },
-    {
-      "word": "against",
-      "start": 315.32000732421875,
-      "end": 315.8800048828125
-    },
-    {
-      "word": "the",
-      "start": 315.8800048828125,
-      "end": 316.1000061035156
-    },
-    {
-      "word": "finance",
-      "start": 316.1000061035156,
-      "end": 316.4800109863281
-    },
-    {
-      "word": "bill",
-      "start": 316.4800109863281,
-      "end": 316.760009765625
-    },
-    {
-      "word": "which",
-      "start": 317.2200012207031,
-      "end": 317.3999938964844
-    },
-    {
-      "word": "culminated",
-      "start": 317.3999938964844,
-      "end": 317.9800109863281
-    },
-    {
-      "word": "in",
-      "start": 317.9800109863281,
-      "end": 318.239990234375
-    },
-    {
-      "word": "the",
-      "start": 318.239990234375,
-      "end": 318.6600036621094
-    },
-    {
-      "word": "storming",
-      "start": 318.6600036621094,
-      "end": 319.2799987792969
-    },
-    {
-      "word": "of",
-      "start": 319.2799987792969,
-      "end": 320.05999755859375
-    },
-    {
-      "word": "the",
-      "start": 320.05999755859375,
-      "end": 320.05999755859375
-    },
-    {
-      "word": "parliament",
-      "start": 320.05999755859375,
-      "end": 320.05999755859375
-    },
-    {
-      "word": "The",
-      "start": 325.1000061035156,
-      "end": 325.82000732421875
-    },
-    {
-      "word": "youth",
-      "start": 325.82000732421875,
-      "end": 326.1600036621094
-    },
-    {
-      "word": "led",
-      "start": 326.1600036621094,
-      "end": 326.4800109863281
-    },
-    {
-      "word": "uprising",
-      "start": 326.4800109863281,
-      "end": 326.9599914550781
-    },
-    {
-      "word": "forced",
-      "start": 326.9599914550781,
-      "end": 327.4599914550781
-    },
-    {
-      "word": "President",
-      "start": 327.4599914550781,
-      "end": 328.05999755859375
-    },
-    {
-      "word": "Ruter",
-      "start": 328.05999755859375,
-      "end": 328.20001220703125
-    },
-    {
-      "word": "to",
-      "start": 328.20001220703125,
-      "end": 328.70001220703125
-    },
-    {
-      "word": "withdraw",
-      "start": 328.70001220703125,
-      "end": 329.0799865722656
-    },
-    {
-      "word": "the",
-      "start": 329.0799865722656,
-      "end": 330.3399963378906
-    },
-    {
-      "word": "bill",
-      "start": 330.3399963378906,
-      "end": 330.3399963378906
-    },
-    {
-      "word": "On",
-      "start": 330.6199951171875,
-      "end": 330.6400146484375
-    },
-    {
-      "word": "that",
-      "start": 330.6400146484375,
-      "end": 330.9800109863281
-    },
-    {
-      "word": "day",
-      "start": 330.9800109863281,
-      "end": 331.5199890136719
-    },
-    {
-      "word": "Kenya",
-      "start": 332.3399963378906,
-      "end": 332.3399963378906
-    },
-    {
-      "word": "was",
-      "start": 332.3399963378906,
-      "end": 332.6400146484375
-    },
-    {
-      "word": "the",
-      "start": 332.6400146484375,
-      "end": 333.0799865722656
-    },
-    {
-      "word": "Kenya",
-      "start": 333.0799865722656,
-      "end": 333.17999267578125
-    },
-    {
-      "word": "we",
-      "start": 333.17999267578125,
-      "end": 333.6600036621094
-    },
-    {
-      "word": "all",
-      "start": 333.6600036621094,
-      "end": 334.2200012207031
-    },
-    {
-      "word": "want",
-      "start": 334.2200012207031,
-      "end": 334.67999267578125
-    },
-    {
-      "word": "to",
-      "start": 334.67999267578125,
-      "end": 335.3999938964844
-    },
-    {
-      "word": "live",
-      "start": 335.3999938964844,
-      "end": 335.44000244140625
-    },
-    {
-      "word": "in",
-      "start": 335.44000244140625,
-      "end": 335.6199951171875
-    },
-    {
-      "word": "This",
-      "start": 335.739990234375,
-      "end": 335.8800048828125
-    },
-    {
-      "word": "is",
-      "start": 335.8800048828125,
-      "end": 336.0199890136719
-    },
-    {
-      "word": "no",
-      "start": 336.0199890136719,
-      "end": 336.1600036621094
-    },
-    {
-      "word": "longer",
-      "start": 336.1600036621094,
-      "end": 336.3800048828125
-    },
-    {
-      "word": "we",
-      "start": 336.3800048828125,
-      "end": 336.82000732421875
-    },
-    {
-      "word": "activists",
-      "start": 336.82000732421875,
-      "end": 337.20001220703125
-    },
-    {
-      "word": "on",
-      "start": 337.20001220703125,
-      "end": 337.5199890136719
-    },
-    {
-      "word": "the",
-      "start": 337.5199890136719,
-      "end": 337.6400146484375
-    },
-    {
-      "word": "streets",
-      "start": 337.6400146484375,
-      "end": 337.8800048828125
-    },
-    {
-      "word": "This",
-      "start": 338.29998779296875,
-      "end": 338.4599914550781
-    },
-    {
-      "word": "is",
-      "start": 338.4599914550781,
-      "end": 338.6600036621094
-    },
-    {
-      "word": "the",
-      "start": 338.6600036621094,
-      "end": 338.8800048828125
-    },
-    {
-      "word": "ordinary",
-      "start": 338.8800048828125,
-      "end": 339.29998779296875
-    },
-    {
-      "word": "Kenyan",
-      "start": 339.29998779296875,
-      "end": 339.5799865722656
-    },
-    {
-      "word": "citizen",
-      "start": 339.5799865722656,
-      "end": 340.1000061035156
-    },
-    {
-      "word": "coming",
-      "start": 340.1000061035156,
-      "end": 340.9800109863281
-    },
-    {
-      "word": "to",
-      "start": 340.9800109863281,
-      "end": 341.3999938964844
-    },
-    {
-      "word": "defend",
-      "start": 341.3999938964844,
-      "end": 341.5400085449219
-    },
-    {
-      "word": "themselves",
-      "start": 341.5400085449219,
-      "end": 342.2200012207031
-    },
-    {
-      "word": "Among",
-      "start": 343.9800109863281,
-      "end": 344.17999267578125
-    },
-    {
-      "word": "the",
-      "start": 344.17999267578125,
-      "end": 344.3800048828125
-    },
-    {
-      "word": "new",
-      "start": 344.3800048828125,
-      "end": 344.67999267578125
-    },
-    {
-      "word": "generation",
-      "start": 344.67999267578125,
-      "end": 345.1199951171875
-    },
-    {
-      "word": "of",
-      "start": 345.1199951171875,
-      "end": 345.7200012207031
-    },
-    {
-      "word": "Kenyans",
-      "start": 345.7200012207031,
-      "end": 345.7200012207031
-    },
-    {
-      "word": "that",
-      "start": 345.7200012207031,
-      "end": 345.9800109863281
-    },
-    {
-      "word": "refused",
-      "start": 345.9800109863281,
-      "end": 346.4200134277344
-    },
-    {
-      "word": "to",
-      "start": 346.4200134277344,
-      "end": 346.739990234375
-    },
-    {
-      "word": "stay",
-      "start": 346.739990234375,
-      "end": 346.9599914550781
-    },
-    {
-      "word": "silent",
-      "start": 346.9599914550781,
-      "end": 347.32000732421875
-    },
-    {
-      "word": "was",
-      "start": 347.32000732421875,
-      "end": 348
-    },
-    {
-      "word": "Erickson",
-      "start": 348,
-      "end": 348.6000061035156
-    },
-    {
-      "word": "Chalo",
-      "start": 348.6000061035156,
-      "end": 349.1000061035156
-    },
-    {
-      "word": "Mutisya",
-      "start": 349.1000061035156,
-      "end": 349.8599853515625
-    },
-    {
-      "word": "On",
-      "start": 357.4599914550781,
-      "end": 358.0199890136719
-    },
-    {
-      "word": "June",
-      "start": 358.0199890136719,
-      "end": 358.5799865722656
-    },
-    {
-      "word": "25th",
-      "start": 358.5799865722656,
-      "end": 360.3399963378906
-    },
-    {
-      "word": "2024",
-      "start": 360.4599914550781,
-      "end": 360.4599914550781
-    },
-    {
-      "word": "Erickson",
-      "start": 360.70001220703125,
-      "end": 360.8800048828125
-    },
-    {
-      "word": "told",
-      "start": 360.8800048828125,
-      "end": 361.260009765625
-    },
-    {
-      "word": "his",
-      "start": 361.260009765625,
-      "end": 361.6199951171875
-    },
-    {
-      "word": "mother",
-      "start": 361.6199951171875,
-      "end": 361.7200012207031
-    },
-    {
-      "word": "he",
-      "start": 361.7200012207031,
-      "end": 362
-    },
-    {
-      "word": "was",
-      "start": 362,
-      "end": 362.260009765625
-    },
-    {
-      "word": "going",
-      "start": 362.260009765625,
-      "end": 362.5400085449219
-    },
-    {
-      "word": "to",
-      "start": 362.5400085449219,
-      "end": 362.739990234375
-    },
-    {
-      "word": "work",
-      "start": 362.739990234375,
-      "end": 363
-    },
-    {
-      "word": "Instead",
-      "start": 363.5,
-      "end": 363.7799987792969
-    },
-    {
-      "word": "he",
-      "start": 364,
-      "end": 364.1000061035156
-    },
-    {
-      "word": "joined",
-      "start": 364.1000061035156,
-      "end": 364.3800048828125
-    },
-    {
-      "word": "his",
-      "start": 364.3800048828125,
-      "end": 364.6000061035156
-    },
-    {
-      "word": "first",
-      "start": 364.6000061035156,
-      "end": 365.05999755859375
-    },
-    {
-      "word": "protest",
-      "start": 365.05999755859375,
-      "end": 365.6400146484375
-    },
-    {
-      "word": "President",
-      "start": 374.9599914550781,
-      "end": 375.6000061035156
-    },
-    {
-      "word": "Ruter",
-      "start": 375.6000061035156,
-      "end": 376.05999755859375
-    },
-    {
-      "word": "was",
-      "start": 376.05999755859375,
-      "end": 376.3599853515625
-    },
-    {
-      "word": "elected",
-      "start": 376.3599853515625,
-      "end": 376.8399963378906
-    },
-    {
-      "word": "on",
-      "start": 376.8399963378906,
-      "end": 377.0400085449219
-    },
-    {
-      "word": "a",
-      "start": 377.0400085449219,
-      "end": 377.2799987792969
-    },
-    {
-      "word": "promise",
-      "start": 377.2799987792969,
-      "end": 377.55999755859375
-    },
-    {
-      "word": "to",
-      "start": 377.55999755859375,
-      "end": 377.760009765625
-    },
-    {
-      "word": "create",
-      "start": 377.760009765625,
-      "end": 378.1400146484375
-    },
-    {
-      "word": "millions",
-      "start": 378.1400146484375,
-      "end": 378.7200012207031
-    },
-    {
-      "word": "of",
-      "start": 378.7200012207031,
-      "end": 379.0199890136719
-    },
-    {
-      "word": "jobs",
-      "start": 379.0199890136719,
-      "end": 379.2799987792969
-    },
-    {
-      "word": "for",
-      "start": 379.2799987792969,
-      "end": 379.6000061035156
-    },
-    {
-      "word": "young",
-      "start": 379.6000061035156,
-      "end": 379.9200134277344
-    },
-    {
-      "word": "Kenyans",
-      "start": 379.9200134277344,
-      "end": 380.3599853515625
-    },
-    {
-      "word": "but",
-      "start": 380.4599914550781,
-      "end": 380.8800048828125
-    },
-    {
-      "word": "his",
-      "start": 380.8800048828125,
-      "end": 381.1400146484375
-    },
-    {
-      "word": "response",
-      "start": 381.1400146484375,
-      "end": 381.5400085449219
-    },
-    {
-      "word": "to",
-      "start": 381.5400085449219,
-      "end": 381.7200012207031
-    },
-    {
-      "word": "their",
-      "start": 381.7200012207031,
-      "end": 382
-    },
-    {
-      "word": "protests",
-      "start": 382,
-      "end": 382.4800109863281
-    },
-    {
-      "word": "has",
-      "start": 382.4800109863281,
-      "end": 383
-    },
-    {
-      "word": "been",
-      "start": 383,
-      "end": 383.4599914550781
-    },
-    {
-      "word": "marked",
-      "start": 383.4599914550781,
-      "end": 383.4599914550781
-    },
-    {
-      "word": "by",
-      "start": 383.4599914550781,
-      "end": 384.44000244140625
-    },
-    {
-      "word": "violence",
-      "start": 384.44000244140625,
-      "end": 384.44000244140625
-    },
-    {
-      "word": "and",
-      "start": 384.44000244140625,
-      "end": 384.9800109863281
-    },
-    {
-      "word": "suppression",
-      "start": 384.9800109863281,
-      "end": 385.5
-    },
-    {
-      "word": "In",
-      "start": 386.05999755859375,
-      "end": 386.05999755859375
-    },
-    {
-      "word": "June",
-      "start": 386.05999755859375,
-      "end": 386.3399963378906
-    },
-    {
-      "word": "and",
-      "start": 386.3399963378906,
-      "end": 386.6400146484375
-    },
-    {
-      "word": "July",
-      "start": 386.6400146484375,
-      "end": 386.8399963378906
-    },
-    {
-      "word": "2024",
-      "start": 386.8399963378906,
-      "end": 387.7200012207031
-    },
-    {
-      "word": "the",
-      "start": 388.17999267578125,
-      "end": 388.29998779296875
-    },
-    {
-      "word": "police",
-      "start": 388.29998779296875,
-      "end": 388.6199951171875
-    },
-    {
-      "word": "killed",
-      "start": 388.6199951171875,
-      "end": 388.94000244140625
-    },
-    {
-      "word": "65",
-      "start": 388.94000244140625,
-      "end": 389.9599914550781
-    },
-    {
-      "word": "protesters",
-      "start": 389.9599914550781,
-      "end": 390.6600036621094
-    },
-    {
-      "word": "Erickson",
-      "start": 391.1400146484375,
-      "end": 391.4599914550781
-    },
-    {
-      "word": "was",
-      "start": 391.4599914550781,
-      "end": 391.9800109863281
-    },
-    {
-      "word": "one",
-      "start": 391.9800109863281,
-      "end": 392.239990234375
-    },
-    {
-      "word": "of",
-      "start": 392.239990234375,
-      "end": 392.5199890136719
-    },
-    {
-      "word": "them",
-      "start": 392.5199890136719,
-      "end": 392.55999755859375
-    },
-    {
-      "word": "A",
-      "start": 392.55999755859375,
-      "end": 393.0199890136719
-    },
-    {
-      "word": "year",
-      "start": 393.0199890136719,
-      "end": 393.3399963378906
-    },
-    {
-      "word": "later",
-      "start": 393.3399963378906,
-      "end": 393.760009765625
-    },
-    {
-      "word": "their",
-      "start": 394.1199951171875,
-      "end": 394.3599853515625
-    },
-    {
-      "word": "families",
-      "start": 394.3599853515625,
-      "end": 394.739990234375
-    },
-    {
-      "word": "are",
-      "start": 394.739990234375,
-      "end": 395.1199951171875
-    },
-    {
-      "word": "still",
-      "start": 395.1199951171875,
-      "end": 395.8399963378906
-    },
-    {
-      "word": "seeking",
-      "start": 395.8399963378906,
-      "end": 395.8399963378906
-    },
-    {
-      "word": "justice",
-      "start": 395.8399963378906,
-      "end": 396.5199890136719
-    },
-    {
-      "word": "Erickson",
-      "start": 402.0400085449219,
-      "end": 402.5
-    },
-    {
-      "word": "was",
-      "start": 402.5,
-      "end": 402.8599853515625
-    },
-    {
-      "word": "shot",
-      "start": 402.8599853515625,
-      "end": 403.260009765625
-    },
-    {
-      "word": "in",
-      "start": 403.260009765625,
-      "end": 403.4800109863281
-    },
-    {
-      "word": "the",
-      "start": 403.4800109863281,
-      "end": 403.6400146484375
-    },
-    {
-      "word": "back",
-      "start": 403.6400146484375,
-      "end": 403.9200134277344
-    },
-    {
-      "word": "outside",
-      "start": 403.9200134277344,
-      "end": 404.4599914550781
-    },
-    {
-      "word": "Kenya's",
-      "start": 404.4599914550781,
-      "end": 405.5199890136719
-    },
-    {
-      "word": "parliament",
-      "start": 405.5199890136719,
-      "end": 405.5199890136719
-    },
-    {
-      "word": "on",
-      "start": 405.5199890136719,
-      "end": 406.0799865722656
-    },
-    {
-      "word": "June",
-      "start": 406.0799865722656,
-      "end": 406.2799987792969
-    },
-    {
-      "word": "25th",
-      "start": 406.2799987792969,
-      "end": 407.2799987792969
-    },
-    {
-      "word": "2024",
-      "start": 407.29998779296875,
-      "end": 407.8800048828125
-    },
-    {
-      "word": "Later",
-      "start": 408.3800048828125,
-      "end": 408.3800048828125
-    },
-    {
-      "word": "that",
-      "start": 408.3800048828125,
-      "end": 408.70001220703125
-    },
-    {
-      "word": "day",
-      "start": 408.70001220703125,
-      "end": 409.1199951171875
-    },
-    {
-      "word": "Caroline",
-      "start": 409.239990234375,
-      "end": 409.6000061035156
-    },
-    {
-      "word": "called",
-      "start": 409.6000061035156,
-      "end": 409.9800109863281
-    },
-    {
-      "word": "Erickson's",
-      "start": 409.9800109863281,
-      "end": 410.8800048828125
-    },
-    {
-      "word": "phone",
-      "start": 410.8800048828125,
-      "end": 410.8800048828125
-    },
-    {
-      "word": "A",
-      "start": 411.1600036621094,
-      "end": 411.29998779296875
-    },
-    {
-      "word": "stranger",
-      "start": 411.29998779296875,
-      "end": 411.6600036621094
-    },
-    {
-      "word": "answered",
-      "start": 411.6600036621094,
-      "end": 412.2200012207031
-    },
-    {
-      "word": "I",
-      "start": 412.2200012207031,
-      "end": 412.7200012207031
-    },
-    {
-      "word": "asked",
-      "start": 412.7200012207031,
-      "end": 413.2200012207031
-    },
-    {
-      "word": "her",
-      "start": 413.2200012207031,
-      "end": 413.239990234375
-    },
-    {
-      "word": "why",
-      "start": 413.3399963378906,
-      "end": 413.5799865722656
-    },
-    {
-      "word": "does",
-      "start": 413.5799865722656,
-      "end": 414.1000061035156
-    },
-    {
-      "word": "Erickson's",
-      "start": 414.1000061035156,
-      "end": 414.4599914550781
-    },
-    {
-      "word": "phone",
-      "start": 414.4599914550781,
-      "end": 414.4599914550781
-    },
-    {
-      "word": "have",
-      "start": 414.4599914550781,
-      "end": 414.9800109863281
-    },
-    {
-      "word": "a",
-      "start": 414.9800109863281,
-      "end": 415.0799865722656
-    },
-    {
-      "word": "stranger's",
-      "start": 415.0799865722656,
-      "end": 415.739990234375
-    },
-    {
-      "word": "number",
-      "start": 415.739990234375,
-      "end": 415.8999938964844
-    },
-    {
-      "word": "Where",
-      "start": 416.7799987792969,
-      "end": 417.260009765625
-    },
-    {
-      "word": "did",
-      "start": 417.260009765625,
-      "end": 417.260009765625
-    },
-    {
-      "word": "Erickson",
-      "start": 417.260009765625,
-      "end": 417.3599853515625
-    },
-    {
-      "word": "go",
-      "start": 417.3599853515625,
-      "end": 417.5400085449219
-    },
-    {
-      "word": "The",
-      "start": 418.70001220703125,
-      "end": 419.20001220703125
-    },
-    {
-      "word": "man",
-      "start": 419.20001220703125,
-      "end": 419.4599914550781
-    },
-    {
-      "word": "answered",
-      "start": 419.4599914550781,
-      "end": 419.9599914550781
-    },
-    {
-      "word": "he",
-      "start": 420.1600036621094,
-      "end": 420.1600036621094
-    },
-    {
-      "word": "told",
-      "start": 420.1600036621094,
-      "end": 420.55999755859375
-    },
-    {
-      "word": "me",
-      "start": 420.55999755859375,
-      "end": 420.55999755859375
-    },
-    {
-      "word": "Erickson",
-      "start": 420.55999755859375,
-      "end": 420.9599914550781
-    },
-    {
-      "word": "has",
-      "start": 420.9599914550781,
-      "end": 421.2200012207031
-    },
-    {
-      "word": "been",
-      "start": 421.2200012207031,
-      "end": 421.239990234375
-    },
-    {
-      "word": "shot",
-      "start": 421.239990234375,
-      "end": 421.6199951171875
-    },
-    {
-      "word": "For",
-      "start": 422.0799865722656,
-      "end": 422.5400085449219
-    },
-    {
-      "word": "Caroline",
-      "start": 422.5400085449219,
-      "end": 423.05999755859375
-    },
-    {
-      "word": "the",
-      "start": 423.260009765625,
-      "end": 423.4200134277344
-    },
-    {
-      "word": "pain",
-      "start": 423.4200134277344,
-      "end": 423.70001220703125
-    },
-    {
-      "word": "of",
-      "start": 423.70001220703125,
-      "end": 424.17999267578125
-    },
-    {
-      "word": "losing",
-      "start": 424.17999267578125,
-      "end": 424.17999267578125
-    },
-    {
-      "word": "her",
-      "start": 424.17999267578125,
-      "end": 424.6400146484375
-    },
-    {
-      "word": "son",
-      "start": 424.6400146484375,
-      "end": 424.6600036621094
-    },
-    {
-      "word": "is",
-      "start": 424.6600036621094,
-      "end": 424.9200134277344
-    },
-    {
-      "word": "made",
-      "start": 424.9200134277344,
-      "end": 425.239990234375
-    },
-    {
-      "word": "worse",
-      "start": 425.239990234375,
-      "end": 425.5199890136719
-    },
-    {
-      "word": "by",
-      "start": 425.5199890136719,
-      "end": 425.760009765625
-    },
-    {
-      "word": "the",
-      "start": 425.760009765625,
-      "end": 425.9800109863281
-    },
-    {
-      "word": "lack",
-      "start": 425.9800109863281,
-      "end": 426.2200012207031
-    },
-    {
-      "word": "of",
-      "start": 426.2200012207031,
-      "end": 426.5
-    },
-    {
-      "word": "accountability",
-      "start": 426.5,
-      "end": 427.05999755859375
-    },
-    {
-      "word": "She",
-      "start": 427.8800048828125,
-      "end": 428.0199890136719
-    },
-    {
-      "word": "says",
-      "start": 428.0199890136719,
-      "end": 428.2799987792969
-    },
-    {
-      "word": "in",
-      "start": 428.2799987792969,
-      "end": 428.3999938964844
-    },
-    {
-      "word": "the",
-      "start": 428.3999938964844,
-      "end": 428.739990234375
-    },
-    {
-      "word": "absence",
-      "start": 428.739990234375,
-      "end": 428.8599853515625
-    },
-    {
-      "word": "of",
-      "start": 428.8599853515625,
-      "end": 429.17999267578125
-    },
-    {
-      "word": "government",
-      "start": 429.17999267578125,
-      "end": 429.5
-    },
-    {
-      "word": "support",
-      "start": 429.5,
-      "end": 430.05999755859375
-    },
-    {
-      "word": "families",
-      "start": 430.70001220703125,
-      "end": 430.8399963378906
-    },
-    {
-      "word": "have",
-      "start": 430.8399963378906,
-      "end": 431.1000061035156
-    },
-    {
-      "word": "been",
-      "start": 431.1000061035156,
-      "end": 431.3599853515625
-    },
-    {
-      "word": "forced",
-      "start": 431.3599853515625,
-      "end": 431.6199951171875
-    },
-    {
-      "word": "to",
-      "start": 431.6199951171875,
-      "end": 431.9599914550781
-    },
-    {
-      "word": "turn",
-      "start": 431.9599914550781,
-      "end": 432.0199890136719
-    },
-    {
-      "word": "to",
-      "start": 432.0199890136719,
-      "end": 432.3599853515625
-    },
-    {
-      "word": "civil",
-      "start": 432.3599853515625,
-      "end": 432.5799865722656
-    },
-    {
-      "word": "society",
-      "start": 432.5799865722656,
-      "end": 433.1000061035156
-    },
-    {
-      "word": "for",
-      "start": 433.1000061035156,
-      "end": 433.70001220703125
-    },
-    {
-      "word": "help",
-      "start": 433.70001220703125,
-      "end": 434.0400085449219
-    },
-    {
-      "word": "In",
-      "start": 434.9800109863281,
-      "end": 435.05999755859375
-    },
-    {
-      "word": "many",
-      "start": 435.05999755859375,
-      "end": 435.4599914550781
-    },
-    {
-      "word": "situations",
-      "start": 435.4599914550781,
-      "end": 436.1400146484375
-    },
-    {
-      "word": "a",
-      "start": 437.1400146484375,
-      "end": 437.32000732421875
-    },
-    {
-      "word": "normal",
-      "start": 437.32000732421875,
-      "end": 437.6400146484375
-    },
-    {
-      "word": "family",
-      "start": 437.6400146484375,
-      "end": 438.0799865722656
-    },
-    {
-      "word": "wouldn't",
-      "start": 438.0799865722656,
-      "end": 438.4200134277344
-    },
-    {
-      "word": "know",
-      "start": 438.4200134277344,
-      "end": 438.79998779296875
-    },
-    {
-      "word": "even",
-      "start": 438.79998779296875,
-      "end": 439.20001220703125
-    },
-    {
-      "word": "where",
-      "start": 439.20001220703125,
-      "end": 439.3599853515625
-    },
-    {
-      "word": "to",
-      "start": 439.3599853515625,
-      "end": 439.7200012207031
-    },
-    {
-      "word": "start",
-      "start": 439.7200012207031,
-      "end": 439.9800109863281
-    },
-    {
-      "word": "when",
-      "start": 439.9800109863281,
-      "end": 440.5799865722656
-    },
-    {
-      "word": "their",
-      "start": 440.5799865722656,
-      "end": 440.8999938964844
-    },
-    {
-      "word": "child",
-      "start": 440.8999938964844,
-      "end": 441.2799987792969
-    },
-    {
-      "word": "is",
-      "start": 441.2799987792969,
-      "end": 442.4599914550781
-    },
-    {
-      "word": "killed",
-      "start": 442.4599914550781,
-      "end": 442.4599914550781
-    },
-    {
-      "word": "by",
-      "start": 442.4599914550781,
-      "end": 442.55999755859375
-    },
-    {
-      "word": "a",
-      "start": 442.55999755859375,
-      "end": 442.9599914550781
-    },
-    {
-      "word": "police",
-      "start": 442.9599914550781,
-      "end": 443.0400085449219
-    },
-    {
-      "word": "officer",
-      "start": 443.0400085449219,
-      "end": 443.6600036621094
-    },
-    {
-      "word": "For",
-      "start": 443.9599914550781,
-      "end": 443.9599914550781
-    },
-    {
-      "word": "more",
-      "start": 443.9599914550781,
-      "end": 444.17999267578125
-    },
-    {
-      "word": "than",
-      "start": 444.17999267578125,
-      "end": 444.2799987792969
-    },
-    {
-      "word": "a",
-      "start": 444.2799987792969,
-      "end": 444.5199890136719
-    },
-    {
-      "word": "year",
-      "start": 444.5199890136719,
-      "end": 444.67999267578125
-    },
-    {
-      "word": "Hussein",
-      "start": 444.8599853515625,
-      "end": 445.260009765625
-    },
-    {
-      "word": "Khaled",
-      "start": 445.260009765625,
-      "end": 445.5400085449219
-    },
-    {
-      "word": "has",
-      "start": 445.5400085449219,
-      "end": 445.8599853515625
-    },
-    {
-      "word": "been",
-      "start": 445.8599853515625,
-      "end": 446.05999755859375
-    },
-    {
-      "word": "at",
-      "start": 446.05999755859375,
-      "end": 446.44000244140625
-    },
-    {
-      "word": "protest",
-      "start": 446.44000244140625,
-      "end": 446.70001220703125
-    },
-    {
-      "word": "lines",
-      "start": 446.70001220703125,
-      "end": 447.1000061035156
-    },
-    {
-      "word": "in",
-      "start": 447.5400085449219,
-      "end": 448.0400085449219
-    },
-    {
-      "word": "morgues",
-      "start": 448.0400085449219,
-      "end": 448.05999755859375
-    },
-    {
-      "word": "and",
-      "start": 448.05999755859375,
-      "end": 448.6400146484375
-    },
-    {
-      "word": "at",
-      "start": 448.6400146484375,
-      "end": 449.1400146484375
-    },
-    {
-      "word": "funerals",
-      "start": 449.1400146484375,
-      "end": 449.4200134277344
-    },
-    {
-      "word": "always",
-      "start": 449.82000732421875,
-      "end": 450.20001220703125
-    },
-    {
-      "word": "standing",
-      "start": 450.20001220703125,
-      "end": 450.5400085449219
-    },
-    {
-      "word": "with",
-      "start": 450.5400085449219,
-      "end": 450.8999938964844
-    },
-    {
-      "word": "families",
-      "start": 450.8999938964844,
-      "end": 451.3599853515625
-    },
-    {
-      "word": "as",
-      "start": 451.3599853515625,
-      "end": 451.8399963378906
-    },
-    {
-      "word": "they",
-      "start": 451.8399963378906,
-      "end": 452.1199951171875
-    },
-    {
-      "word": "search",
-      "start": 452.1199951171875,
-      "end": 452.44000244140625
-    },
-    {
-      "word": "for",
-      "start": 452.44000244140625,
-      "end": 453.20001220703125
-    },
-    {
-      "word": "answers",
-      "start": 453.20001220703125,
-      "end": 453.20001220703125
-    },
-    {
-      "word": "Because",
-      "start": 453.2200012207031,
-      "end": 453.6000061035156
-    },
-    {
-      "word": "you",
-      "start": 453.6000061035156,
-      "end": 453.760009765625
-    },
-    {
-      "word": "have",
-      "start": 453.760009765625,
-      "end": 454
-    },
-    {
-      "word": "to",
-      "start": 454,
-      "end": 454.4200134277344
-    },
-    {
-      "word": "identify",
-      "start": 454.4200134277344,
-      "end": 455.17999267578125
-    },
-    {
-      "word": "the",
-      "start": 455.17999267578125,
-      "end": 455.5199890136719
-    },
-    {
-      "word": "bodies",
-      "start": 455.5199890136719,
-      "end": 455.8999938964844
-    },
-    {
-      "word": "you",
-      "start": 456.20001220703125,
-      "end": 456.239990234375
-    },
-    {
-      "word": "have",
-      "start": 456.239990234375,
-      "end": 456.5
-    },
-    {
-      "word": "to",
-      "start": 456.5,
-      "end": 457.29998779296875
-    },
-    {
-      "word": "get",
-      "start": 457.29998779296875,
-      "end": 457.7200012207031
-    },
-    {
-      "word": "in",
-      "start": 457.7200012207031,
-      "end": 458.0799865722656
-    },
-    {
-      "word": "touch",
-      "start": 458.0799865722656,
-      "end": 458.0799865722656
-    },
-    {
-      "word": "with",
-      "start": 458.0799865722656,
-      "end": 458.239990234375
-    },
-    {
-      "word": "the",
-      "start": 458.239990234375,
-      "end": 458.4200134277344
-    },
-    {
-      "word": "pathologist",
-      "start": 458.4200134277344,
-      "end": 459
-    },
-    {
-      "word": "make",
-      "start": 459.4200134277344,
-      "end": 459.739990234375
-    },
-    {
-      "word": "sure",
-      "start": 459.739990234375,
-      "end": 459.94000244140625
-    },
-    {
-      "word": "the",
-      "start": 459.94000244140625,
-      "end": 460.32000732421875
-    },
-    {
-      "word": "autopsy",
-      "start": 460.32000732421875,
-      "end": 460.6000061035156
-    },
-    {
-      "word": "is",
-      "start": 460.6000061035156,
-      "end": 460.8999938964844
-    },
-    {
-      "word": "done",
-      "start": 460.8999938964844,
-      "end": 461.1400146484375
-    },
-    {
-      "word": "before",
-      "start": 461.1400146484375,
-      "end": 461.6199951171875
-    },
-    {
-      "word": "the",
-      "start": 461.6199951171875,
-      "end": 461.8999938964844
-    },
-    {
-      "word": "families",
-      "start": 461.8999938964844,
-      "end": 462.1600036621094
-    },
-    {
-      "word": "can",
-      "start": 462.1600036621094,
-      "end": 462.4200134277344
-    },
-    {
-      "word": "pick",
-      "start": 462.4200134277344,
-      "end": 462.5799865722656
-    },
-    {
-      "word": "their",
-      "start": 462.5799865722656,
-      "end": 463.1199951171875
-    },
-    {
-      "word": "bodies",
-      "start": 463.1199951171875,
-      "end": 463.1199951171875
-    },
-    {
-      "word": "Khaled",
-      "start": 463.760009765625,
-      "end": 463.8599853515625
-    },
-    {
-      "word": "leads",
-      "start": 463.8599853515625,
-      "end": 464.20001220703125
-    },
-    {
-      "word": "Vocal",
-      "start": 464.20001220703125,
-      "end": 464.6199951171875
-    },
-    {
-      "word": "Africa",
-      "start": 464.6199951171875,
-      "end": 465.05999755859375
-    },
-    {
-      "word": "a",
-      "start": 465.3399963378906,
-      "end": 465.6000061035156
-    },
-    {
-      "word": "rights",
-      "start": 465.6000061035156,
-      "end": 465.7799987792969
-    },
-    {
-      "word": "group",
-      "start": 465.7799987792969,
-      "end": 465.9800109863281
-    },
-    {
-      "word": "that's",
-      "start": 465.9800109863281,
-      "end": 466.239990234375
-    },
-    {
-      "word": "been",
-      "start": 466.239990234375,
-      "end": 466.3800048828125
-    },
-    {
-      "word": "at",
-      "start": 466.3800048828125,
-      "end": 466.4800109863281
-    },
-    {
-      "word": "the",
-      "start": 466.4800109863281,
-      "end": 466.9599914550781
-    },
-    {
-      "word": "forefront",
-      "start": 466.9599914550781,
-      "end": 467.1199951171875
-    },
-    {
-      "word": "of",
-      "start": 467.1199951171875,
-      "end": 468.17999267578125
-    },
-    {
-      "word": "documenting",
-      "start": 468.17999267578125,
-      "end": 468.17999267578125
-    },
-    {
-      "word": "extrajudicial",
-      "start": 468.17999267578125,
-      "end": 469.05999755859375
-    },
-    {
-      "word": "killings",
-      "start": 469.05999755859375,
-      "end": 469.6199951171875
-    },
-    {
-      "word": "If",
-      "start": 469.9800109863281,
-      "end": 470.4200134277344
-    },
-    {
-      "word": "you",
-      "start": 470.4200134277344,
-      "end": 470.6199951171875
-    },
-    {
-      "word": "look",
-      "start": 470.6199951171875,
-      "end": 470.79998779296875
-    },
-    {
-      "word": "at",
-      "start": 470.79998779296875,
-      "end": 471.0199890136719
-    },
-    {
-      "word": "how",
-      "start": 471.0199890136719,
-      "end": 471.4200134277344
-    },
-    {
-      "word": "extrajudicial",
-      "start": 471.4200134277344,
-      "end": 472.1400146484375
-    },
-    {
-      "word": "killings",
-      "start": 472.1400146484375,
-      "end": 472.5199890136719
-    },
-    {
-      "word": "were",
-      "start": 472.5199890136719,
-      "end": 472.8800048828125
-    },
-    {
-      "word": "dealt",
-      "start": 472.8800048828125,
-      "end": 473.05999755859375
-    },
-    {
-      "word": "with",
-      "start": 473.05999755859375,
-      "end": 473.3800048828125
-    },
-    {
-      "word": "in",
-      "start": 473.3800048828125,
-      "end": 473.5400085449219
-    },
-    {
-      "word": "the",
-      "start": 473.5400085449219,
-      "end": 473.739990234375
-    },
-    {
-      "word": "past",
-      "start": 473.739990234375,
-      "end": 474.05999755859375
-    },
-    {
-      "word": "and",
-      "start": 474.05999755859375,
-      "end": 474.3800048828125
-    },
-    {
-      "word": "now",
-      "start": 474.3800048828125,
-      "end": 474.760009765625
-    },
-    {
-      "word": "there's",
-      "start": 475.239990234375,
-      "end": 475.32000732421875
-    },
-    {
-      "word": "very",
-      "start": 475.32000732421875,
-      "end": 475.6199951171875
-    },
-    {
-      "word": "little",
-      "start": 475.6199951171875,
-      "end": 475.8399963378906
-    },
-    {
-      "word": "difference",
-      "start": 475.8399963378906,
-      "end": 476.32000732421875
-    },
-    {
-      "word": "You",
-      "start": 476.7200012207031,
-      "end": 476.7200012207031
-    },
-    {
-      "word": "have",
-      "start": 476.7200012207031,
-      "end": 477.2799987792969
-    },
-    {
-      "word": "government",
-      "start": 477.2799987792969,
-      "end": 478.0400085449219
-    },
-    {
-      "word": "denial",
-      "start": 478.0400085449219,
-      "end": 478.4599914550781
-    },
-    {
-      "word": "you",
-      "start": 478.79998779296875,
-      "end": 478.9200134277344
-    },
-    {
-      "word": "have",
-      "start": 478.9200134277344,
-      "end": 479.20001220703125
-    },
-    {
-      "word": "police",
-      "start": 479.20001220703125,
-      "end": 479.6199951171875
-    },
-    {
-      "word": "who",
-      "start": 479.6199951171875,
-      "end": 480.0199890136719
-    },
-    {
-      "word": "come",
-      "start": 480.0199890136719,
-      "end": 480.3800048828125
-    },
-    {
-      "word": "out",
-      "start": 480.3800048828125,
-      "end": 480.739990234375
-    },
-    {
-      "word": "to",
-      "start": 480.739990234375,
-      "end": 481.5400085449219
-    },
-    {
-      "word": "counter",
-      "start": 481.5400085449219,
-      "end": 481.9599914550781
-    },
-    {
-      "word": "accuse",
-      "start": 481.9599914550781,
-      "end": 482.8800048828125
-    },
-    {
-      "word": "particularly",
-      "start": 483.32000732421875,
-      "end": 483.32000732421875
-    },
-    {
-      "word": "the",
-      "start": 483.32000732421875,
-      "end": 483.6400146484375
-    },
-    {
-      "word": "suspects",
-      "start": 483.6400146484375,
-      "end": 484.05999755859375
-    },
-    {
-      "word": "or",
-      "start": 484.05999755859375,
-      "end": 484.9599914550781
-    },
-    {
-      "word": "the",
-      "start": 484.9599914550781,
-      "end": 485.260009765625
-    },
-    {
-      "word": "victims",
-      "start": 485.260009765625,
-      "end": 485.5
-    },
-    {
-      "word": "and",
-      "start": 485.6199951171875,
-      "end": 485.7799987792969
-    },
-    {
-      "word": "this",
-      "start": 485.7799987792969,
-      "end": 485.9599914550781
-    },
-    {
-      "word": "has",
-      "start": 485.9599914550781,
-      "end": 486.2200012207031
-    },
-    {
-      "word": "been",
-      "start": 486.2200012207031,
-      "end": 486.3399963378906
-    },
-    {
-      "word": "the",
-      "start": 486.3399963378906,
-      "end": 486.6000061035156
-    },
-    {
-      "word": "modus",
-      "start": 486.6000061035156,
-      "end": 486.79998779296875
-    },
-    {
-      "word": "operandi",
-      "start": 486.79998779296875,
-      "end": 487.6199951171875
-    },
-    {
-      "word": "In",
-      "start": 487.6600036621094,
-      "end": 487.8399963378906
-    },
-    {
-      "word": "2010",
-      "start": 487.8399963378906,
-      "end": 488.4800109863281
-    },
-    {
-      "word": "Kenya",
-      "start": 488.7200012207031,
-      "end": 488.8599853515625
-    },
-    {
-      "word": "adopted",
-      "start": 488.8599853515625,
-      "end": 489.32000732421875
-    },
-    {
-      "word": "a",
-      "start": 489.32000732421875,
-      "end": 489.6400146484375
-    },
-    {
-      "word": "new",
-      "start": 489.6400146484375,
-      "end": 489.9200134277344
-    },
-    {
-      "word": "constitution",
-      "start": 489.9200134277344,
-      "end": 490.4800109863281
-    },
-    {
-      "word": "It",
-      "start": 491.1199951171875,
-      "end": 491.2200012207031
-    },
-    {
-      "word": "marked",
-      "start": 491.2200012207031,
-      "end": 491.4800109863281
-    },
-    {
-      "word": "a",
-      "start": 491.4800109863281,
-      "end": 491.70001220703125
-    },
-    {
-      "word": "new",
-      "start": 491.70001220703125,
-      "end": 492.0400085449219
-    },
-    {
-      "word": "era",
-      "start": 492.0400085449219,
-      "end": 492.20001220703125
-    },
-    {
-      "word": "away",
-      "start": 492.20001220703125,
-      "end": 492.6000061035156
-    },
-    {
-      "word": "from",
-      "start": 492.6000061035156,
-      "end": 492.7799987792969
-    },
-    {
-      "word": "its",
-      "start": 492.7799987792969,
-      "end": 492.9800109863281
-    },
-    {
-      "word": "authoritarian",
-      "start": 492.9800109863281,
-      "end": 493.5799865722656
-    },
-    {
-      "word": "past",
-      "start": 493.5799865722656,
-      "end": 494.17999267578125
-    },
-    {
-      "word": "promising",
-      "start": 494.70001220703125,
-      "end": 494.8999938964844
-    },
-    {
-      "word": "justice",
-      "start": 494.8999938964844,
-      "end": 495.55999755859375
-    },
-    {
-      "word": "and",
-      "start": 495.55999755859375,
-      "end": 496.1000061035156
-    },
-    {
-      "word": "reform",
-      "start": 496.1000061035156,
-      "end": 496.5
-    },
-    {
-      "word": "We",
-      "start": 496.5,
-      "end": 496.55999755859375
-    },
-    {
-      "word": "were",
-      "start": 496.55999755859375,
-      "end": 497.239990234375
-    },
-    {
-      "word": "told",
-      "start": 497.239990234375,
-      "end": 497.5400085449219
-    },
-    {
-      "word": "that",
-      "start": 497.5400085449219,
-      "end": 497.79998779296875
-    },
-    {
-      "word": "this",
-      "start": 497.79998779296875,
-      "end": 497.9200134277344
-    },
-    {
-      "word": "is",
-      "start": 497.9200134277344,
-      "end": 498.2200012207031
-    },
-    {
-      "word": "no",
-      "start": 498.2200012207031,
-      "end": 498.2200012207031
-    },
-    {
-      "word": "longer",
-      "start": 498.2200012207031,
-      "end": 498.6199951171875
-    },
-    {
-      "word": "a",
-      "start": 498.6199951171875,
-      "end": 499.239990234375
-    },
-    {
-      "word": "police",
-      "start": 499.239990234375,
-      "end": 499.5199890136719
-    },
-    {
-      "word": "force",
-      "start": 499.5199890136719,
-      "end": 499.8800048828125
-    },
-    {
-      "word": "that",
-      "start": 500.0799865722656,
-      "end": 500.5400085449219
-    },
-    {
-      "word": "it",
-      "start": 500.5400085449219,
-      "end": 500.6600036621094
-    },
-    {
-      "word": "is",
-      "start": 500.6600036621094,
-      "end": 500.8800048828125
-    },
-    {
-      "word": "now",
-      "start": 500.8800048828125,
-      "end": 501.20001220703125
-    },
-    {
-      "word": "a",
-      "start": 501.20001220703125,
-      "end": 501.4200134277344
-    },
-    {
-      "word": "police",
-      "start": 501.4200134277344,
-      "end": 501.7200012207031
-    },
-    {
-      "word": "service",
-      "start": 501.7200012207031,
-      "end": 502.2799987792969
-    },
-    {
-      "word": "But",
-      "start": 502.79998779296875,
-      "end": 502.8999938964844
-    },
-    {
-      "word": "if",
-      "start": 502.8999938964844,
-      "end": 503.05999755859375
-    },
-    {
-      "word": "you",
-      "start": 503.05999755859375,
-      "end": 503.260009765625
-    },
-    {
-      "word": "look",
-      "start": 503.260009765625,
-      "end": 503.3800048828125
-    },
-    {
-      "word": "at",
-      "start": 503.3800048828125,
-      "end": 503.5
-    },
-    {
-      "word": "the",
-      "start": 503.5,
-      "end": 503.8399963378906
-    },
-    {
-      "word": "facts",
-      "start": 503.8399963378906,
-      "end": 503.94000244140625
-    },
-    {
-      "word": "on",
-      "start": 503.94000244140625,
-      "end": 504.2799987792969
-    },
-    {
-      "word": "the",
-      "start": 504.2799987792969,
-      "end": 504.32000732421875
-    },
-    {
-      "word": "ground",
-      "start": 504.32000732421875,
-      "end": 504.5400085449219
-    },
-    {
-      "word": "it",
-      "start": 505.1000061035156,
-      "end": 505.29998779296875
-    },
-    {
-      "word": "remains",
-      "start": 505.29998779296875,
-      "end": 505.8599853515625
-    },
-    {
-      "word": "a",
-      "start": 505.8599853515625,
-      "end": 506.260009765625
-    },
-    {
-      "word": "police",
-      "start": 506.260009765625,
-      "end": 506.44000244140625
-    },
-    {
-      "word": "force",
-      "start": 506.44000244140625,
-      "end": 506.9200134277344
-    },
-    {
-      "word": "There",
-      "start": 507.3800048828125,
-      "end": 507.3999938964844
-    },
-    {
-      "word": "are",
-      "start": 507.3999938964844,
-      "end": 507.6600036621094
-    },
-    {
-      "word": "directives",
-      "start": 507.6600036621094,
-      "end": 508.260009765625
-    },
-    {
-      "word": "given",
-      "start": 508.260009765625,
-      "end": 508.9200134277344
-    },
-    {
-      "word": "that",
-      "start": 508.9200134277344,
-      "end": 509.239990234375
-    },
-    {
-      "word": "you",
-      "start": 509.239990234375,
-      "end": 509.44000244140625
-    },
-    {
-      "word": "must",
-      "start": 509.44000244140625,
-      "end": 509.7200012207031
-    },
-    {
-      "word": "kill",
-      "start": 509.7200012207031,
-      "end": 510.0199890136719
-    },
-    {
-      "word": "a",
-      "start": 510.0199890136719,
-      "end": 510.5400085449219
-    },
-    {
-      "word": "few",
-      "start": 510.5400085449219,
-      "end": 510.5400085449219
-    },
-    {
-      "word": "so",
-      "start": 510.5400085449219,
-      "end": 511.05999755859375
-    },
-    {
-      "word": "that",
-      "start": 511.05999755859375,
-      "end": 511.32000732421875
-    },
-    {
-      "word": "you",
-      "start": 511.32000732421875,
-      "end": 511.70001220703125
-    },
-    {
-      "word": "know",
-      "start": 511.70001220703125,
-      "end": 511.7799987792969
-    },
-    {
-      "word": "you",
-      "start": 511.82000732421875,
-      "end": 511.9200134277344
-    },
-    {
-      "word": "can",
-      "start": 511.9200134277344,
-      "end": 512.219970703125
-    },
-    {
-      "word": "drain",
-      "start": 512.219970703125,
-      "end": 512.4600219726562
-    },
-    {
-      "word": "in",
-      "start": 512.4600219726562,
-      "end": 512.719970703125
-    },
-    {
-      "word": "on",
-      "start": 512.719970703125,
-      "end": 512.9000244140625
-    },
-    {
-      "word": "these",
-      "start": 512.9000244140625,
-      "end": 513.1599731445312
-    },
-    {
-      "word": "protesters",
-      "start": 513.1599731445312,
-      "end": 513.5999755859375
-    },
-    {
-      "word": "Khaled",
-      "start": 514.1400146484375,
-      "end": 514.280029296875
-    },
-    {
-      "word": "says",
-      "start": 514.280029296875,
-      "end": 514.5800170898438
-    },
-    {
-      "word": "a",
-      "start": 514.5800170898438,
-      "end": 514.780029296875
-    },
-    {
-      "word": "complete",
-      "start": 514.780029296875,
-      "end": 515.219970703125
-    },
-    {
-      "word": "overhaul",
-      "start": 515.219970703125,
-      "end": 515.719970703125
-    },
-    {
-      "word": "of",
-      "start": 515.719970703125,
-      "end": 516.0399780273438
-    },
-    {
-      "word": "the",
-      "start": 516.0399780273438,
-      "end": 516.1599731445312
-    },
-    {
-      "word": "police",
-      "start": 516.1599731445312,
-      "end": 516.47998046875
-    },
-    {
-      "word": "service",
-      "start": 516.47998046875,
-      "end": 516.9600219726562
-    },
-    {
-      "word": "is",
-      "start": 516.9600219726562,
-      "end": 517.4400024414062
-    },
-    {
-      "word": "urgent",
-      "start": 517.4400024414062,
-      "end": 517.8599853515625
-    },
-    {
-      "word": "This",
-      "start": 517.9600219726562,
-      "end": 518.2999877929688
-    },
-    {
-      "word": "starts",
-      "start": 518.2999877929688,
-      "end": 518.6799926757812
-    },
-    {
-      "word": "with",
-      "start": 518.6799926757812,
-      "end": 519.3800048828125
-    },
-    {
-      "word": "the",
-      "start": 519.3800048828125,
-      "end": 520.719970703125
-    },
-    {
-      "word": "firing",
-      "start": 520.719970703125,
-      "end": 520.719970703125
-    },
-    {
-      "word": "of",
-      "start": 520.719970703125,
-      "end": 521.4600219726562
-    },
-    {
-      "word": "all",
-      "start": 521.4600219726562,
-      "end": 522.280029296875
-    },
-    {
-      "word": "top",
-      "start": 522.280029296875,
-      "end": 522.7000122070312
-    },
-    {
-      "word": "security",
-      "start": 522.7000122070312,
-      "end": 523.3200073242188
-    },
-    {
-      "word": "officers",
-      "start": 523.3200073242188,
-      "end": 523.8599853515625
-    },
-    {
-      "word": "They",
-      "start": 523.8599853515625,
-      "end": 524.219970703125
-    },
-    {
-      "word": "must",
-      "start": 524.219970703125,
-      "end": 524.6199951171875
-    },
-    {
-      "word": "be",
-      "start": 524.6199951171875,
-      "end": 525.0800170898438
-    },
-    {
-      "word": "sent",
-      "start": 525.0800170898438,
-      "end": 525.0999755859375
-    },
-    {
-      "word": "home",
-      "start": 525.0999755859375,
-      "end": 525.6400146484375
-    },
-    {
-      "word": "for",
-      "start": 525.6400146484375,
-      "end": 526.5
-    },
-    {
-      "word": "you",
-      "start": 526.5,
-      "end": 526.7000122070312
-    },
-    {
-      "word": "know",
-      "start": 526.7000122070312,
-      "end": 526.97998046875
-    },
-    {
-      "word": "allowing",
-      "start": 526.97998046875,
-      "end": 527.719970703125
-    },
-    {
-      "word": "during",
-      "start": 527.719970703125,
-      "end": 528.4400024414062
-    },
-    {
-      "word": "their",
-      "start": 528.4400024414062,
-      "end": 528.7999877929688
-    },
-    {
-      "word": "reign",
-      "start": 528.7999877929688,
-      "end": 529.3599853515625
-    },
-    {
-      "word": "such",
-      "start": 529.3599853515625,
-      "end": 529.7999877929688
-    },
-    {
-      "word": "kinds",
-      "start": 529.7999877929688,
-      "end": 530.1199951171875
-    },
-    {
-      "word": "of",
-      "start": 530.1199951171875,
-      "end": 530.3599853515625
-    },
-    {
-      "word": "atrocities",
-      "start": 530.3599853515625,
-      "end": 530.8400268554688
-    },
-    {
-      "word": "to",
-      "start": 530.8400268554688,
-      "end": 531.0599975585938
-    },
-    {
-      "word": "be",
-      "start": 531.0599975585938,
-      "end": 531.2999877929688
-    },
-    {
-      "word": "committed",
-      "start": 531.2999877929688,
-      "end": 531.6799926757812
-    },
-    {
-      "word": "The",
-      "start": 532.8200073242188,
-      "end": 533.5599975585938
-    },
-    {
-      "word": "violent",
-      "start": 533.5599975585938,
-      "end": 533.9199829101562
-    },
-    {
-      "word": "crackdowns",
-      "start": 533.9199829101562,
-      "end": 534.6400146484375
-    },
-    {
-      "word": "only",
-      "start": 534.6400146484375,
-      "end": 535.02001953125
-    },
-    {
-      "word": "intensified",
-      "start": 535.02001953125,
-      "end": 535.5399780273438
-    },
-    {
-      "word": "youth",
-      "start": 535.5399780273438,
-      "end": 536
-    },
-    {
-      "word": "participation",
-      "start": 536,
-      "end": 536.5999755859375
-    },
-    {
-      "word": "in",
-      "start": 536.5999755859375,
-      "end": 536.97998046875
-    },
-    {
-      "word": "the",
-      "start": 536.97998046875,
-      "end": 537.219970703125
-    },
-    {
-      "word": "streets",
-      "start": 537.219970703125,
-      "end": 537.47998046875
-    },
-    {
-      "word": "and",
-      "start": 537.47998046875,
-      "end": 537.9600219726562
-    },
-    {
-      "word": "online",
-      "start": 537.9600219726562,
-      "end": 538.52001953125
-    },
-    {
-      "word": "When",
-      "start": 542.6199951171875,
-      "end": 543.3599853515625
-    },
-    {
-      "word": "this",
-      "start": 543.3599853515625,
-      "end": 543.7000122070312
-    },
-    {
-      "word": "video",
-      "start": 543.7000122070312,
-      "end": 544
-    },
-    {
-      "word": "of",
-      "start": 544,
-      "end": 544.3200073242188
-    },
-    {
-      "word": "Shakira",
-      "start": 544.3200073242188,
-      "end": 544.6199951171875
-    },
-    {
-      "word": "Ofula",
-      "start": 544.6199951171875,
-      "end": 544.9600219726562
-    },
-    {
-      "word": "went",
-      "start": 544.9600219726562,
-      "end": 545.4000244140625
-    },
-    {
-      "word": "viral",
-      "start": 545.4000244140625,
-      "end": 545.7999877929688
-    },
-    {
-      "word": "it",
-      "start": 545.9000244140625,
-      "end": 546.4000244140625
-    },
-    {
-      "word": "made",
-      "start": 546.4000244140625,
-      "end": 546.5599975585938
-    },
-    {
-      "word": "her",
-      "start": 546.5599975585938,
-      "end": 546.780029296875
-    },
-    {
-      "word": "one",
-      "start": 546.780029296875,
-      "end": 546.9199829101562
-    },
-    {
-      "word": "of",
-      "start": 546.9199829101562,
-      "end": 547.0399780273438
-    },
-    {
-      "word": "the",
-      "start": 547.0399780273438,
-      "end": 547.219970703125
-    },
-    {
-      "word": "most",
-      "start": 547.219970703125,
-      "end": 547.5999755859375
-    },
-    {
-      "word": "recognizable",
-      "start": 547.5999755859375,
-      "end": 548.1599731445312
-    },
-    {
-      "word": "faces",
-      "start": 548.1599731445312,
-      "end": 548.719970703125
-    },
-    {
-      "word": "of",
-      "start": 548.719970703125,
-      "end": 549.1799926757812
-    },
-    {
-      "word": "the",
-      "start": 549.1799926757812,
-      "end": 549.3599853515625
-    },
-    {
-      "word": "movement",
-      "start": 549.3599853515625,
-      "end": 549.739990234375
-    },
-    {
-      "word": "I'm",
-      "start": 550.3200073242188,
-      "end": 550.6599731445312
-    },
-    {
-      "word": "a",
-      "start": 550.6599731445312,
-      "end": 550.8400268554688
-    },
-    {
-      "word": "fitness",
-      "start": 550.8400268554688,
-      "end": 551.2000122070312
-    },
-    {
-      "word": "instructor",
-      "start": 551.2000122070312,
-      "end": 551.7000122070312
-    },
-    {
-      "word": "by",
-      "start": 551.7000122070312,
-      "end": 552.2999877929688
-    },
-    {
-      "word": "profession",
-      "start": 552.2999877929688,
-      "end": 552.6599731445312
-    },
-    {
-      "word": "I",
-      "start": 552.6599731445312,
-      "end": 552.719970703125
-    },
-    {
-      "word": "actually",
-      "start": 552.719970703125,
-      "end": 553.4199829101562
-    },
-    {
-      "word": "live",
-      "start": 553.4199829101562,
-      "end": 554.2999877929688
-    },
-    {
-      "word": "a",
-      "start": 554.2999877929688,
-      "end": 555.1799926757812
-    },
-    {
-      "word": "relatively",
-      "start": 555.1799926757812,
-      "end": 555.760009765625
-    },
-    {
-      "word": "quiet",
-      "start": 555.760009765625,
-      "end": 556.280029296875
-    },
-    {
-      "word": "and",
-      "start": 556.280029296875,
-      "end": 556.6799926757812
-    },
-    {
-      "word": "simple",
-      "start": 556.6799926757812,
-      "end": 557.0399780273438
-    },
-    {
-      "word": "life",
-      "start": 557.0399780273438,
-      "end": 557.4000244140625
-    },
-    {
-      "word": "But",
-      "start": 557.5999755859375,
-      "end": 557.5999755859375
-    },
-    {
-      "word": "that",
-      "start": 557.5999755859375,
-      "end": 557.8800048828125
-    },
-    {
-      "word": "changed",
-      "start": 557.8800048828125,
-      "end": 558.260009765625
-    },
-    {
-      "word": "in",
-      "start": 558.260009765625,
-      "end": 558.6799926757812
-    },
-    {
-      "word": "June",
-      "start": 558.6799926757812,
-      "end": 558.8200073242188
-    },
-    {
-      "word": "2024",
-      "start": 558.8200073242188,
-      "end": 559.7000122070312
-    },
-    {
-      "word": "June",
-      "start": 560.02001953125,
-      "end": 560.0599975585938
-    },
-    {
-      "word": "18",
-      "start": 560.0599975585938,
-      "end": 560.5999755859375
-    },
-    {
-      "word": "2024",
-      "start": 560.9600219726562,
-      "end": 561.3599853515625
-    },
-    {
-      "word": "was",
-      "start": 561.3599853515625,
-      "end": 561.7000122070312
-    },
-    {
-      "word": "literally",
-      "start": 561.7000122070312,
-      "end": 562.1799926757812
-    },
-    {
-      "word": "my",
-      "start": 562.1799926757812,
-      "end": 562.52001953125
-    },
-    {
-      "word": "first",
-      "start": 562.52001953125,
-      "end": 562.739990234375
-    },
-    {
-      "word": "time",
-      "start": 562.739990234375,
-      "end": 563
-    },
-    {
-      "word": "ever",
-      "start": 563,
-      "end": 563.239990234375
-    },
-    {
-      "word": "on",
-      "start": 563.239990234375,
-      "end": 563.4000244140625
-    },
-    {
-      "word": "the",
-      "start": 563.4000244140625,
-      "end": 563.6199951171875
-    },
-    {
-      "word": "streets",
-      "start": 563.6199951171875,
-      "end": 563.8400268554688
-    },
-    {
-      "word": "protesting",
-      "start": 563.8400268554688,
-      "end": 564.4400024414062
-    },
-    {
-      "word": "My",
-      "start": 565.0800170898438,
-      "end": 565.1400146484375
-    },
-    {
-      "word": "mother",
-      "start": 565.1400146484375,
-      "end": 565.3599853515625
-    },
-    {
-      "word": "even",
-      "start": 565.3599853515625,
-      "end": 565.8200073242188
-    },
-    {
-      "word": "asked",
-      "start": 565.8200073242188,
-      "end": 566.0399780273438
-    },
-    {
-      "word": "me",
-      "start": 566.0399780273438,
-      "end": 566.4199829101562
-    },
-    {
-      "word": "are",
-      "start": 566.47998046875,
-      "end": 566.5599975585938
-    },
-    {
-      "word": "you",
-      "start": 566.5599975585938,
-      "end": 566.8200073242188
-    },
-    {
-      "word": "sure",
-      "start": 566.8200073242188,
-      "end": 566.9400024414062
-    },
-    {
-      "word": "you",
-      "start": 566.9400024414062,
-      "end": 567.219970703125
-    },
-    {
-      "word": "really",
-      "start": 567.219970703125,
-      "end": 567.52001953125
-    },
-    {
-      "word": "want",
-      "start": 567.52001953125,
-      "end": 567.760009765625
-    },
-    {
-      "word": "to",
-      "start": 567.760009765625,
-      "end": 567.97998046875
-    },
-    {
-      "word": "go",
-      "start": 567.97998046875,
-      "end": 568.0800170898438
-    },
-    {
-      "word": "They're",
-      "start": 568.1400146484375,
-      "end": 568.3200073242188
-    },
-    {
-      "word": "going",
-      "start": 568.3200073242188,
-      "end": 568.5
-    },
-    {
-      "word": "to",
-      "start": 568.5,
-      "end": 568.7000122070312
-    },
-    {
-      "word": "arrest",
-      "start": 568.7000122070312,
-      "end": 568.9199829101562
-    },
-    {
-      "word": "you",
-      "start": 568.9199829101562,
-      "end": 569.0800170898438
-    },
-    {
-      "word": "Within",
-      "start": 569.1799926757812,
-      "end": 569.4000244140625
-    },
-    {
-      "word": "30",
-      "start": 569.4000244140625,
-      "end": 569.9199829101562
-    },
-    {
-      "word": "minutes",
-      "start": 569.9199829101562,
-      "end": 570.1400146484375
-    },
-    {
-      "word": "of",
-      "start": 570.1400146484375,
-      "end": 570.9600219726562
-    },
-    {
-      "word": "arriving",
-      "start": 570.9600219726562,
-      "end": 571.0999755859375
-    },
-    {
-      "word": "Shakira",
-      "start": 571.239990234375,
-      "end": 571.47998046875
-    },
-    {
-      "word": "was",
-      "start": 571.47998046875,
-      "end": 571.7999877929688
-    },
-    {
-      "word": "forcefully",
-      "start": 571.7999877929688,
-      "end": 572.3200073242188
-    },
-    {
-      "word": "taken",
-      "start": 572.3200073242188,
-      "end": 572.5999755859375
-    },
-    {
-      "word": "by",
-      "start": 572.5999755859375,
-      "end": 572.9400024414062
-    },
-    {
-      "word": "police",
-      "start": 572.9400024414062,
-      "end": 573.2999877929688
-    },
-    {
-      "word": "officers",
-      "start": 573.2999877929688,
-      "end": 573.8599853515625
-    },
-    {
-      "word": "wearing",
-      "start": 573.8599853515625,
-      "end": 574.47998046875
-    },
-    {
-      "word": "plain",
-      "start": 574.47998046875,
-      "end": 574.9000244140625
-    },
-    {
-      "word": "clothes",
-      "start": 574.9000244140625,
-      "end": 575.3400268554688
-    },
-    {
-      "word": "And",
-      "start": 575.5999755859375,
-      "end": 575.780029296875
-    },
-    {
-      "word": "the",
-      "start": 575.780029296875,
-      "end": 575.97998046875
-    },
-    {
-      "word": "next",
-      "start": 575.97998046875,
-      "end": 576.0999755859375
-    },
-    {
-      "word": "thing",
-      "start": 576.0999755859375,
-      "end": 576.4000244140625
-    },
-    {
-      "word": "I",
-      "start": 576.6199951171875,
-      "end": 576.719970703125
-    },
-    {
-      "word": "was",
-      "start": 576.719970703125,
-      "end": 577.5399780273438
-    },
-    {
-      "word": "grabbed",
-      "start": 577.5399780273438,
-      "end": 577.5399780273438
-    },
-    {
-      "word": "by",
-      "start": 577.5399780273438,
-      "end": 577.97998046875
-    },
-    {
-      "word": "four",
-      "start": 577.97998046875,
-      "end": 578.52001953125
-    },
-    {
-      "word": "or",
-      "start": 578.52001953125,
-      "end": 578.9199829101562
-    },
-    {
-      "word": "five",
-      "start": 578.9199829101562,
-      "end": 579.1400146484375
-    },
-    {
-      "word": "men",
-      "start": 579.1400146484375,
-      "end": 579.4000244140625
-    },
-    {
-      "word": "They",
-      "start": 579.4000244140625,
-      "end": 579.4600219726562
-    },
-    {
-      "word": "just",
-      "start": 579.4600219726562,
-      "end": 579.719970703125
-    },
-    {
-      "word": "literally",
-      "start": 579.719970703125,
-      "end": 580.4400024414062
-    },
-    {
-      "word": "lifted",
-      "start": 580.4400024414062,
-      "end": 580.6199951171875
-    },
-    {
-      "word": "me",
-      "start": 580.6199951171875,
-      "end": 580.7999877929688
-    },
-    {
-      "word": "off",
-      "start": 580.7999877929688,
-      "end": 581.1199951171875
-    },
-    {
-      "word": "the",
-      "start": 581.1199951171875,
-      "end": 581.3800048828125
-    },
-    {
-      "word": "streets",
-      "start": 581.3800048828125,
-      "end": 581.6199951171875
-    },
-    {
-      "word": "and",
-      "start": 581.6199951171875,
-      "end": 581.9600219726562
-    },
-    {
-      "word": "threw",
-      "start": 581.9600219726562,
-      "end": 582.5599975585938
-    },
-    {
-      "word": "me",
-      "start": 582.5599975585938,
-      "end": 582.7999877929688
-    },
-    {
-      "word": "into",
-      "start": 582.7999877929688,
-      "end": 582.9199829101562
-    },
-    {
-      "word": "this",
-      "start": 582.9199829101562,
-      "end": 583.260009765625
-    },
-    {
-      "word": "police",
-      "start": 583.260009765625,
-      "end": 583.5999755859375
-    },
-    {
-      "word": "vehicle",
-      "start": 583.5999755859375,
-      "end": 584.0399780273438
-    },
-    {
-      "word": "Instead",
-      "start": 584.4199829101562,
-      "end": 584.4199829101562
-    },
-    {
-      "word": "of",
-      "start": 584.4199829101562,
-      "end": 584.739990234375
-    },
-    {
-      "word": "being",
-      "start": 584.739990234375,
-      "end": 585.1199951171875
-    },
-    {
-      "word": "silenced",
-      "start": 585.1199951171875,
-      "end": 585.5399780273438
-    },
-    {
-      "word": "she",
-      "start": 585.7000122070312,
-      "end": 586.0599975585938
-    },
-    {
-      "word": "says",
-      "start": 586.0599975585938,
-      "end": 586.3400268554688
-    },
-    {
-      "word": "being",
-      "start": 586.3400268554688,
-      "end": 586.6599731445312
-    },
-    {
-      "word": "in",
-      "start": 586.6599731445312,
-      "end": 586.7999877929688
-    },
-    {
-      "word": "a",
-      "start": 586.7999877929688,
-      "end": 587.1199951171875
-    },
-    {
-      "word": "cell",
-      "start": 587.1199951171875,
-      "end": 587.1199951171875
-    },
-    {
-      "word": "with",
-      "start": 587.1199951171875,
-      "end": 587.4000244140625
-    },
-    {
-      "word": "almost",
-      "start": 587.4000244140625,
-      "end": 587.7999877929688
-    },
-    {
-      "word": "100",
-      "start": 587.7999877929688,
-      "end": 588.280029296875
-    },
-    {
-      "word": "women",
-      "start": 588.280029296875,
-      "end": 588.6799926757812
-    },
-    {
-      "word": "inspired",
-      "start": 588.6799926757812,
-      "end": 589.5800170898438
-    },
-    {
-      "word": "her",
-      "start": 589.5800170898438,
-      "end": 589.7999877929688
-    },
-    {
-      "word": "to",
-      "start": 589.7999877929688,
-      "end": 590.02001953125
-    },
-    {
-      "word": "return",
-      "start": 590.02001953125,
-      "end": 590.280029296875
-    },
-    {
-      "word": "to",
-      "start": 590.280029296875,
-      "end": 590.4199829101562
-    },
-    {
-      "word": "the",
-      "start": 590.4199829101562,
-      "end": 590.6199951171875
-    },
-    {
-      "word": "streets",
-      "start": 590.6199951171875,
-      "end": 590.97998046875
-    },
-    {
-      "word": "We",
-      "start": 591.239990234375,
-      "end": 591.239990234375
-    },
-    {
-      "word": "had",
-      "start": 591.239990234375,
-      "end": 591.52001953125
-    },
-    {
-      "word": "people",
-      "start": 591.52001953125,
-      "end": 591.7999877929688
-    },
-    {
-      "word": "from",
-      "start": 591.7999877929688,
-      "end": 592.1400146484375
-    },
-    {
-      "word": "different",
-      "start": 592.1400146484375,
-      "end": 592.5599975585938
-    },
-    {
-      "word": "walks",
-      "start": 592.5599975585938,
-      "end": 592.8400268554688
-    },
-    {
-      "word": "of",
-      "start": 592.8400268554688,
-      "end": 593.260009765625
-    },
-    {
-      "word": "life",
-      "start": 593.260009765625,
-      "end": 593.260009765625
-    },
-    {
-      "word": "We",
-      "start": 593.5,
-      "end": 593.5
-    },
-    {
-      "word": "had",
-      "start": 593.5,
-      "end": 593.739990234375
-    },
-    {
-      "word": "conversations",
-      "start": 593.739990234375,
-      "end": 594.3800048828125
-    },
-    {
-      "word": "about",
-      "start": 594.3800048828125,
-      "end": 595.1799926757812
-    },
-    {
-      "word": "what",
-      "start": 595.1799926757812,
-      "end": 595.6199951171875
-    },
-    {
-      "word": "exactly",
-      "start": 595.6199951171875,
-      "end": 596.0999755859375
-    },
-    {
-      "word": "each",
-      "start": 596.0999755859375,
-      "end": 597.1799926757812
-    },
-    {
-      "word": "individual",
-      "start": 597.1799926757812,
-      "end": 597.6799926757812
-    },
-    {
-      "word": "came",
-      "start": 597.6799926757812,
-      "end": 598
-    },
-    {
-      "word": "out",
-      "start": 598,
-      "end": 598.280029296875
-    },
-    {
-      "word": "to",
-      "start": 598.280029296875,
-      "end": 598.5
-    },
-    {
-      "word": "the",
-      "start": 598.5,
-      "end": 598.9400024414062
-    },
-    {
-      "word": "streets",
-      "start": 598.9400024414062,
-      "end": 598.9400024414062
-    },
-    {
-      "word": "for",
-      "start": 598.9400024414062,
-      "end": 599.280029296875
-    },
-    {
-      "word": "We",
-      "start": 599.52001953125,
-      "end": 599.52001953125
-    },
-    {
-      "word": "were",
-      "start": 599.52001953125,
-      "end": 599.8200073242188
-    },
-    {
-      "word": "singing",
-      "start": 599.8200073242188,
-      "end": 600.1400146484375
-    },
-    {
-      "word": "revolutionary",
-      "start": 600.1400146484375,
-      "end": 600.9199829101562
-    },
-    {
-      "word": "songs",
-      "start": 600.9199829101562,
-      "end": 601.3599853515625
-    },
-    {
-      "word": "inside",
-      "start": 601.3599853515625,
-      "end": 601.8400268554688
-    },
-    {
-      "word": "there",
-      "start": 601.8400268554688,
-      "end": 602.219970703125
-    },
-    {
-      "word": "Shakira",
-      "start": 602.47998046875,
-      "end": 602.7999877929688
-    },
-    {
-      "word": "says",
-      "start": 602.7999877929688,
-      "end": 603.1199951171875
-    },
-    {
-      "word": "she",
-      "start": 603.1199951171875,
-      "end": 603.4600219726562
-    },
-    {
-      "word": "joined",
-      "start": 603.4600219726562,
-      "end": 603.6799926757812
-    },
-    {
-      "word": "another",
-      "start": 603.6799926757812,
-      "end": 604.1599731445312
-    },
-    {
-      "word": "protest",
-      "start": 604.1599731445312,
-      "end": 604.6599731445312
-    },
-    {
-      "word": "just",
-      "start": 604.6599731445312,
-      "end": 605.4199829101562
-    },
-    {
-      "word": "two",
-      "start": 605.4199829101562,
-      "end": 605.6799926757812
-    },
-    {
-      "word": "days",
-      "start": 605.6799926757812,
-      "end": 605.9000244140625
-    },
-    {
-      "word": "later",
-      "start": 605.9000244140625,
-      "end": 606.3400268554688
-    },
-    {
-      "word": "I",
-      "start": 606.3400268554688,
-      "end": 606.6400146484375
-    },
-    {
-      "word": "came",
-      "start": 606.6400146484375,
-      "end": 606.9400024414062
-    },
-    {
-      "word": "out",
-      "start": 606.9400024414062,
-      "end": 607.280029296875
-    },
-    {
-      "word": "on",
-      "start": 607.280029296875,
-      "end": 607.5800170898438
-    },
-    {
-      "word": "20th",
-      "start": 607.5800170898438,
-      "end": 608
-    },
-    {
-      "word": "with",
-      "start": 608,
-      "end": 608.1799926757812
-    },
-    {
-      "word": "a",
-      "start": 608.1799926757812,
-      "end": 608.4000244140625
-    },
-    {
-      "word": "vengeance",
-      "start": 608.4000244140625,
-      "end": 608.760009765625
-    },
-    {
-      "word": "of",
-      "start": 608.760009765625,
-      "end": 609.1400146484375
-    },
-    {
-      "word": "I",
-      "start": 609.3400268554688,
-      "end": 609.3400268554688
-    },
-    {
-      "word": "won't",
-      "start": 609.3400268554688,
-      "end": 609.52001953125
-    },
-    {
-      "word": "allow",
-      "start": 609.52001953125,
-      "end": 609.9000244140625
-    },
-    {
-      "word": "myself",
-      "start": 609.9000244140625,
-      "end": 610.3200073242188
-    },
-    {
-      "word": "to",
-      "start": 610.3200073242188,
-      "end": 610.5399780273438
-    },
-    {
-      "word": "be",
-      "start": 610.5399780273438,
-      "end": 611.2000122070312
-    },
-    {
-      "word": "arrested",
-      "start": 611.2000122070312,
-      "end": 611.2000122070312
-    },
-    {
-      "word": "When",
-      "start": 611.280029296875,
-      "end": 611.4400024414062
-    },
-    {
-      "word": "four",
-      "start": 611.4400024414062,
-      "end": 611.9600219726562
-    },
-    {
-      "word": "armed",
-      "start": 611.9600219726562,
-      "end": 612.1799926757812
-    },
-    {
-      "word": "men",
-      "start": 612.1799926757812,
-      "end": 612.5
-    },
-    {
-      "word": "threatened",
-      "start": 612.5,
-      "end": 612.9199829101562
-    },
-    {
-      "word": "to",
-      "start": 612.9199829101562,
-      "end": 613.2999877929688
-    },
-    {
-      "word": "move",
-      "start": 613.2999877929688,
-      "end": 613.52001953125
-    },
-    {
-      "word": "her",
-      "start": 613.52001953125,
-      "end": 613.780029296875
-    },
-    {
-      "word": "she",
-      "start": 614.280029296875,
-      "end": 614.4400024414062
-    },
-    {
-      "word": "stood",
-      "start": 614.4400024414062,
-      "end": 614.719970703125
-    },
-    {
-      "word": "her",
-      "start": 614.719970703125,
-      "end": 615.0800170898438
-    },
-    {
-      "word": "ground",
-      "start": 615.0800170898438,
-      "end": 615.3599853515625
-    },
-    {
-      "word": "Being",
-      "start": 620.6199951171875,
-      "end": 621.260009765625
-    },
-    {
-      "word": "a",
-      "start": 621.260009765625,
-      "end": 621.719970703125
-    },
-    {
-      "word": "young",
-      "start": 621.719970703125,
-      "end": 622.0599975585938
-    },
-    {
-      "word": "woman",
-      "start": 622.0599975585938,
-      "end": 622.3800048828125
-    },
-    {
-      "word": "being",
-      "start": 622.6400146484375,
-      "end": 622.780029296875
-    },
-    {
-      "word": "a",
-      "start": 622.780029296875,
-      "end": 623.4600219726562
-    },
-    {
-      "word": "Muslim",
-      "start": 623.4600219726562,
-      "end": 623.4600219726562
-    },
-    {
-      "word": "and",
-      "start": 623.6400146484375,
-      "end": 623.760009765625
-    },
-    {
-      "word": "then",
-      "start": 623.760009765625,
-      "end": 624.0599975585938
-    },
-    {
-      "word": "the",
-      "start": 624.0599975585938,
-      "end": 624.4199829101562
-    },
-    {
-      "word": "confidence",
-      "start": 624.4199829101562,
-      "end": 625
-    },
-    {
-      "word": "and",
-      "start": 625,
-      "end": 625.3599853515625
-    },
-    {
-      "word": "the",
-      "start": 625.3599853515625,
-      "end": 626.260009765625
-    },
-    {
-      "word": "spirit",
-      "start": 626.260009765625,
-      "end": 626.6400146484375
-    },
-    {
-      "word": "that",
-      "start": 626.6400146484375,
-      "end": 627.1599731445312
-    },
-    {
-      "word": "came",
-      "start": 627.1599731445312,
-      "end": 627.5
-    },
-    {
-      "word": "out",
-      "start": 627.5,
-      "end": 627.760009765625
-    },
-    {
-      "word": "from",
-      "start": 627.760009765625,
-      "end": 627.9600219726562
-    },
-    {
-      "word": "that",
-      "start": 627.9600219726562,
-      "end": 628.260009765625
-    },
-    {
-      "word": "moment",
-      "start": 628.260009765625,
-      "end": 628.719970703125
-    },
-    {
-      "word": "that's",
-      "start": 628.8800048828125,
-      "end": 629.280029296875
-    },
-    {
-      "word": "what",
-      "start": 629.280029296875,
-      "end": 629.4400024414062
-    },
-    {
-      "word": "a",
-      "start": 629.4400024414062,
-      "end": 629.719970703125
-    },
-    {
-      "word": "lot",
-      "start": 629.719970703125,
-      "end": 629.719970703125
-    },
-    {
-      "word": "of",
-      "start": 629.719970703125,
-      "end": 629.9600219726562
-    },
-    {
-      "word": "people",
-      "start": 629.9600219726562,
-      "end": 630.260009765625
-    },
-    {
-      "word": "resonated",
-      "start": 630.260009765625,
-      "end": 630.7000122070312
-    },
-    {
-      "word": "with",
-      "start": 630.7000122070312,
-      "end": 631.1199951171875
-    },
-    {
-      "word": "Previously",
-      "start": 631.239990234375,
-      "end": 631.760009765625
-    },
-    {
-      "word": "protests",
-      "start": 631.7999877929688,
-      "end": 632.280029296875
-    },
-    {
-      "word": "are",
-      "start": 632.280029296875,
-      "end": 632.5800170898438
-    },
-    {
-      "word": "usually",
-      "start": 632.5800170898438,
-      "end": 632.9400024414062
-    },
-    {
-      "word": "older",
-      "start": 632.9400024414062,
-      "end": 633.9199829101562
-    },
-    {
-      "word": "people",
-      "start": 633.9199829101562,
-      "end": 634.5399780273438
-    },
-    {
-      "word": "usually",
-      "start": 635.280029296875,
-      "end": 635.739990234375
-    },
-    {
-      "word": "men",
-      "start": 635.739990234375,
-      "end": 636.1799926757812
-    },
-    {
-      "word": "With",
-      "start": 636.1799926757812,
-      "end": 636.47998046875
-    },
-    {
-      "word": "over",
-      "start": 636.47998046875,
-      "end": 636.8800048828125
-    },
-    {
-      "word": "75",
-      "start": 636.8800048828125,
-      "end": 637.52001953125
-    },
-    {
-      "word": "",
-      "start": 637.52001953125,
-      "end": 637.719970703125
-    },
-    {
-      "word": "of",
-      "start": 637.719970703125,
-      "end": 638.0800170898438
-    },
-    {
-      "word": "the",
-      "start": 638.0800170898438,
-      "end": 638.260009765625
-    },
-    {
-      "word": "population",
-      "start": 638.260009765625,
-      "end": 638.760009765625
-    },
-    {
-      "word": "under",
-      "start": 638.760009765625,
-      "end": 639.1799926757812
-    },
-    {
-      "word": "35",
-      "start": 639.1799926757812,
-      "end": 639.8400268554688
-    },
-    {
-      "word": "Shakira",
-      "start": 640.4199829101562,
-      "end": 640.4600219726562
-    },
-    {
-      "word": "says",
-      "start": 640.4600219726562,
-      "end": 640.760009765625
-    },
-    {
-      "word": "she's",
-      "start": 640.760009765625,
-      "end": 641.02001953125
-    },
-    {
-      "word": "now",
-      "start": 641.02001953125,
-      "end": 641.3599853515625
-    },
-    {
-      "word": "also",
-      "start": 641.3599853515625,
-      "end": 641.760009765625
-    },
-    {
-      "word": "taking",
-      "start": 641.760009765625,
-      "end": 641.9400024414062
-    },
-    {
-      "word": "her",
-      "start": 641.9400024414062,
-      "end": 643.0800170898438
-    },
-    {
-      "word": "activism",
-      "start": 643.0800170898438,
-      "end": 643.0800170898438
-    },
-    {
-      "word": "beyond",
-      "start": 643.0800170898438,
-      "end": 643.5800170898438
-    },
-    {
-      "word": "the",
-      "start": 643.5800170898438,
-      "end": 644.9400024414062
-    },
-    {
-      "word": "streets",
-      "start": 644.9400024414062,
-      "end": 644.9400024414062
-    },
-    {
-      "word": "I",
-      "start": 644.97998046875,
-      "end": 645.5599975585938
-    },
-    {
-      "word": "also",
-      "start": 645.5599975585938,
-      "end": 645.97998046875
-    },
-    {
-      "word": "move",
-      "start": 645.97998046875,
-      "end": 646.280029296875
-    },
-    {
-      "word": "around",
-      "start": 646.280029296875,
-      "end": 646.5599975585938
-    },
-    {
-      "word": "the",
-      "start": 646.5599975585938,
-      "end": 647.0800170898438
-    },
-    {
-      "word": "country",
-      "start": 647.0800170898438,
-      "end": 647.0800170898438
-    },
-    {
-      "word": "for",
-      "start": 647.0800170898438,
-      "end": 647.47998046875
-    },
-    {
-      "word": "civic",
-      "start": 647.47998046875,
-      "end": 647.7999877929688
-    },
-    {
-      "word": "education",
-      "start": 647.7999877929688,
-      "end": 648.3599853515625
-    },
-    {
-      "word": "and",
-      "start": 648.3599853515625,
-      "end": 648.8400268554688
-    },
-    {
-      "word": "political",
-      "start": 648.8400268554688,
-      "end": 649.4600219726562
-    },
-    {
-      "word": "engagement",
-      "start": 649.4600219726562,
-      "end": 650.219970703125
-    },
-    {
-      "word": "trying",
-      "start": 650.719970703125,
-      "end": 651.260009765625
-    },
-    {
-      "word": "to",
-      "start": 651.260009765625,
-      "end": 651.5
-    },
-    {
-      "word": "get",
-      "start": 651.5,
-      "end": 651.760009765625
-    },
-    {
-      "word": "Kenyan",
-      "start": 651.760009765625,
-      "end": 652.1400146484375
-    },
-    {
-      "word": "citizens",
-      "start": 652.1400146484375,
-      "end": 652.6400146484375
-    },
-    {
-      "word": "to",
-      "start": 652.6400146484375,
-      "end": 653.5800170898438
-    },
-    {
-      "word": "participate",
-      "start": 653.5800170898438,
-      "end": 654.0999755859375
-    },
-    {
-      "word": "actively",
-      "start": 654.0999755859375,
-      "end": 654.6599731445312
-    },
-    {
-      "word": "with",
-      "start": 654.6599731445312,
-      "end": 655.0599975585938
-    },
-    {
-      "word": "what",
-      "start": 655.0599975585938,
-      "end": 655.239990234375
-    },
-    {
-      "word": "is",
-      "start": 655.239990234375,
-      "end": 655.4600219726562
-    },
-    {
-      "word": "happening",
-      "start": 655.4600219726562,
-      "end": 655.6799926757812
-    },
-    {
-      "word": "in",
-      "start": 655.6799926757812,
-      "end": 656.0599975585938
-    },
-    {
-      "word": "governance",
-      "start": 656.0599975585938,
-      "end": 656.4600219726562
-    },
-    {
-      "word": "We",
-      "start": 656.719970703125,
-      "end": 656.9600219726562
-    },
-    {
-      "word": "need",
-      "start": 656.9600219726562,
-      "end": 657.239990234375
-    },
-    {
-      "word": "to",
-      "start": 657.239990234375,
-      "end": 657.9199829101562
-    },
-    {
-      "word": "elect",
-      "start": 657.9199829101562,
-      "end": 657.9199829101562
-    },
-    {
-      "word": "new",
-      "start": 657.9199829101562,
-      "end": 658.4600219726562
-    },
-    {
-      "word": "leaders",
-      "start": 658.4600219726562,
-      "end": 658.780029296875
-    },
-    {
-      "word": "because",
-      "start": 658.780029296875,
-      "end": 659.4600219726562
-    },
-    {
-      "word": "the",
-      "start": 659.4600219726562,
-      "end": 659.6400146484375
-    },
-    {
-      "word": "current",
-      "start": 659.6400146484375,
-      "end": 659.97998046875
-    },
-    {
-      "word": "leadership",
-      "start": 659.97998046875,
-      "end": 660.3200073242188
-    },
-    {
-      "word": "has",
-      "start": 660.3200073242188,
-      "end": 660.5800170898438
-    },
-    {
-      "word": "already",
-      "start": 660.5800170898438,
-      "end": 660.9000244140625
-    },
-    {
-      "word": "shown",
-      "start": 660.9000244140625,
-      "end": 661.4600219726562
-    },
-    {
-      "word": "us",
-      "start": 661.4600219726562,
-      "end": 661.739990234375
-    },
-    {
-      "word": "that",
-      "start": 661.739990234375,
-      "end": 661.8800048828125
-    },
-    {
-      "word": "they",
-      "start": 661.8800048828125,
-      "end": 662.02001953125
-    },
-    {
-      "word": "are",
-      "start": 662.02001953125,
-      "end": 662.1400146484375
-    },
-    {
-      "word": "not",
-      "start": 662.1400146484375,
-      "end": 662.4600219726562
-    },
-    {
-      "word": "willing",
-      "start": 662.4600219726562,
-      "end": 662.6400146484375
-    },
-    {
-      "word": "to",
-      "start": 662.6400146484375,
-      "end": 662.9000244140625
-    },
-    {
-      "word": "serve",
-      "start": 662.9000244140625,
-      "end": 663.1599731445312
-    },
-    {
-      "word": "us",
-      "start": 663.1599731445312,
-      "end": 663.3599853515625
-    },
-    {
-      "word": "Wanjira",
-      "start": 666.3599853515625,
-      "end": 667.0800170898438
-    },
-    {
-      "word": "hasn't",
-      "start": 667.0800170898438,
-      "end": 667.5
-    },
-    {
-      "word": "stopped",
-      "start": 667.5,
-      "end": 667.9000244140625
-    },
-    {
-      "word": "risking",
-      "start": 667.9000244140625,
-      "end": 668.2999877929688
-    },
-    {
-      "word": "her",
-      "start": 668.2999877929688,
-      "end": 668.5999755859375
-    },
-    {
-      "word": "life",
-      "start": 668.5999755859375,
-      "end": 668.9600219726562
-    },
-    {
-      "word": "on",
-      "start": 668.9600219726562,
-      "end": 669.3200073242188
-    },
-    {
-      "word": "the",
-      "start": 669.3200073242188,
-      "end": 669.8800048828125
-    },
-    {
-      "word": "frontlines",
-      "start": 669.8800048828125,
-      "end": 670.219970703125
-    },
-    {
-      "word": "In",
-      "start": 672.3800048828125,
-      "end": 672.4600219726562
-    },
-    {
-      "word": "2024",
-      "start": 672.4600219726562,
-      "end": 673.4199829101562
-    },
-    {
-      "word": "Kenya",
-      "start": 673.7000122070312,
-      "end": 673.760009765625
-    },
-    {
-      "word": "recorded",
-      "start": 673.760009765625,
-      "end": 674.239990234375
-    },
-    {
-      "word": "more",
-      "start": 674.239990234375,
-      "end": 674.5800170898438
-    },
-    {
-      "word": "than",
-      "start": 674.5800170898438,
-      "end": 674.8400268554688
-    },
-    {
-      "word": "1",
-      "start": 674.8400268554688,
-      "end": 675.0999755859375
-    },
-    {
-      "word": "800",
-      "start": 675.0999755859375,
-      "end": 676.0399780273438
-    },
-    {
-      "word": "demonstrations",
-      "start": 676.0399780273438,
-      "end": 676.7999877929688
-    },
-    {
-      "word": "the",
-      "start": 677.4000244140625,
-      "end": 677.5
-    },
-    {
-      "word": "highest",
-      "start": 677.5,
-      "end": 677.8800048828125
-    },
-    {
-      "word": "in",
-      "start": 677.8800048828125,
-      "end": 678.3800048828125
-    },
-    {
-      "word": "over",
-      "start": 678.3800048828125,
-      "end": 678.760009765625
-    },
-    {
-      "word": "three",
-      "start": 678.760009765625,
-      "end": 679.0800170898438
-    },
-    {
-      "word": "decades",
-      "start": 679.0800170898438,
-      "end": 679.5599975585938
-    },
-    {
-      "word": "This",
-      "start": 679.9400024414062,
-      "end": 680.1599731445312
-    },
-    {
-      "word": "is",
-      "start": 680.1599731445312,
-      "end": 680.4600219726562
-    },
-    {
-      "word": "insanity",
-      "start": 680.4600219726562,
-      "end": 680.9600219726562
-    },
-    {
-      "word": "This",
-      "start": 681.260009765625,
-      "end": 681.3400268554688
-    },
-    {
-      "word": "is",
-      "start": 681.3400268554688,
-      "end": 681.6599731445312
-    },
-    {
-      "word": "madness",
-      "start": 681.6599731445312,
-      "end": 681.9000244140625
-    },
-    {
-      "word": "This",
-      "start": 682.1199951171875,
-      "end": 682.1199951171875
-    },
-    {
-      "word": "is",
-      "start": 682.1199951171875,
-      "end": 682.239990234375
-    },
-    {
-      "word": "not",
-      "start": 682.239990234375,
-      "end": 682.5599975585938
-    },
-    {
-      "word": "leadership",
-      "start": 682.5599975585938,
-      "end": 682.97998046875
-    },
-    {
-      "word": "One",
-      "start": 683.239990234375,
-      "end": 683.3599853515625
-    },
-    {
-      "word": "of",
-      "start": 683.3599853515625,
-      "end": 683.5
-    },
-    {
-      "word": "the",
-      "start": 683.5,
-      "end": 683.5999755859375
-    },
-    {
-      "word": "most",
-      "start": 683.5999755859375,
-      "end": 684.1599731445312
-    },
-    {
-      "word": "recent",
-      "start": 684.1599731445312,
-      "end": 684.3200073242188
-    },
-    {
-      "word": "cases",
-      "start": 684.3200073242188,
-      "end": 684.7000122070312
-    },
-    {
-      "word": "to",
-      "start": 684.7000122070312,
-      "end": 685.1199951171875
-    },
-    {
-      "word": "galvanize",
-      "start": 685.1199951171875,
-      "end": 685.6400146484375
-    },
-    {
-      "word": "the",
-      "start": 685.6400146484375,
-      "end": 685.8200073242188
-    },
-    {
-      "word": "nation",
-      "start": 685.8200073242188,
-      "end": 686.1599731445312
-    },
-    {
-      "word": "is",
-      "start": 686.1599731445312,
-      "end": 686.7000122070312
-    },
-    {
-      "word": "the",
-      "start": 686.7000122070312,
-      "end": 687.1799926757812
-    },
-    {
-      "word": "killing",
-      "start": 687.1799926757812,
-      "end": 687.1799926757812
-    },
-    {
-      "word": "of",
-      "start": 687.1799926757812,
-      "end": 687.5399780273438
-    },
-    {
-      "word": "31",
-      "start": 687.5399780273438,
-      "end": 688.0599975585938
-    },
-    {
-      "word": "year",
-      "start": 688.0599975585938,
-      "end": 688.260009765625
-    },
-    {
-      "word": "old",
-      "start": 688.260009765625,
-      "end": 688.47998046875
-    },
-    {
-      "word": "teacher",
-      "start": 688.47998046875,
-      "end": 688.7999877929688
-    },
-    {
-      "word": "and",
-      "start": 688.7999877929688,
-      "end": 689.2000122070312
-    },
-    {
-      "word": "blogger",
-      "start": 689.2000122070312,
-      "end": 689.7000122070312
-    },
-    {
-      "word": "Albert",
-      "start": 689.7000122070312,
-      "end": 690.1199951171875
-    },
-    {
-      "word": "Ojwang",
-      "start": 690.1199951171875,
-      "end": 690.5399780273438
-    },
-    {
-      "word": "Today",
-      "start": 690.5399780273438,
-      "end": 691.260009765625
-    },
-    {
-      "word": "we",
-      "start": 691.260009765625,
-      "end": 691.47998046875
-    },
-    {
-      "word": "are",
-      "start": 691.47998046875,
-      "end": 691.739990234375
-    },
-    {
-      "word": "here",
-      "start": 691.739990234375,
-      "end": 692.1799926757812
-    },
-    {
-      "word": "as",
-      "start": 692.1799926757812,
-      "end": 693
-    },
-    {
-      "word": "Kenyan",
-      "start": 693,
-      "end": 693.3200073242188
-    },
-    {
-      "word": "youth",
-      "start": 693.3200073242188,
-      "end": 693.6400146484375
-    },
-    {
-      "word": "as",
-      "start": 693.8599853515625,
-      "end": 694.1799926757812
-    },
-    {
-      "word": "Kenyan",
-      "start": 694.1799926757812,
-      "end": 694.1799926757812
-    },
-    {
-      "word": "patriots",
-      "start": 694.1799926757812,
-      "end": 694.760009765625
-    },
-    {
-      "word": "to",
-      "start": 695.1199951171875,
-      "end": 695.3599853515625
-    },
-    {
-      "word": "condemn",
-      "start": 695.3599853515625,
-      "end": 696.3800048828125
-    },
-    {
-      "word": "the",
-      "start": 696.3800048828125,
-      "end": 696.5800170898438
-    },
-    {
-      "word": "killing",
-      "start": 696.5800170898438,
-      "end": 697.0800170898438
-    },
-    {
-      "word": "of",
-      "start": 697.0800170898438,
-      "end": 697.6599731445312
-    },
-    {
-      "word": "Albert",
-      "start": 697.6599731445312,
-      "end": 698.260009765625
-    },
-    {
-      "word": "Ojwang",
-      "start": 698.260009765625,
-      "end": 698.280029296875
-    },
-    {
-      "word": "and",
-      "start": 698.280029296875,
-      "end": 698.52001953125
-    },
-    {
-      "word": "to",
-      "start": 698.52001953125,
-      "end": 699.0800170898438
-    },
-    {
-      "word": "demand",
-      "start": 699.0800170898438,
-      "end": 699.0800170898438
-    },
-    {
-      "word": "justice",
-      "start": 699.0800170898438,
-      "end": 699.780029296875
-    },
-    {
-      "word": "Police",
-      "start": 699.780029296875,
-      "end": 700.3800048828125
-    },
-    {
-      "word": "arrested",
-      "start": 700.3800048828125,
-      "end": 700.8800048828125
-    },
-    {
-      "word": "Ojwang",
-      "start": 700.8800048828125,
-      "end": 701.3800048828125
-    },
-    {
-      "word": "at",
-      "start": 701.3800048828125,
-      "end": 701.760009765625
-    },
-    {
-      "word": "his",
-      "start": 701.760009765625,
-      "end": 702.0399780273438
-    },
-    {
-      "word": "home",
-      "start": 702.0399780273438,
-      "end": 702.1599731445312
-    },
-    {
-      "word": "for",
-      "start": 702.1599731445312,
-      "end": 702.5399780273438
-    },
-    {
-      "word": "allegedly",
-      "start": 702.5399780273438,
-      "end": 703.1199951171875
-    },
-    {
-      "word": "publishing",
-      "start": 703.1199951171875,
-      "end": 703.7000122070312
-    },
-    {
-      "word": "false",
-      "start": 703.7000122070312,
-      "end": 704.3599853515625
-    },
-    {
-      "word": "information",
-      "start": 704.3599853515625,
-      "end": 704.9600219726562
-    },
-    {
-      "word": "about",
-      "start": 704.9600219726562,
-      "end": 705.6599731445312
-    },
-    {
-      "word": "a",
-      "start": 705.6599731445312,
-      "end": 706.0999755859375
-    },
-    {
-      "word": "senior",
-      "start": 706.0999755859375,
-      "end": 706.3400268554688
-    },
-    {
-      "word": "police",
-      "start": 706.3400268554688,
-      "end": 706.780029296875
-    },
-    {
-      "word": "officer",
-      "start": 706.780029296875,
-      "end": 707.1799926757812
-    },
-    {
-      "word": "Two",
-      "start": 707.5,
-      "end": 707.6400146484375
-    },
-    {
-      "word": "days",
-      "start": 707.6400146484375,
-      "end": 707.8599853515625
-    },
-    {
-      "word": "later",
-      "start": 707.8599853515625,
-      "end": 708.2999877929688
-    },
-    {
-      "word": "the",
-      "start": 708.52001953125,
-      "end": 708.719970703125
-    },
-    {
-      "word": "police",
-      "start": 708.719970703125,
-      "end": 709.02001953125
-    },
-    {
-      "word": "claimed",
-      "start": 709.02001953125,
-      "end": 709.3200073242188
-    },
-    {
-      "word": "he",
-      "start": 709.3200073242188,
-      "end": 709.6599731445312
-    },
-    {
-      "word": "died",
-      "start": 709.6599731445312,
-      "end": 709.9000244140625
-    },
-    {
-      "word": "in",
-      "start": 709.9000244140625,
-      "end": 710.3599853515625
-    },
-    {
-      "word": "custody",
-      "start": 710.3599853515625,
-      "end": 710.5800170898438
-    },
-    {
-      "word": "after",
-      "start": 710.5800170898438,
-      "end": 711.3800048828125
-    },
-    {
-      "word": "harming",
-      "start": 711.3800048828125,
-      "end": 711.739990234375
-    },
-    {
-      "word": "himself",
-      "start": 711.739990234375,
-      "end": 712.3400268554688
-    },
-    {
-      "word": "But",
-      "start": 712.5399780273438,
-      "end": 712.760009765625
-    },
-    {
-      "word": "an",
-      "start": 712.760009765625,
-      "end": 713.1400146484375
-    },
-    {
-      "word": "autopsy",
-      "start": 713.1400146484375,
-      "end": 713.4600219726562
-    },
-    {
-      "word": "refuted",
-      "start": 713.4600219726562,
-      "end": 713.97998046875
-    },
-    {
-      "word": "police",
-      "start": 713.97998046875,
-      "end": 714.5
-    },
+    }
+  ];
+
+  export const REAL_WORDS2: TranscriptionWord[] = [
     {
-      "word": "accounts",
-      "start": 714.5,
-      "end": 714.9000244140625
+      "word": "Control",
+      "start": 0,
+      "end": 0.47999998927116394
     },
     {
-      "word": "Head",
-      "start": 715.1199951171875,
-      "end": 715.2000122070312
-    },
-    {
-      "word": "injury",
-      "start": 715.2000122070312,
-      "end": 715.5599975585938
-    },
-    {
-      "word": "neck",
-      "start": 716.239990234375,
-      "end": 716.5
-    },
-    {
-      "word": "compression",
-      "start": 716.5,
-      "end": 716.97998046875
-    },
-    {
-      "word": "We",
-      "start": 716.97998046875,
-      "end": 717.1400146484375
-    },
-    {
-      "word": "also",
-      "start": 717.1400146484375,
-      "end": 717.3800048828125
-    },
-    {
-      "word": "have",
-      "start": 717.3800048828125,
-      "end": 717.7999877929688
-    },
-    {
-      "word": "other",
-      "start": 717.7999877929688,
-      "end": 718.280029296875
-    },
-    {
-      "word": "injuries",
-      "start": 718.280029296875,
-      "end": 718.7000122070312
-    },
-    {
-      "word": "that",
-      "start": 718.7000122070312,
-      "end": 719.1799926757812
-    },
-    {
-      "word": "are",
-      "start": 719.1799926757812,
-      "end": 719.4600219726562
-    },
-    {
-      "word": "pointing",
-      "start": 719.4600219726562,
-      "end": 719.760009765625
-    },
-    {
-      "word": "towards",
-      "start": 719.760009765625,
-      "end": 720.3400268554688
-    },
-    {
-      "word": "assault",
-      "start": 720.3400268554688,
-      "end": 720.9600219726562
-    },
-    {
-      "word": "After",
-      "start": 721.4199829101562,
-      "end": 721.5
-    },
-    {
-      "word": "a",
-      "start": 721.5,
-      "end": 721.7999877929688
-    },
-    {
-      "word": "nationwide",
-      "start": 721.7999877929688,
-      "end": 722.3400268554688
-    },
-    {
-      "word": "outcry",
-      "start": 722.3400268554688,
-      "end": 722.9199829101562
-    },
-    {
-      "word": "and",
-      "start": 722.9199829101562,
-      "end": 723.3800048828125
-    },
-    {
-      "word": "forensic",
-      "start": 723.3800048828125,
-      "end": 723.8400268554688
-    },
-    {
-      "word": "evidence",
-      "start": 723.8400268554688,
-      "end": 724.3800048828125
-    },
-    {
-      "word": "six",
-      "start": 725.0399780273438,
-      "end": 725.1400146484375
-    },
-    {
-      "word": "people",
-      "start": 725.1400146484375,
-      "end": 725.5800170898438
-    },
-    {
-      "word": "including",
-      "start": 725.760009765625,
-      "end": 726.0800170898438
-    },
-    {
-      "word": "three",
-      "start": 726.0800170898438,
-      "end": 726.5800170898438
-    },
-    {
-      "word": "police",
-      "start": 726.5800170898438,
-      "end": 726.8599853515625
-    },
-    {
-      "word": "officers",
-      "start": 726.8599853515625,
-      "end": 727.4199829101562
-    },
-    {
-      "word": "were",
-      "start": 727.8400268554688,
-      "end": 727.97998046875
-    },
-    {
-      "word": "charged",
-      "start": 727.97998046875,
-      "end": 728.280029296875
-    },
-    {
-      "word": "with",
-      "start": 728.280029296875,
-      "end": 728.5
-    },
-    {
-      "word": "Ojwang's",
-      "start": 728.5,
-      "end": 729.1599731445312
-    },
-    {
-      "word": "murder",
-      "start": 729.1599731445312,
-      "end": 729.5
-    },
-    {
-      "word": "This",
-      "start": 729.5399780273438,
-      "end": 729.719970703125
-    },
-    {
-      "word": "time",
-      "start": 729.719970703125,
-      "end": 729.97998046875
-    },
-    {
-      "word": "round",
-      "start": 729.97998046875,
-      "end": 730.4400024414062
-    },
-    {
-      "word": "the",
-      "start": 730.97998046875,
-      "end": 731.02001953125
-    },
-    {
-      "word": "young",
-      "start": 731.02001953125,
-      "end": 731.219970703125
-    },
-    {
-      "word": "people",
-      "start": 731.219970703125,
-      "end": 731.3599853515625
-    },
-    {
-      "word": "are",
-      "start": 731.3599853515625,
-      "end": 731.6599731445312
-    },
-    {
-      "word": "saying",
-      "start": 731.6599731445312,
-      "end": 731.719970703125
-    },
-    {
-      "word": "enough",
-      "start": 731.719970703125,
-      "end": 731.97998046875
-    },
-    {
-      "word": "is",
-      "start": 731.97998046875,
-      "end": 732.1799926757812
-    },
-    {
-      "word": "enough",
-      "start": 732.1799926757812,
-      "end": 732.47998046875
-    },
-    {
-      "word": "We",
-      "start": 732.739990234375,
-      "end": 732.739990234375
-    },
-    {
-      "word": "shall",
-      "start": 732.739990234375,
-      "end": 732.8800048828125
-    },
-    {
-      "word": "not",
-      "start": 732.8800048828125,
-      "end": 733.1400146484375
-    },
-    {
-      "word": "die",
-      "start": 733.1400146484375,
-      "end": 733.4000244140625
-    },
-    {
-      "word": "at",
-      "start": 733.4000244140625,
-      "end": 733.7999877929688
-    },
-    {
-      "word": "home",
-      "start": 733.7999877929688,
-      "end": 733.8200073242188
-    },
-    {
-      "word": "We",
-      "start": 734.3400268554688,
-      "end": 734.3599853515625
-    },
-    {
-      "word": "shall",
-      "start": 734.3599853515625,
-      "end": 734.4600219726562
-    },
-    {
-      "word": "not",
-      "start": 734.4600219726562,
-      "end": 734.760009765625
-    },
-    {
-      "word": "feel",
-      "start": 734.760009765625,
-      "end": 735
-    },
-    {
-      "word": "insecure",
-      "start": 735,
-      "end": 735.3599853515625
-    },
-    {
-      "word": "at",
-      "start": 735.3599853515625,
-      "end": 735.8200073242188
-    },
-    {
-      "word": "home",
-      "start": 735.8200073242188,
-      "end": 735.8200073242188
-    },
-    {
-      "word": "We",
-      "start": 736.1400146484375,
-      "end": 736.2000122070312
-    },
-    {
-      "word": "shall",
-      "start": 736.2000122070312,
-      "end": 736.280029296875
-    },
-    {
-      "word": "not",
-      "start": 736.280029296875,
-      "end": 736.5
-    },
-    {
-      "word": "be",
-      "start": 736.5,
-      "end": 736.9000244140625
-    },
-    {
-      "word": "tortured",
-      "start": 736.9000244140625,
-      "end": 737
-    },
-    {
-      "word": "and",
-      "start": 737,
-      "end": 737.3400268554688
-    },
-    {
-      "word": "strangulated",
-      "start": 737.3400268554688,
-      "end": 737.9600219726562
-    },
-    {
-      "word": "at",
-      "start": 738.4000244140625,
-      "end": 739
-    },
-    {
-      "word": "home",
-      "start": 739,
-      "end": 739.219970703125
-    },
-    {
-      "word": "because",
-      "start": 739.219970703125,
-      "end": 739.5399780273438
-    },
-    {
-      "word": "of",
-      "start": 739.5399780273438,
-      "end": 739.780029296875
-    },
-    {
-      "word": "someone's",
-      "start": 739.780029296875,
-      "end": 740.4000244140625
-    },
-    {
-      "word": "ego",
-      "start": 740.4000244140625,
-      "end": 740.52001953125
-    },
-    {
-      "word": "This",
-      "start": 741.0399780273438,
-      "end": 741.6400146484375
-    },
-    {
-      "word": "is",
-      "start": 741.6400146484375,
-      "end": 741.8599853515625
-    },
-    {
-      "word": "the",
-      "start": 741.8599853515625,
-      "end": 741.9199829101562
-    },
-    {
-      "word": "kind",
-      "start": 741.9199829101562,
-      "end": 742.1799926757812
-    },
-    {
-      "word": "of",
-      "start": 742.1799926757812,
-      "end": 742.4400024414062
-    },
-    {
-      "word": "Kenya",
-      "start": 742.4400024414062,
-      "end": 742.6400146484375
-    },
-    {
-      "word": "we",
-      "start": 742.6400146484375,
-      "end": 742.9000244140625
-    },
-    {
-      "word": "don't",
-      "start": 742.9000244140625,
-      "end": 743.1400146484375
-    },
-    {
-      "word": "want",
-      "start": 743.1400146484375,
-      "end": 743.5399780273438
-    },
-    {
-      "word": "Wanjira",
-      "start": 743.5399780273438,
-      "end": 744.5800170898438
-    },
-    {
-      "word": "says",
-      "start": 744.5800170898438,
-      "end": 744.9600219726562
-    },
-    {
-      "word": "her",
-      "start": 744.9600219726562,
-      "end": 745.280029296875
-    },
-    {
-      "word": "generation's",
-      "start": 745.280029296875,
-      "end": 746.219970703125
-    },
-    {
-      "word": "fight",
-      "start": 746.219970703125,
-      "end": 746.2999877929688
-    },
-    {
-      "word": "is",
-      "start": 746.2999877929688,
-      "end": 746.9000244140625
-    },
-    {
-      "word": "far",
-      "start": 746.9000244140625,
-      "end": 747.280029296875
-    },
-    {
-      "word": "from",
-      "start": 747.280029296875,
-      "end": 747.5599975585938
-    },
-    {
-      "word": "over",
-      "start": 747.5599975585938,
-      "end": 747.9600219726562
-    },
-    {
-      "word": "as",
-      "start": 747.9600219726562,
-      "end": 748.4000244140625
-    },
-    {
-      "word": "they",
-      "start": 748.4000244140625,
-      "end": 748.5800170898438
-    },
-    {
-      "word": "continue",
-      "start": 748.5800170898438,
-      "end": 748.9400024414062
-    },
-    {
-      "word": "to",
-      "start": 748.9400024414062,
-      "end": 749.52001953125
-    },
-    {
-      "word": "demand",
-      "start": 749.52001953125,
-      "end": 749.52001953125
-    },
-    {
-      "word": "justice",
-      "start": 749.52001953125,
-      "end": 750
-    },
-    {
-      "word": "for",
-      "start": 750,
-      "end": 750.219970703125
-    },
-    {
-      "word": "the",
-      "start": 750.219970703125,
-      "end": 750.6400146484375
-    },
-    {
-      "word": "dead",
-      "start": 750.6400146484375,
-      "end": 750.6400146484375
-    },
-    {
-      "word": "and",
-      "start": 750.6400146484375,
-      "end": 751.219970703125
-    },
-    {
-      "word": "dignity",
-      "start": 751.219970703125,
-      "end": 751.5399780273438
-    },
-    {
-      "word": "for",
-      "start": 751.5399780273438,
-      "end": 751.9600219726562
-    },
-    {
-      "word": "the",
-      "start": 751.9600219726562,
-      "end": 752.219970703125
-    },
-    {
-      "word": "living",
-      "start": 752.219970703125,
-      "end": 752.3400268554688
-    },
-    {
-      "word": "Young",
-      "start": 752.739990234375,
-      "end": 752.739990234375
-    },
-    {
-      "word": "people",
-      "start": 752.739990234375,
-      "end": 752.9400024414062
-    },
-    {
-      "word": "have",
-      "start": 752.9400024414062,
-      "end": 753.3599853515625
-    },
-    {
-      "word": "the",
-      "start": 753.3599853515625,
-      "end": 753.97998046875
-    },
-    {
-      "word": "energy",
-      "start": 753.97998046875,
-      "end": 754.280029296875
-    },
-    {
-      "word": "the",
-      "start": 754.97998046875,
-      "end": 755.0599975585938
-    },
-    {
-      "word": "knowledge",
-      "start": 755.0599975585938,
-      "end": 755.47998046875
-    },
-    {
-      "word": "the",
-      "start": 755.9400024414062,
-      "end": 756.0800170898438
-    },
-    {
-      "word": "passion",
-      "start": 756.0800170898438,
-      "end": 756.52001953125
-    },
-    {
       "word": "the",
-      "start": 756.9199829101562,
-      "end": 757.1400146484375
-    },
-    {
-      "word": "patriotism",
-      "start": 757.1400146484375,
-      "end": 757.8200073242188
-    },
-    {
-      "word": "to",
-      "start": 757.8200073242188,
-      "end": 758.3400268554688
-    },
-    {
-      "word": "change",
-      "start": 758.3400268554688,
-      "end": 758.739990234375
-    },
-    {
-      "word": "our",
-      "start": 758.739990234375,
-      "end": 759.8400268554688
-    },
-    {
-      "word": "country",
-      "start": 759.8400268554688,
-      "end": 759.8400268554688
-    },
-    {
-      "word": "whatever",
-      "start": 760.4000244140625,
-      "end": 760.6799926757812
-    },
-    {
-      "word": "price",
-      "start": 760.6799926757812,
-      "end": 761.0800170898438
-    },
-    {
-      "word": "we",
-      "start": 761.0800170898438,
-      "end": 761.5
-    },
-    {
-      "word": "pay",
-      "start": 761.5,
-      "end": 761.5399780273438
-    },
-    {
-      "word": "And",
-      "start": 761.9600219726562,
-      "end": 762.0999755859375
-    },
-    {
-      "word": "if",
-      "start": 762.0999755859375,
-      "end": 762.1799926757812
-    },
-    {
-      "word": "you",
-      "start": 762.1799926757812,
-      "end": 762.2999877929688
-    },
-    {
-      "word": "will",
-      "start": 762.2999877929688,
-      "end": 762.4600219726562
-    },
-    {
-      "word": "not",
-      "start": 762.4600219726562,
-      "end": 762.6400146484375
-    },
-    {
-      "word": "be",
-      "start": 762.6400146484375,
-      "end": 762.8200073242188
+      "start": 0.47999998927116394,
+      "end": 0.699999988079071
     },
     {
-      "word": "able",
-      "start": 762.8200073242188,
-      "end": 763.0999755859375
+      "word": "access",
+      "start": 0.699999988079071,
+      "end": 1
     },
     {
-      "word": "to",
-      "start": 763.0999755859375,
-      "end": 763.7999877929688
+      "word": "points",
+      "start": 1,
+      "end": 1.399999976158142
     },
     {
-      "word": "implement",
-      "start": 763.7999877929688,
-      "end": 763.7999877929688
+      "word": "encircle",
+      "start": 2.0199999809265137,
+      "end": 2.0199999809265137
     },
     {
       "word": "your",
-      "start": 763.7999877929688,
-      "end": 764.0399780273438
+      "start": 2.0199999809265137,
+      "end": 2.3399999141693115
     },
     {
-      "word": "job",
-      "start": 764.0399780273438,
-      "end": 764.2999877929688
+      "word": "opponent",
+      "start": 2.3399999141693115,
+      "end": 2.5799999237060547
     },
     {
-      "word": "constitutionally",
-      "start": 764.2999877929688,
-      "end": 765.219970703125
+      "word": "and",
+      "start": 2.9000000953674316,
+      "end": 2.9800000190734863
     },
     {
-      "word": "unfortunately",
-      "start": 765.6400146484375,
-      "end": 766
+      "word": "then",
+      "start": 2.9800000190734863,
+      "end": 3.200000047683716
     },
     {
-      "word": "you",
-      "start": 766,
-      "end": 766.3800048828125
+      "word": "take",
+      "start": 3.200000047683716,
+      "end": 3.299999952316284
     },
     {
-      "word": "have",
-      "start": 766.3800048828125,
-      "end": 766.5999755859375
+      "word": "their",
+      "start": 3.299999952316284,
+      "end": 3.5399999618530273
     },
     {
-      "word": "to",
-      "start": 766.5999755859375,
-      "end": 766.780029296875
+      "word": "land",
+      "start": 3.5399999618530273,
+      "end": 3.740000009536743
     },
     {
-      "word": "go",
-      "start": 766.780029296875,
-      "end": 766.97998046875
-    },
-    {
-      "word": "That",
-      "start": 767.260009765625,
-      "end": 767.47998046875
+      "word": "This",
+      "start": 4,
+      "end": 4.099999904632568
     },
     {
       "word": "is",
-      "start": 767.47998046875,
-      "end": 767.5800170898438
+      "start": 4.099999904632568,
+      "end": 4.28000020980835
+    },
+    {
+      "word": "one",
+      "start": 4.28000020980835,
+      "end": 4.360000133514404
+    },
+    {
+      "word": "of",
+      "start": 4.360000133514404,
+      "end": 4.440000057220459
     },
     {
       "word": "the",
-      "start": 767.5800170898438,
-      "end": 767.7000122070312
+      "start": 4.440000057220459,
+      "end": 4.840000152587891
+    },
+    {
+      "word": "oldest",
+      "start": 4.840000152587891,
+      "end": 4.840000152587891
+    },
+    {
+      "word": "and",
+      "start": 4.840000152587891,
+      "end": 5.039999961853027
+    },
+    {
+      "word": "most",
+      "start": 5.039999961853027,
+      "end": 5.400000095367432
+    },
+    {
+      "word": "complicated",
+      "start": 5.400000095367432,
+      "end": 5.71999979019165
+    },
+    {
+      "word": "strategies",
+      "start": 5.71999979019165,
+      "end": 6.199999809265137
+    },
+    {
+      "word": "in",
+      "start": 6.199999809265137,
+      "end": 6.880000114440918
+    },
+    {
+      "word": "history",
+      "start": 6.880000114440918,
+      "end": 6.880000114440918
+    },
+    {
+      "word": "And",
+      "start": 7.059999942779541,
+      "end": 7.21999979019165
+    },
+    {
+      "word": "this",
+      "start": 7.21999979019165,
+      "end": 7.539999961853027
+    },
+    {
+      "word": "is",
+      "start": 7.539999961853027,
+      "end": 8.260000228881836
+    },
+    {
+      "word": "the",
+      "start": 8.260000228881836,
+      "end": 8.399999618530273
+    },
+    {
+      "word": "ancient",
+      "start": 8.399999618530273,
+      "end": 8.760000228881836
+    },
+    {
+      "word": "Chinese",
+      "start": 8.760000228881836,
+      "end": 9.119999885559082
+    },
+    {
+      "word": "game",
+      "start": 9.119999885559082,
+      "end": 9.420000076293945
+    },
+    {
+      "word": "of",
+      "start": 9.420000076293945,
+      "end": 9.680000305175781
+    },
+    {
+      "word": "Go",
+      "start": 9.680000305175781,
+      "end": 9.760000228881836
+    },
+    {
+      "word": "I've",
+      "start": 10.020000457763672,
+      "end": 10.220000267028809
+    },
+    {
+      "word": "been",
+      "start": 10.220000267028809,
+      "end": 10.359999656677246
+    },
+    {
+      "word": "teaching",
+      "start": 10.359999656677246,
+      "end": 10.420000076293945
+    },
+    {
+      "word": "myself",
+      "start": 10.420000076293945,
+      "end": 10.699999809265137
+    },
+    {
+      "word": "how",
+      "start": 10.699999809265137,
+      "end": 10.84000015258789
+    },
+    {
+      "word": "to",
+      "start": 10.84000015258789,
+      "end": 11.079999923706055
+    },
+    {
+      "word": "play",
+      "start": 11.079999923706055,
+      "end": 11.079999923706055
+    },
+    {
+      "word": "it",
+      "start": 11.079999923706055,
+      "end": 11.5600004196167
+    },
+    {
+      "word": "and",
+      "start": 11.600000381469727,
+      "end": 11.800000190734863
+    },
+    {
+      "word": "I",
+      "start": 11.800000190734863,
+      "end": 12.220000267028809
+    },
+    {
+      "word": "suck",
+      "start": 12.220000267028809,
+      "end": 12.399999618530273
+    },
+    {
+      "word": "This",
+      "start": 12.539999961853027,
+      "end": 12.819999694824219
+    },
+    {
+      "word": "game",
+      "start": 12.819999694824219,
+      "end": 13.119999885559082
+    },
+    {
+      "word": "is",
+      "start": 13.119999885559082,
+      "end": 13.680000305175781
+    },
+    {
+      "word": "hard",
+      "start": 13.680000305175781,
+      "end": 14
+    },
+    {
+      "word": "But",
+      "start": 14.079999923706055,
+      "end": 14.279999732971191
+    },
+    {
+      "word": "the",
+      "start": 14.279999732971191,
+      "end": 14.359999656677246
+    },
+    {
+      "word": "more",
+      "start": 14.359999656677246,
+      "end": 14.460000038146973
+    },
+    {
+      "word": "I",
+      "start": 14.460000038146973,
+      "end": 14.760000228881836
+    },
+    {
+      "word": "play",
+      "start": 14.760000228881836,
+      "end": 14.760000228881836
+    },
+    {
+      "word": "it",
+      "start": 14.760000228881836,
+      "end": 15.15999984741211
+    },
+    {
+      "word": "the",
+      "start": 15.15999984741211,
+      "end": 15.239999771118164
+    },
+    {
+      "word": "more",
+      "start": 15.239999771118164,
+      "end": 15.359999656677246
+    },
+    {
+      "word": "I",
+      "start": 15.359999656677246,
+      "end": 15.600000381469727
+    },
+    {
+      "word": "begin",
+      "start": 15.600000381469727,
+      "end": 15.680000305175781
+    },
+    {
+      "word": "to",
+      "start": 15.680000305175781,
+      "end": 16.399999618530273
+    },
+    {
+      "word": "understand",
+      "start": 16.399999618530273,
+      "end": 16.399999618530273
+    },
+    {
+      "word": "what",
+      "start": 16.399999618530273,
+      "end": 16.760000228881836
+    },
+    {
+      "word": "Israel",
+      "start": 16.760000228881836,
+      "end": 17.1200008392334
+    },
+    {
+      "word": "is",
+      "start": 17.1200008392334,
+      "end": 17.5
+    },
+    {
+      "word": "doing",
+      "start": 17.5,
+      "end": 17.719999313354492
+    },
+    {
+      "word": "in",
+      "start": 17.719999313354492,
+      "end": 18.020000457763672
+    },
+    {
+      "word": "the",
+      "start": 18.020000457763672,
+      "end": 18.139999389648438
+    },
+    {
+      "word": "occupied",
+      "start": 18.139999389648438,
+      "end": 18.440000534057617
+    },
+    {
+      "word": "West",
+      "start": 18.440000534057617,
+      "end": 18.81999969482422
+    },
+    {
+      "word": "Bank",
+      "start": 18.81999969482422,
+      "end": 18.8799991607666
+    },
+    {
+      "word": "Stay",
+      "start": 19.18000030517578,
+      "end": 19.360000610351562
+    },
+    {
+      "word": "with",
+      "start": 19.360000610351562,
+      "end": 19.559999465942383
+    },
+    {
+      "word": "me",
+      "start": 19.559999465942383,
+      "end": 19.700000762939453
+    },
+    {
+      "word": "If",
+      "start": 19.81999969482422,
+      "end": 19.979999542236328
+    },
+    {
+      "word": "you",
+      "start": 19.979999542236328,
+      "end": 20.059999465942383
+    },
+    {
+      "word": "look",
+      "start": 20.059999465942383,
+      "end": 20.18000030517578
+    },
+    {
+      "word": "at",
+      "start": 20.18000030517578,
+      "end": 20.239999771118164
+    },
+    {
+      "word": "a",
+      "start": 20.239999771118164,
+      "end": 20.459999084472656
+    },
+    {
+      "word": "map",
+      "start": 20.459999084472656,
+      "end": 20.459999084472656
+    },
+    {
+      "word": "of",
+      "start": 20.459999084472656,
+      "end": 20.600000381469727
+    },
+    {
+      "word": "the",
+      "start": 20.600000381469727,
+      "end": 20.719999313354492
+    },
+    {
+      "word": "West",
+      "start": 20.719999313354492,
+      "end": 20.920000076293945
+    },
+    {
+      "word": "Bank",
+      "start": 20.920000076293945,
+      "end": 21.059999465942383
+    },
+    {
+      "word": "you'll",
+      "start": 21.15999984741211,
+      "end": 21.440000534057617
+    },
+    {
+      "word": "see",
+      "start": 21.440000534057617,
+      "end": 21.65999984741211
+    },
+    {
+      "word": "more",
+      "start": 21.65999984741211,
+      "end": 21.84000015258789
+    },
+    {
+      "word": "than",
+      "start": 21.84000015258789,
+      "end": 22
+    },
+    {
+      "word": "300",
+      "start": 22,
+      "end": 22.5
+    },
+    {
+      "word": "Israeli",
+      "start": 22.5,
+      "end": 22.920000076293945
+    },
+    {
+      "word": "settlements",
+      "start": 22.920000076293945,
+      "end": 23.260000228881836
+    },
+    {
+      "word": "more",
+      "start": 23.520000457763672,
+      "end": 23.600000381469727
+    },
+    {
+      "word": "than",
+      "start": 23.600000381469727,
+      "end": 23.719999313354492
+    },
+    {
+      "word": "250",
+      "start": 23.719999313354492,
+      "end": 24.5
+    },
+    {
+      "word": "military",
+      "start": 24.5,
+      "end": 25.020000457763672
+    },
+    {
+      "word": "checkpoints",
+      "start": 25.020000457763672,
+      "end": 25.520000457763672
+    },
+    {
+      "word": "a",
+      "start": 25.700000762939453,
+      "end": 26.100000381469727
+    },
+    {
+      "word": "network",
+      "start": 26.100000381469727,
+      "end": 26.100000381469727
+    },
+    {
+      "word": "of",
+      "start": 26.100000381469727,
+      "end": 26.6200008392334
+    },
+    {
+      "word": "roads",
+      "start": 26.6200008392334,
+      "end": 26.6200008392334
+    },
+    {
+      "word": "and",
+      "start": 26.6200008392334,
+      "end": 27.34000015258789
+    },
+    {
+      "word": "highways",
+      "start": 27.34000015258789,
+      "end": 27.34000015258789
+    },
+    {
+      "word": "linking",
+      "start": 27.34000015258789,
+      "end": 27.639999389648438
+    },
+    {
+      "word": "them",
+      "start": 27.639999389648438,
+      "end": 27.940000534057617
+    },
+    {
+      "word": "together",
+      "start": 27.940000534057617,
+      "end": 28.219999313354492
+    },
+    {
+      "word": "that",
+      "start": 28.219999313354492,
+      "end": 28.520000457763672
     },
     {
       "word": "only",
-      "start": 767.7000122070312,
-      "end": 767.9199829101562
+      "start": 28.520000457763672,
+      "end": 28.920000076293945
     },
     {
-      "word": "message",
-      "start": 767.9199829101562,
-      "end": 768.1799926757812
+      "word": "Israelis",
+      "start": 28.920000076293945,
+      "end": 29.280000686645508
     },
     {
-      "word": "from",
-      "start": 768.1799926757812,
-      "end": 768.4000244140625
+      "word": "can",
+      "start": 29.280000686645508,
+      "end": 29.540000915527344
+    },
+    {
+      "word": "use",
+      "start": 29.540000915527344,
+      "end": 29.780000686645508
+    },
+    {
+      "word": "It",
+      "start": 29.780000686645508,
+      "end": 30.18000030517578
+    },
+    {
+      "word": "may",
+      "start": 30.18000030517578,
+      "end": 30.3799991607666
+    },
+    {
+      "word": "appear",
+      "start": 30.3799991607666,
+      "end": 30.700000762939453
+    },
+    {
+      "word": "random",
+      "start": 30.700000762939453,
+      "end": 31.360000610351562
+    },
+    {
+      "word": "at",
+      "start": 31.360000610351562,
+      "end": 31.579999923706055
+    },
+    {
+      "word": "first",
+      "start": 31.579999923706055,
+      "end": 31.84000015258789
+    },
+    {
+      "word": "but",
+      "start": 32.02000045776367,
+      "end": 32.08000183105469
+    },
+    {
+      "word": "if",
+      "start": 32.08000183105469,
+      "end": 32.2400016784668
+    },
+    {
+      "word": "we",
+      "start": 32.2400016784668,
+      "end": 32.599998474121094
+    },
+    {
+      "word": "imagine",
+      "start": 32.599998474121094,
+      "end": 32.84000015258789
+    },
+    {
+      "word": "this",
+      "start": 32.84000015258789,
+      "end": 33.08000183105469
+    },
+    {
+      "word": "not",
+      "start": 33.08000183105469,
+      "end": 33.36000061035156
+    },
+    {
+      "word": "as",
+      "start": 33.36000061035156,
+      "end": 33.560001373291016
+    },
+    {
+      "word": "a",
+      "start": 33.560001373291016,
+      "end": 33.65999984741211
+    },
+    {
+      "word": "bunch",
+      "start": 33.65999984741211,
+      "end": 33.84000015258789
+    },
+    {
+      "word": "of",
+      "start": 33.84000015258789,
+      "end": 34.52000045776367
+    },
+    {
+      "word": "settlements",
+      "start": 34.52000045776367,
+      "end": 34.52000045776367
+    },
+    {
+      "word": "set",
+      "start": 34.560001373291016,
+      "end": 35.08000183105469
+    },
+    {
+      "word": "up",
+      "start": 35.08000183105469,
+      "end": 35.2599983215332
+    },
+    {
+      "word": "haphazardly",
+      "start": 35.2599983215332,
+      "end": 35.86000061035156
+    },
+    {
+      "word": "over",
+      "start": 35.86000061035156,
+      "end": 36.099998474121094
+    },
+    {
+      "word": "decades",
+      "start": 36.099998474121094,
+      "end": 36.459999084472656
+    },
+    {
+      "word": "but",
+      "start": 36.58000183105469,
+      "end": 36.68000030517578
+    },
+    {
+      "word": "as",
+      "start": 36.68000030517578,
+      "end": 36.86000061035156
+    },
+    {
+      "word": "a",
+      "start": 36.86000061035156,
+      "end": 36.959999084472656
+    },
+    {
+      "word": "carefully",
+      "start": 36.959999084472656,
+      "end": 37.380001068115234
+    },
+    {
+      "word": "crafted",
+      "start": 37.380001068115234,
+      "end": 37.720001220703125
+    },
+    {
+      "word": "game",
+      "start": 37.720001220703125,
+      "end": 38.20000076293945
+    },
+    {
+      "word": "of",
+      "start": 38.20000076293945,
+      "end": 38.959999084472656
+    },
+    {
+      "word": "strategy",
+      "start": 38.959999084472656,
+      "end": 39.2599983215332
+    },
+    {
+      "word": "one",
+      "start": 39.619998931884766,
+      "end": 39.65999984741211
+    },
+    {
+      "word": "where",
+      "start": 39.65999984741211,
+      "end": 39.900001525878906
+    },
+    {
+      "word": "houses",
+      "start": 39.900001525878906,
+      "end": 40.2599983215332
+    },
+    {
+      "word": "watchtowers",
+      "start": 40.68000030517578,
+      "end": 41.08000183105469
+    },
+    {
+      "word": "and",
+      "start": 41.2400016784668,
+      "end": 41.68000030517578
+    },
+    {
+      "word": "highways",
+      "start": 41.68000030517578,
+      "end": 41.68000030517578
+    },
+    {
+      "word": "are",
+      "start": 41.68000030517578,
+      "end": 42
+    },
+    {
+      "word": "chips",
+      "start": 42,
+      "end": 42.2599983215332
+    },
+    {
+      "word": "on",
+      "start": 42.2599983215332,
+      "end": 42.560001373291016
+    },
+    {
+      "word": "a",
+      "start": 42.560001373291016,
+      "end": 42.7599983215332
+    },
+    {
+      "word": "board",
+      "start": 42.7599983215332,
+      "end": 42.7599983215332
+    },
+    {
+      "word": "where",
+      "start": 42.939998626708984,
+      "end": 43.060001373291016
     },
     {
       "word": "the",
-      "start": 768.4000244140625,
-      "end": 768.6400146484375
+      "start": 43.060001373291016,
+      "end": 43.20000076293945
     },
     {
-      "word": "Kenyan",
-      "start": 768.6400146484375,
-      "end": 768.7000122070312
+      "word": "aim",
+      "start": 43.20000076293945,
+      "end": 43.34000015258789
     },
     {
-      "word": "people",
-      "start": 768.7000122070312,
-      "end": 769.0399780273438
+      "word": "of",
+      "start": 43.34000015258789,
+      "end": 43.47999954223633
+    },
+    {
+      "word": "the",
+      "start": 43.47999954223633,
+      "end": 43.560001373291016
+    },
+    {
+      "word": "game",
+      "start": 43.560001373291016,
+      "end": 43.720001220703125
+    },
+    {
+      "word": "is",
+      "start": 43.720001220703125,
+      "end": 43.939998626708984
+    },
+    {
+      "word": "to",
+      "start": 43.939998626708984,
+      "end": 44.41999816894531
+    },
+    {
+      "word": "divide",
+      "start": 44.41999816894531,
+      "end": 44.41999816894531
+    },
+    {
+      "word": "isolate",
+      "start": 45.060001373291016,
+      "end": 45.060001373291016
+    },
+    {
+      "word": "and",
+      "start": 45.220001220703125,
+      "end": 45.34000015258789
+    },
+    {
+      "word": "ultimately",
+      "start": 45.34000015258789,
+      "end": 45.97999954223633
+    },
+    {
+      "word": "annex",
+      "start": 45.97999954223633,
+      "end": 46.400001525878906
+    },
+    {
+      "word": "the",
+      "start": 46.400001525878906,
+      "end": 46.779998779296875
+    },
+    {
+      "word": "opponent's",
+      "start": 46.779998779296875,
+      "end": 47.619998931884766
+    },
+    {
+      "word": "territory",
+      "start": 47.619998931884766,
+      "end": 47.619998931884766
+    },
+    {
+      "word": "then",
+      "start": 47.7599983215332,
+      "end": 48.02000045776367
+    },
+    {
+      "word": "we",
+      "start": 48.02000045776367,
+      "end": 48.540000915527344
+    },
+    {
+      "word": "start",
+      "start": 48.540000915527344,
+      "end": 48.7400016784668
+    },
+    {
+      "word": "seeing",
+      "start": 48.7400016784668,
+      "end": 48.97999954223633
+    },
+    {
+      "word": "the",
+      "start": 48.97999954223633,
+      "end": 49.13999938964844
+    },
+    {
+      "word": "real",
+      "start": 49.13999938964844,
+      "end": 49.439998626708984
+    },
+    {
+      "word": "patterns",
+      "start": 49.439998626708984,
+      "end": 49.599998474121094
+    },
+    {
+      "word": "at",
+      "start": 49.599998474121094,
+      "end": 49.900001525878906
+    },
+    {
+      "word": "play",
+      "start": 49.900001525878906,
+      "end": 50.02000045776367
+    },
+    {
+      "word": "Because",
+      "start": 50.13999938964844,
+      "end": 50.41999816894531
+    },
+    {
+      "word": "this",
+      "start": 50.41999816894531,
+      "end": 50.720001220703125
+    },
+    {
+      "word": "isn't",
+      "start": 50.720001220703125,
+      "end": 51.060001373291016
+    },
+    {
+      "word": "something",
+      "start": 51.060001373291016,
+      "end": 51.459999084472656
+    },
+    {
+      "word": "Israel",
+      "start": 51.459999084472656,
+      "end": 51.7599983215332
+    },
+    {
+      "word": "is",
+      "start": 51.7599983215332,
+      "end": 52.02000045776367
+    },
+    {
+      "word": "doing",
+      "start": 52.02000045776367,
+      "end": 52.380001068115234
+    },
+    {
+      "word": "just",
+      "start": 52.380001068115234,
+      "end": 52.91999816894531
+    },
+    {
+      "word": "now",
+      "start": 52.91999816894531,
+      "end": 53.29999923706055
+    },
+    {
+      "word": "This",
+      "start": 53.459999084472656,
+      "end": 53.779998779296875
+    },
+    {
+      "word": "is",
+      "start": 53.779998779296875,
+      "end": 54.279998779296875
+    },
+    {
+      "word": "what",
+      "start": 54.279998779296875,
+      "end": 54.70000076293945
+    },
+    {
+      "word": "Israel",
+      "start": 54.70000076293945,
+      "end": 54.70000076293945
+    },
+    {
+      "word": "has",
+      "start": 54.70000076293945,
+      "end": 54.959999084472656
+    },
+    {
+      "word": "been",
+      "start": 54.959999084472656,
+      "end": 55.08000183105469
+    },
+    {
+      "word": "doing",
+      "start": 55.08000183105469,
+      "end": 55.34000015258789
+    },
+    {
+      "word": "all",
+      "start": 55.34000015258789,
+      "end": 55.7400016784668
+    },
+    {
+      "word": "along",
+      "start": 55.7400016784668,
+      "end": 56
+    },
+    {
+      "word": "My",
+      "start": 56.29999923706055,
+      "end": 56.41999816894531
+    },
+    {
+      "word": "name",
+      "start": 56.41999816894531,
+      "end": 56.52000045776367
+    },
+    {
+      "word": "is",
+      "start": 56.52000045776367,
+      "end": 56.70000076293945
+    },
+    {
+      "word": "Mohammed",
+      "start": 56.70000076293945,
+      "end": 56.900001525878906
+    },
+    {
+      "word": "Hassan",
+      "start": 56.900001525878906,
+      "end": 57.2400016784668
+    },
+    {
+      "word": "and",
+      "start": 57.380001068115234,
+      "end": 57.52000045776367
+    },
+    {
+      "word": "this",
+      "start": 57.52000045776367,
+      "end": 57.81999969482422
+    },
+    {
+      "word": "is",
+      "start": 57.81999969482422,
+      "end": 58.119998931884766
+    },
+    {
+      "word": "Pinch",
+      "start": 58.119998931884766,
+      "end": 58.279998779296875
+    },
+    {
+      "word": "Point",
+      "start": 58.279998779296875,
+      "end": 58.47999954223633
+    },
+    {
+      "word": "where",
+      "start": 58.47999954223633,
+      "end": 59.119998931884766
+    },
+    {
+      "word": "geography",
+      "start": 59.119998931884766,
+      "end": 59.540000915527344
+    },
+    {
+      "word": "and",
+      "start": 59.540000915527344,
+      "end": 60.68000030517578
+    },
+    {
+      "word": "politics",
+      "start": 60.68000030517578,
+      "end": 60.68000030517578
+    },
+    {
+      "word": "collide",
+      "start": 60.68000030517578,
+      "end": 61.119998931884766
+    },
+    {
+      "word": "Let's",
+      "start": 68.0199966430664,
+      "end": 68.62000274658203
+    },
+    {
+      "word": "start",
+      "start": 68.62000274658203,
+      "end": 68.9000015258789
+    },
+    {
+      "word": "with",
+      "start": 68.9000015258789,
+      "end": 69.4000015258789
+    },
+    {
+      "word": "a",
+      "start": 69.4000015258789,
+      "end": 69.68000030517578
+    },
+    {
+      "word": "super",
+      "start": 69.68000030517578,
+      "end": 70.12000274658203
+    },
+    {
+      "word": "quick",
+      "start": 70.12000274658203,
+      "end": 70.22000122070312
+    },
+    {
+      "word": "breakdown",
+      "start": 70.22000122070312,
+      "end": 70.55999755859375
+    },
+    {
+      "word": "of",
+      "start": 70.55999755859375,
+      "end": 70.91999816894531
+    },
+    {
+      "word": "how",
+      "start": 70.91999816894531,
+      "end": 71.0999984741211
+    },
+    {
+      "word": "to",
+      "start": 71.0999984741211,
+      "end": 71.30000305175781
+    },
+    {
+      "word": "play",
+      "start": 71.30000305175781,
+      "end": 71.4000015258789
+    },
+    {
+      "word": "Go",
+      "start": 71.4000015258789,
+      "end": 71.58000183105469
+    },
+    {
+      "word": "You",
+      "start": 71.73999786376953,
+      "end": 71.83999633789062
+    },
+    {
+      "word": "have",
+      "start": 71.83999633789062,
+      "end": 72.0999984741211
+    },
+    {
+      "word": "two",
+      "start": 72.0999984741211,
+      "end": 72.58000183105469
+    },
+    {
+      "word": "players",
+      "start": 72.58000183105469,
+      "end": 72.9000015258789
+    },
+    {
+      "word": "one",
+      "start": 73.30000305175781,
+      "end": 73.72000122070312
+    },
+    {
+      "word": "white",
+      "start": 73.72000122070312,
+      "end": 73.95999908447266
+    },
+    {
+      "word": "one",
+      "start": 74.16000366210938,
+      "end": 74.5
+    },
+    {
+      "word": "black",
+      "start": 74.5,
+      "end": 74.73999786376953
+    },
+    {
+      "word": "and",
+      "start": 74.83999633789062,
+      "end": 75.19999694824219
+    },
+    {
+      "word": "a",
+      "start": 75.19999694824219,
+      "end": 75.58000183105469
+    },
+    {
+      "word": "board",
+      "start": 75.58000183105469,
+      "end": 75.58000183105469
+    },
+    {
+      "word": "that",
+      "start": 75.58000183105469,
+      "end": 76.5199966430664
+    },
+    {
+      "word": "represents",
+      "start": 76.5199966430664,
+      "end": 76.5199966430664
+    },
+    {
+      "word": "territory",
+      "start": 76.5199966430664,
+      "end": 77.19999694824219
+    },
+    {
+      "word": "The",
+      "start": 77.33999633789062,
+      "end": 77.55999755859375
+    },
+    {
+      "word": "aim",
+      "start": 77.55999755859375,
+      "end": 77.83999633789062
+    },
+    {
+      "word": "is",
+      "start": 77.83999633789062,
+      "end": 78.0999984741211
+    },
+    {
+      "word": "to",
+      "start": 78.0999984741211,
+      "end": 78.44000244140625
+    },
+    {
+      "word": "place",
+      "start": 78.44000244140625,
+      "end": 78.44000244140625
+    },
+    {
+      "word": "chips",
+      "start": 78.44000244140625,
+      "end": 78.91999816894531
+    },
+    {
+      "word": "along",
+      "start": 78.91999816894531,
+      "end": 79.62000274658203
+    },
+    {
+      "word": "the",
+      "start": 79.62000274658203,
+      "end": 80.05999755859375
+    },
+    {
+      "word": "board",
+      "start": 80.05999755859375,
+      "end": 80.05999755859375
+    },
+    {
+      "word": "and",
+      "start": 80.13999938964844,
+      "end": 80.73999786376953
+    },
+    {
+      "word": "carve",
+      "start": 80.73999786376953,
+      "end": 80.73999786376953
+    },
+    {
+      "word": "out",
+      "start": 80.73999786376953,
+      "end": 80.95999908447266
+    },
+    {
+      "word": "as",
+      "start": 80.95999908447266,
+      "end": 81.30000305175781
+    },
+    {
+      "word": "much",
+      "start": 81.30000305175781,
+      "end": 81.45999908447266
+    },
+    {
+      "word": "land",
+      "start": 81.45999908447266,
+      "end": 81.81999969482422
+    },
+    {
+      "word": "as",
+      "start": 81.81999969482422,
+      "end": 82.19999694824219
+    },
+    {
+      "word": "possible",
+      "start": 82.19999694824219,
+      "end": 82.5
+    },
+    {
+      "word": "before",
+      "start": 82.5,
+      "end": 82.94000244140625
+    },
+    {
+      "word": "you",
+      "start": 82.94000244140625,
+      "end": 83.30000305175781
+    },
+    {
+      "word": "run",
+      "start": 83.30000305175781,
+      "end": 83.37999725341797
+    },
+    {
+      "word": "out",
+      "start": 83.37999725341797,
+      "end": 83.5
+    },
+    {
+      "word": "of",
+      "start": 83.5,
+      "end": 83.83999633789062
+    },
+    {
+      "word": "space",
+      "start": 83.83999633789062,
+      "end": 83.86000061035156
+    },
+    {
+      "word": "If",
+      "start": 83.94000244140625,
+      "end": 84.16000366210938
+    },
+    {
+      "word": "you",
+      "start": 84.16000366210938,
+      "end": 84.26000213623047
+    },
+    {
+      "word": "play",
+      "start": 84.26000213623047,
+      "end": 84.30000305175781
+    },
+    {
+      "word": "it",
+      "start": 84.30000305175781,
+      "end": 84.54000091552734
+    },
+    {
+      "word": "right",
+      "start": 84.54000091552734,
+      "end": 84.73999786376953
+    },
+    {
+      "word": "it",
+      "start": 85.30000305175781,
+      "end": 85.58000183105469
+    },
+    {
+      "word": "starts",
+      "start": 85.58000183105469,
+      "end": 85.63999938964844
+    },
+    {
+      "word": "looking",
+      "start": 85.63999938964844,
+      "end": 86.13999938964844
+    },
+    {
+      "word": "quite",
+      "start": 86.13999938964844,
+      "end": 86.95999908447266
+    },
+    {
+      "word": "random",
+      "start": 86.95999908447266,
+      "end": 87
+    },
+    {
+      "word": "But",
+      "start": 87,
+      "end": 87.33999633789062
+    },
+    {
+      "word": "every",
+      "start": 87.33999633789062,
+      "end": 87.63999938964844
+    },
+    {
+      "word": "placement",
+      "start": 87.63999938964844,
+      "end": 87.94000244140625
+    },
+    {
+      "word": "is",
+      "start": 87.94000244140625,
+      "end": 88.5199966430664
+    },
+    {
+      "word": "a",
+      "start": 88.5199966430664,
+      "end": 88.68000030517578
+    },
+    {
+      "word": "part",
+      "start": 88.68000030517578,
+      "end": 88.94000244140625
+    },
+    {
+      "word": "of",
+      "start": 88.94000244140625,
+      "end": 89.16000366210938
+    },
+    {
+      "word": "the",
+      "start": 89.16000366210938,
+      "end": 89.31999969482422
+    },
+    {
+      "word": "strategy",
+      "start": 89.31999969482422,
+      "end": 89.63999938964844
+    },
+    {
+      "word": "that",
+      "start": 89.63999938964844,
+      "end": 89.86000061035156
+    },
+    {
+      "word": "will",
+      "start": 89.86000061035156,
+      "end": 90.05999755859375
+    },
+    {
+      "word": "pay",
+      "start": 90.05999755859375,
+      "end": 90.18000030517578
+    },
+    {
+      "word": "off",
+      "start": 90.18000030517578,
+      "end": 90.33999633789062
+    },
+    {
+      "word": "later",
+      "start": 90.33999633789062,
+      "end": 90.9000015258789
+    },
+    {
+      "word": "in",
+      "start": 90.9000015258789,
+      "end": 91.16000366210938
+    },
+    {
+      "word": "the",
+      "start": 91.16000366210938,
+      "end": 91.26000213623047
+    },
+    {
+      "word": "game",
+      "start": 91.26000213623047,
+      "end": 91.44000244140625
+    },
+    {
+      "word": "If",
+      "start": 91.77999877929688,
+      "end": 91.77999877929688
+    },
+    {
+      "word": "you",
+      "start": 91.77999877929688,
+      "end": 92.05999755859375
+    },
+    {
+      "word": "corner",
+      "start": 92.05999755859375,
+      "end": 92.16000366210938
+    },
+    {
+      "word": "your",
+      "start": 92.16000366210938,
+      "end": 92.41999816894531
+    },
+    {
+      "word": "opponent's",
+      "start": 92.41999816894531,
+      "end": 93.04000091552734
+    },
+    {
+      "word": "chips",
+      "start": 93.04000091552734,
+      "end": 93.04000091552734
+    },
+    {
+      "word": "it",
+      "start": 93.23999786376953,
+      "end": 93.41999816894531
+    },
+    {
+      "word": "limits",
+      "start": 93.41999816894531,
+      "end": 93.58000183105469
+    },
+    {
+      "word": "how",
+      "start": 93.58000183105469,
+      "end": 93.9000015258789
+    },
+    {
+      "word": "they",
+      "start": 93.9000015258789,
+      "end": 94.0199966430664
+    },
+    {
+      "word": "can",
+      "start": 94.0199966430664,
+      "end": 94.26000213623047
+    },
+    {
+      "word": "move",
+      "start": 94.26000213623047,
+      "end": 94.41999816894531
+    },
+    {
+      "word": "And",
+      "start": 94.66000366210938,
+      "end": 94.76000213623047
+    },
+    {
+      "word": "if",
+      "start": 94.76000213623047,
+      "end": 94.83999633789062
+    },
+    {
+      "word": "you",
+      "start": 94.83999633789062,
+      "end": 95.4000015258789
+    },
+    {
+      "word": "surround",
+      "start": 95.4000015258789,
+      "end": 95.4000015258789
+    },
+    {
+      "word": "your",
+      "start": 95.4000015258789,
+      "end": 95.68000030517578
+    },
+    {
+      "word": "opponent",
+      "start": 95.68000030517578,
+      "end": 95.9000015258789
+    },
+    {
+      "word": "their",
+      "start": 96.30000305175781,
+      "end": 96.54000091552734
+    },
+    {
+      "word": "chips",
+      "start": 96.54000091552734,
+      "end": 96.73999786376953
+    },
+    {
+      "word": "disappear",
+      "start": 96.73999786376953,
+      "end": 97.44000244140625
+    },
+    {
+      "word": "and",
+      "start": 98.05999755859375,
+      "end": 98.18000030517578
+    },
+    {
+      "word": "the",
+      "start": 98.18000030517578,
+      "end": 98.45999908447266
+    },
+    {
+      "word": "land",
+      "start": 98.45999908447266,
+      "end": 98.5999984741211
+    },
+    {
+      "word": "is",
+      "start": 98.5999984741211,
+      "end": 99.12000274658203
+    },
+    {
+      "word": "yours",
+      "start": 99.12000274658203,
+      "end": 99.4000015258789
+    },
+    {
+      "word": "Now",
+      "start": 99.5999984741211,
+      "end": 99.81999969482422
+    },
+    {
+      "word": "this",
+      "start": 99.81999969482422,
+      "end": 99.9000015258789
+    },
+    {
+      "word": "isn't",
+      "start": 99.9000015258789,
+      "end": 100.08000183105469
+    },
+    {
+      "word": "just",
+      "start": 100.08000183105469,
+      "end": 100.27999877929688
+    },
+    {
+      "word": "a",
+      "start": 100.27999877929688,
+      "end": 100.62000274658203
+    },
+    {
+      "word": "game",
+      "start": 100.62000274658203,
+      "end": 100.62000274658203
+    },
+    {
+      "word": "For",
+      "start": 100.94000244140625,
+      "end": 100.95999908447266
+    },
+    {
+      "word": "more",
+      "start": 100.95999908447266,
+      "end": 101.12000274658203
+    },
+    {
+      "word": "than",
+      "start": 101.12000274658203,
+      "end": 101.27999877929688
+    },
+    {
+      "word": "2",
+      "start": 101.27999877929688,
+      "end": 101.4800033569336
+    },
+    {
+      "word": "500",
+      "start": 101.4800033569336,
+      "end": 102.18000030517578
+    },
+    {
+      "word": "years",
+      "start": 102.18000030517578,
+      "end": 102.5999984741211
+    },
+    {
+      "word": "some",
+      "start": 102.72000122070312,
+      "end": 102.80000305175781
+    },
+    {
+      "word": "of",
+      "start": 102.80000305175781,
+      "end": 102.9800033569336
+    },
+    {
+      "word": "the",
+      "start": 102.9800033569336,
+      "end": 103.08000183105469
+    },
+    {
+      "word": "greatest",
+      "start": 103.08000183105469,
+      "end": 103.4000015258789
+    },
+    {
+      "word": "political",
+      "start": 103.4000015258789,
+      "end": 103.87999725341797
+    },
+    {
+      "word": "and",
+      "start": 103.87999725341797,
+      "end": 104.16000366210938
+    },
+    {
+      "word": "military",
+      "start": 104.16000366210938,
+      "end": 104.41999816894531
+    },
+    {
+      "word": "minds",
+      "start": 104.41999816894531,
+      "end": 104.77999877929688
+    },
+    {
+      "word": "in",
+      "start": 104.77999877929688,
+      "end": 105.41999816894531
+    },
+    {
+      "word": "history",
+      "start": 105.41999816894531,
+      "end": 105.41999816894531
+    },
+    {
+      "word": "were",
+      "start": 105.41999816894531,
+      "end": 105.83999633789062
+    },
+    {
+      "word": "taught",
+      "start": 105.83999633789062,
+      "end": 106.05999755859375
+    },
+    {
+      "word": "to",
+      "start": 106.05999755859375,
+      "end": 106.5199966430664
+    },
+    {
+      "word": "play",
+      "start": 106.5199966430664,
+      "end": 106.5199966430664
+    },
+    {
+      "word": "from",
+      "start": 106.5199966430664,
+      "end": 106.68000030517578
+    },
+    {
+      "word": "a",
+      "start": 106.68000030517578,
+      "end": 106.83999633789062
+    },
+    {
+      "word": "young",
+      "start": 106.83999633789062,
+      "end": 107
+    },
+    {
+      "word": "age",
+      "start": 107,
+      "end": 107.27999877929688
+    },
+    {
+      "word": "It's",
+      "start": 107.5,
+      "end": 107.69999694824219
+    },
+    {
+      "word": "believed",
+      "start": 107.69999694824219,
+      "end": 107.86000061035156
+    },
+    {
+      "word": "to",
+      "start": 107.86000061035156,
+      "end": 108.05999755859375
+    },
+    {
+      "word": "be",
+      "start": 108.05999755859375,
+      "end": 108.16000366210938
+    },
+    {
+      "word": "the",
+      "start": 108.16000366210938,
+      "end": 108.66000366210938
+    },
+    {
+      "word": "longest",
+      "start": 108.66000366210938,
+      "end": 108.68000030517578
+    },
+    {
+      "word": "continuously",
+      "start": 108.94000244140625,
+      "end": 109.41999816894531
+    },
+    {
+      "word": "played",
+      "start": 109.41999816894531,
+      "end": 109.9000015258789
+    },
+    {
+      "word": "game",
+      "start": 109.9000015258789,
+      "end": 110.18000030517578
+    },
+    {
+      "word": "in",
+      "start": 110.18000030517578,
+      "end": 110.83999633789062
+    },
+    {
+      "word": "history",
+      "start": 110.83999633789062,
+      "end": 110.83999633789062
+    },
+    {
+      "word": "originating",
+      "start": 111.18000030517578,
+      "end": 111.45999908447266
+    },
+    {
+      "word": "in",
+      "start": 111.45999908447266,
+      "end": 111.72000122070312
+    },
+    {
+      "word": "China",
+      "start": 111.72000122070312,
+      "end": 112.0199966430664
+    },
+    {
+      "word": "where",
+      "start": 112.13999938964844,
+      "end": 112.44000244140625
+    },
+    {
+      "word": "it's",
+      "start": 112.44000244140625,
+      "end": 112.62000274658203
+    },
+    {
+      "word": "called",
+      "start": 112.62000274658203,
+      "end": 112.83999633789062
+    },
+    {
+      "word": "Weiqi",
+      "start": 112.83999633789062,
+      "end": 113.36000061035156
+    },
+    {
+      "word": "and",
+      "start": 113.55999755859375,
+      "end": 113.80000305175781
+    },
+    {
+      "word": "developed",
+      "start": 113.80000305175781,
+      "end": 114.08000183105469
+    },
+    {
+      "word": "later",
+      "start": 114.08000183105469,
+      "end": 114.33999633789062
+    },
+    {
+      "word": "in",
+      "start": 114.33999633789062,
+      "end": 114.55999755859375
+    },
+    {
+      "word": "Japan",
+      "start": 114.55999755859375,
+      "end": 114.81999969482422
+    },
+    {
+      "word": "where",
+      "start": 114.9000015258789,
+      "end": 115.13999938964844
+    },
+    {
+      "word": "it's",
+      "start": 115.13999938964844,
+      "end": 115.33999633789062
+    },
+    {
+      "word": "called",
+      "start": 115.33999633789062,
+      "end": 115.58000183105469
+    },
+    {
+      "word": "Igo",
+      "start": 115.58000183105469,
+      "end": 116
+    },
+    {
+      "word": "That's",
+      "start": 116,
+      "end": 116.41999816894531
+    },
+    {
+      "word": "where",
+      "start": 116.41999816894531,
+      "end": 116.55999755859375
+    },
+    {
+      "word": "we",
+      "start": 116.55999755859375,
+      "end": 116.76000213623047
+    },
+    {
+      "word": "get",
+      "start": 116.76000213623047,
+      "end": 116.94000244140625
+    },
+    {
+      "word": "its",
+      "start": 116.94000244140625,
+      "end": 117.12000274658203
+    },
+    {
+      "word": "English",
+      "start": 117.12000274658203,
+      "end": 117.33999633789062
+    },
+    {
+      "word": "name",
+      "start": 117.33999633789062,
+      "end": 117.68000030517578
+    },
+    {
+      "word": "Go",
+      "start": 117.83999633789062,
+      "end": 117.94000244140625
+    },
+    {
+      "word": "is",
+      "start": 117.94000244140625,
+      "end": 118.18000030517578
+    },
+    {
+      "word": "a",
+      "start": 118.18000030517578,
+      "end": 118.30000305175781
+    },
+    {
+      "word": "game",
+      "start": 118.30000305175781,
+      "end": 118.5199966430664
+    },
+    {
+      "word": "of",
+      "start": 118.5199966430664,
+      "end": 119.30000305175781
+    },
+    {
+      "word": "strategy",
+      "start": 119.30000305175781,
+      "end": 119.30000305175781
+    },
+    {
+      "word": "patience",
+      "start": 119.9000015258789,
+      "end": 119.95999908447266
+    },
+    {
+      "word": "and",
+      "start": 120.12000274658203,
+      "end": 120.44000244140625
+    },
+    {
+      "word": "conquest",
+      "start": 120.44000244140625,
+      "end": 120.66000366210938
+    },
+    {
+      "word": "Easy",
+      "start": 121.05999755859375,
+      "end": 121.08000183105469
+    },
+    {
+      "word": "to",
+      "start": 121.08000183105469,
+      "end": 121.33999633789062
+    },
+    {
+      "word": "learn",
+      "start": 121.33999633789062,
+      "end": 121.5999984741211
+    },
+    {
+      "word": "impossible",
+      "start": 122.0999984741211,
+      "end": 122.5199966430664
+    },
+    {
+      "word": "to",
+      "start": 122.5199966430664,
+      "end": 123.16000366210938
+    },
+    {
+      "word": "master",
+      "start": 123.16000366210938,
+      "end": 123.16000366210938
+    },
+    {
+      "word": "Let's",
+      "start": 123.41999816894531,
+      "end": 123.62000274658203
+    },
+    {
+      "word": "have",
+      "start": 123.62000274658203,
+      "end": 123.87999725341797
+    },
+    {
+      "word": "a",
+      "start": 123.87999725341797,
+      "end": 124.30000305175781
+    },
+    {
+      "word": "look",
+      "start": 124.30000305175781,
+      "end": 124.31999969482422
+    },
+    {
+      "word": "at",
+      "start": 124.31999969482422,
+      "end": 124.44000244140625
+    },
+    {
+      "word": "the",
+      "start": 124.44000244140625,
+      "end": 124.5199966430664
+    },
+    {
+      "word": "West",
+      "start": 124.5199966430664,
+      "end": 124.77999877929688
+    },
+    {
+      "word": "Bank",
+      "start": 124.77999877929688,
+      "end": 124.87999725341797
+    },
+    {
+      "word": "again",
+      "start": 124.87999725341797,
+      "end": 125.16000366210938
+    },
+    {
+      "word": "You",
+      "start": 125.37999725341797,
+      "end": 125.37999725341797
+    },
+    {
+      "word": "have",
+      "start": 125.37999725341797,
+      "end": 125.58000183105469
+    },
+    {
+      "word": "clusters",
+      "start": 125.58000183105469,
+      "end": 125.87999725341797
+    },
+    {
+      "word": "of",
+      "start": 125.87999725341797,
+      "end": 126.12000274658203
+    },
+    {
+      "word": "Palestinian",
+      "start": 126.12000274658203,
+      "end": 126.5199966430664
+    },
+    {
+      "word": "cities",
+      "start": 126.5199966430664,
+      "end": 127
+    },
+    {
+      "word": "in",
+      "start": 127,
+      "end": 127.45999908447266
+    },
+    {
+      "word": "places",
+      "start": 127.45999908447266,
+      "end": 127.73999786376953
+    },
+    {
+      "word": "like",
+      "start": 127.73999786376953,
+      "end": 128.32000732421875
+    },
+    {
+      "word": "Ramallah",
+      "start": 128.32000732421875,
+      "end": 128.75999450683594
+    },
+    {
+      "word": "Nablus",
+      "start": 129.5,
+      "end": 129.66000366210938
+    },
+    {
+      "word": "Jericho",
+      "start": 130.16000366210938,
+      "end": 130.3800048828125
+    },
+    {
+      "word": "and",
+      "start": 130.82000732421875,
+      "end": 131.1999969482422
+    },
+    {
+      "word": "Hebron",
+      "start": 131.1999969482422,
+      "end": 131.39999389648438
+    },
+    {
+      "word": "Then",
+      "start": 131.75999450683594,
+      "end": 131.9199981689453
+    },
+    {
+      "word": "you",
+      "start": 131.9199981689453,
+      "end": 132.05999755859375
+    },
+    {
+      "word": "have",
+      "start": 132.05999755859375,
+      "end": 132.55999755859375
+    },
+    {
+      "word": "refugee",
+      "start": 132.55999755859375,
+      "end": 132.97999572753906
+    },
+    {
+      "word": "camps",
+      "start": 132.97999572753906,
+      "end": 133.32000732421875
+    },
+    {
+      "word": "like",
+      "start": 133.8800048828125,
+      "end": 133.8800048828125
+    },
+    {
+      "word": "in",
+      "start": 133.8800048828125,
+      "end": 134.4199981689453
+    },
+    {
+      "word": "Jenin",
+      "start": 134.4199981689453,
+      "end": 134.72000122070312
+    },
+    {
+      "word": "Tul",
+      "start": 135.16000366210938,
+      "end": 135.47999572753906
+    },
+    {
+      "word": "Karem",
+      "start": 135.47999572753906,
+      "end": 135.47999572753906
+    },
+    {
+      "word": "Qalandia",
+      "start": 135.97999572753906,
+      "end": 136.4199981689453
+    },
+    {
+      "word": "and",
+      "start": 136.77999877929688,
+      "end": 137.0399932861328
+    },
+    {
+      "word": "small",
+      "start": 137.0399932861328,
+      "end": 137.4600067138672
+    },
+    {
+      "word": "rural",
+      "start": 137.4600067138672,
+      "end": 137.82000732421875
+    },
+    {
+      "word": "towns",
+      "start": 137.82000732421875,
+      "end": 138.0800018310547
+    },
+    {
+      "word": "and",
+      "start": 138.0800018310547,
+      "end": 138.66000366210938
+    },
+    {
+      "word": "villages",
+      "start": 138.66000366210938,
+      "end": 138.66000366210938
+    },
+    {
+      "word": "like",
+      "start": 138.66000366210938,
+      "end": 139.17999267578125
+    },
+    {
+      "word": "Mesefer",
+      "start": 139.17999267578125,
+      "end": 139.66000366210938
+    },
+    {
+      "word": "Yotah",
+      "start": 139.66000366210938,
+      "end": 140
+    },
+    {
+      "word": "When",
+      "start": 140.17999267578125,
+      "end": 140.44000244140625
+    },
+    {
+      "word": "Israel",
+      "start": 140.44000244140625,
+      "end": 140.74000549316406
+    },
+    {
+      "word": "was",
+      "start": 140.74000549316406,
+      "end": 141.52000427246094
+    },
+    {
+      "word": "established",
+      "start": 141.52000427246094,
+      "end": 141.52000427246094
+    },
+    {
+      "word": "in",
+      "start": 141.52000427246094,
+      "end": 141.9600067138672
+    },
+    {
+      "word": "1948",
+      "start": 141.9600067138672,
+      "end": 142.5800018310547
+    },
+    {
+      "word": "hundreds",
+      "start": 142.89999389648438,
+      "end": 143.10000610351562
+    },
+    {
+      "word": "of",
+      "start": 143.10000610351562,
+      "end": 143.9600067138672
+    },
+    {
+      "word": "thousands",
+      "start": 143.9600067138672,
+      "end": 143.9600067138672
+    },
+    {
+      "word": "of",
+      "start": 143.9600067138672,
+      "end": 144.77999877929688
+    },
+    {
+      "word": "Palestinians",
+      "start": 144.77999877929688,
+      "end": 144.77999877929688
+    },
+    {
+      "word": "were",
+      "start": 144.77999877929688,
+      "end": 145.3000030517578
+    },
+    {
+      "word": "displaced",
+      "start": 145.3000030517578,
+      "end": 145.74000549316406
+    },
+    {
+      "word": "from",
+      "start": 145.74000549316406,
+      "end": 146.1199951171875
+    },
+    {
+      "word": "their",
+      "start": 146.1199951171875,
+      "end": 146.3800048828125
+    },
+    {
+      "word": "towns",
+      "start": 146.3800048828125,
+      "end": 146.72000122070312
+    },
+    {
+      "word": "and",
+      "start": 146.72000122070312,
+      "end": 147.39999389648438
+    },
+    {
+      "word": "cities",
+      "start": 147.39999389648438,
+      "end": 147.39999389648438
+    },
+    {
+      "word": "into",
+      "start": 147.72000122070312,
+      "end": 148.32000732421875
+    },
+    {
+      "word": "the",
+      "start": 148.32000732421875,
+      "end": 148.9199981689453
+    },
+    {
+      "word": "West",
+      "start": 148.9199981689453,
+      "end": 149.22000122070312
+    },
+    {
+      "word": "Bank",
+      "start": 149.22000122070312,
+      "end": 149.4199981689453
+    },
+    {
+      "word": "and",
+      "start": 149.4199981689453,
+      "end": 150.02000427246094
+    },
+    {
+      "word": "Gaza",
+      "start": 150.02000427246094,
+      "end": 150.32000732421875
+    },
+    {
+      "word": "This",
+      "start": 150.63999938964844,
+      "end": 150.67999267578125
+    },
+    {
+      "word": "is",
+      "start": 150.67999267578125,
+      "end": 150.82000732421875
+    },
+    {
+      "word": "what",
+      "start": 150.82000732421875,
+      "end": 151.0399932861328
+    },
+    {
+      "word": "Palestinians",
+      "start": 151.0399932861328,
+      "end": 151.5
+    },
+    {
+      "word": "know",
+      "start": 151.5,
+      "end": 152
+    },
+    {
+      "word": "as",
+      "start": 152,
+      "end": 152.9199981689453
+    },
+    {
+      "word": "the",
+      "start": 152.9199981689453,
+      "end": 152.94000244140625
+    },
+    {
+      "word": "Nakba",
+      "start": 152.94000244140625,
+      "end": 153.17999267578125
+    },
+    {
+      "word": "the",
+      "start": 153.5399932861328,
+      "end": 153.74000549316406
+    },
+    {
+      "word": "catastrophe",
+      "start": 153.74000549316406,
+      "end": 154.17999267578125
+    },
+    {
+      "word": "Then",
+      "start": 154.63999938964844,
+      "end": 154.66000366210938
+    },
+    {
+      "word": "in",
+      "start": 154.66000366210938,
+      "end": 154.82000732421875
+    },
+    {
+      "word": "1967",
+      "start": 154.82000732421875,
+      "end": 155.6199951171875
+    },
+    {
+      "word": "Israel's",
+      "start": 156.0800018310547,
+      "end": 156.8800048828125
+    },
+    {
+      "word": "military",
+      "start": 156.8800048828125,
+      "end": 156.8800048828125
+    },
+    {
+      "word": "occupied",
+      "start": 156.8800048828125,
+      "end": 157.39999389648438
+    },
+    {
+      "word": "the",
+      "start": 157.39999389648438,
+      "end": 157.63999938964844
+    },
+    {
+      "word": "West",
+      "start": 157.63999938964844,
+      "end": 157.89999389648438
+    },
+    {
+      "word": "Bank",
+      "start": 157.89999389648438,
+      "end": 158.0399932861328
+    },
+    {
+      "word": "imposing",
+      "start": 158.5,
+      "end": 158.5
+    },
+    {
+      "word": "a",
+      "start": 158.5,
+      "end": 158.77999877929688
+    },
+    {
+      "word": "system",
+      "start": 158.77999877929688,
+      "end": 159.02000427246094
+    },
+    {
+      "word": "of",
+      "start": 159.02000427246094,
+      "end": 159.60000610351562
+    },
+    {
+      "word": "control",
+      "start": 159.60000610351562,
+      "end": 159.60000610351562
+    },
+    {
+      "word": "on",
+      "start": 159.60000610351562,
+      "end": 159.89999389648438
+    },
+    {
+      "word": "all",
+      "start": 159.89999389648438,
+      "end": 160.36000061035156
+    },
+    {
+      "word": "aspects",
+      "start": 160.36000061035156,
+      "end": 160.6199951171875
+    },
+    {
+      "word": "of",
+      "start": 160.6199951171875,
+      "end": 160.83999633789062
+    },
+    {
+      "word": "Palestinian",
+      "start": 160.83999633789062,
+      "end": 161.1999969482422
+    },
+    {
+      "word": "life",
+      "start": 161.1999969482422,
+      "end": 161.52000427246094
+    },
+    {
+      "word": "They",
+      "start": 161.8000030517578,
+      "end": 161.8000030517578
+    },
+    {
+      "word": "limited",
+      "start": 161.8000030517578,
+      "end": 162.0800018310547
+    },
+    {
+      "word": "their",
+      "start": 162.0800018310547,
+      "end": 162.39999389648438
+    },
+    {
+      "word": "movement",
+      "start": 162.39999389648438,
+      "end": 162.6999969482422
+    },
+    {
+      "word": "through",
+      "start": 162.6999969482422,
+      "end": 163.02000427246094
+    },
+    {
+      "word": "checkpoints",
+      "start": 163.02000427246094,
+      "end": 163.5
+    },
+    {
+      "word": "their",
+      "start": 163.8800048828125,
+      "end": 164.25999450683594
+    },
+    {
+      "word": "access",
+      "start": 164.25999450683594,
+      "end": 164.3800048828125
+    },
+    {
+      "word": "to",
+      "start": 164.3800048828125,
+      "end": 164.77999877929688
+    },
+    {
+      "word": "farmland",
+      "start": 164.77999877929688,
+      "end": 165.10000610351562
+    },
+    {
+      "word": "water",
+      "start": 165.39999389648438,
+      "end": 165.67999267578125
+    },
+    {
+      "word": "and",
+      "start": 165.72000122070312,
+      "end": 166.52000427246094
+    },
+    {
+      "word": "electricity",
+      "start": 166.52000427246094,
+      "end": 166.52000427246094
+    },
+    {
+      "word": "Human",
+      "start": 166.6999969482422,
+      "end": 166.9199981689453
+    },
+    {
+      "word": "rights",
+      "start": 166.9199981689453,
+      "end": 167.1199951171875
+    },
+    {
+      "word": "groups",
+      "start": 167.1199951171875,
+      "end": 167.36000061035156
+    },
+    {
+      "word": "and",
+      "start": 167.36000061035156,
+      "end": 167.67999267578125
+    },
+    {
+      "word": "UN",
+      "start": 167.67999267578125,
+      "end": 167.86000061035156
+    },
+    {
+      "word": "experts",
+      "start": 167.86000061035156,
+      "end": 168.1999969482422
+    },
+    {
+      "word": "have",
+      "start": 168.3000030517578,
+      "end": 168.89999389648438
+    },
+    {
+      "word": "described",
+      "start": 168.89999389648438,
+      "end": 168.89999389648438
+    },
+    {
+      "word": "this",
+      "start": 168.89999389648438,
+      "end": 169.1999969482422
+    },
+    {
+      "word": "as",
+      "start": 169.1999969482422,
+      "end": 169.39999389648438
+    },
+    {
+      "word": "a",
+      "start": 169.39999389648438,
+      "end": 169.55999755859375
+    },
+    {
+      "word": "system",
+      "start": 169.55999755859375,
+      "end": 169.9600067138672
+    },
+    {
+      "word": "of",
+      "start": 169.9600067138672,
+      "end": 170.66000366210938
+    },
+    {
+      "word": "apartheid",
+      "start": 170.66000366210938,
+      "end": 170.86000061035156
+    },
+    {
+      "word": "This",
+      "start": 170.94000244140625,
+      "end": 171.22000122070312
+    },
+    {
+      "word": "was",
+      "start": 171.22000122070312,
+      "end": 171.4600067138672
+    },
+    {
+      "word": "spearheaded",
+      "start": 171.4600067138672,
+      "end": 171.8000030517578
+    },
+    {
+      "word": "by",
+      "start": 171.8000030517578,
+      "end": 172.33999633789062
+    },
+    {
+      "word": "Ariel",
+      "start": 172.33999633789062,
+      "end": 172.75999450683594
+    },
+    {
+      "word": "Sharon",
+      "start": 172.75999450683594,
+      "end": 172.97999572753906
+    },
+    {
+      "word": "a",
+      "start": 173.36000061035156,
+      "end": 173.6999969482422
+    },
+    {
+      "word": "general",
+      "start": 173.6999969482422,
+      "end": 173.8800048828125
+    },
+    {
+      "word": "at",
+      "start": 173.8800048828125,
+      "end": 174.13999938964844
+    },
+    {
+      "word": "the",
+      "start": 174.13999938964844,
+      "end": 174.24000549316406
+    },
+    {
+      "word": "time",
+      "start": 174.24000549316406,
+      "end": 174.4199981689453
+    },
+    {
+      "word": "He",
+      "start": 174.4199981689453,
+      "end": 174.72000122070312
+    },
+    {
+      "word": "crafted",
+      "start": 174.72000122070312,
+      "end": 175.0800018310547
+    },
+    {
+      "word": "Israel's",
+      "start": 175.0800018310547,
+      "end": 175.63999938964844
+    },
+    {
+      "word": "military",
+      "start": 175.63999938964844,
+      "end": 176.0399932861328
+    },
+    {
+      "word": "strategy",
+      "start": 176.0399932861328,
+      "end": 176.44000244140625
+    },
+    {
+      "word": "to",
+      "start": 176.44000244140625,
+      "end": 176.75999450683594
+    },
+    {
+      "word": "build",
+      "start": 176.75999450683594,
+      "end": 176.89999389648438
+    },
+    {
+      "word": "a",
+      "start": 176.89999389648438,
+      "end": 177.1199951171875
+    },
+    {
+      "word": "network",
+      "start": 177.1199951171875,
+      "end": 177.44000244140625
+    },
+    {
+      "word": "of",
+      "start": 177.44000244140625,
+      "end": 178.10000610351562
+    },
+    {
+      "word": "outposts",
+      "start": 178.10000610351562,
+      "end": 178.25999450683594
+    },
+    {
+      "word": "along",
+      "start": 178.25999450683594,
+      "end": 178.47999572753906
+    },
+    {
+      "word": "the",
+      "start": 178.47999572753906,
+      "end": 178.6999969482422
+    },
+    {
+      "word": "border",
+      "start": 178.6999969482422,
+      "end": 178.94000244140625
+    },
+    {
+      "word": "of",
+      "start": 178.94000244140625,
+      "end": 179.10000610351562
+    },
+    {
+      "word": "the",
+      "start": 179.10000610351562,
+      "end": 179.17999267578125
+    },
+    {
+      "word": "West",
+      "start": 179.17999267578125,
+      "end": 179.3800048828125
+    },
+    {
+      "word": "Bank",
+      "start": 179.3800048828125,
+      "end": 179.60000610351562
+    },
+    {
+      "word": "focusing",
+      "start": 179.8000030517578,
+      "end": 180.05999755859375
+    },
+    {
+      "word": "on",
+      "start": 180.05999755859375,
+      "end": 180.36000061035156
+    },
+    {
+      "word": "the",
+      "start": 180.36000061035156,
+      "end": 180.75999450683594
+    },
+    {
+      "word": "north",
+      "start": 180.75999450683594,
+      "end": 180.75999450683594
+    },
+    {
+      "word": "the",
+      "start": 181.13999938964844,
+      "end": 181.44000244140625
+    },
+    {
+      "word": "south",
+      "start": 181.44000244140625,
+      "end": 181.44000244140625
+    },
+    {
+      "word": "and",
+      "start": 181.6199951171875,
+      "end": 181.77999877929688
+    },
+    {
+      "word": "the",
+      "start": 181.77999877929688,
+      "end": 181.86000061035156
+    },
+    {
+      "word": "Jordan",
+      "start": 181.86000061035156,
+      "end": 182.0399932861328
+    },
+    {
+      "word": "Valley",
+      "start": 182.0399932861328,
+      "end": 182.33999633789062
+    },
+    {
+      "word": "When",
+      "start": 182.6199951171875,
+      "end": 182.82000732421875
+    },
+    {
+      "word": "Sharon",
+      "start": 182.82000732421875,
+      "end": 183
+    },
+    {
+      "word": "entered",
+      "start": 183,
+      "end": 183.39999389648438
+    },
+    {
+      "word": "government",
+      "start": 183.39999389648438,
+      "end": 183.8000030517578
+    },
+    {
+      "word": "and",
+      "start": 183.8000030517578,
+      "end": 184.05999755859375
+    },
+    {
+      "word": "became",
+      "start": 184.05999755859375,
+      "end": 184.33999633789062
+    },
+    {
+      "word": "the",
+      "start": 184.33999633789062,
+      "end": 184.72000122070312
+    },
+    {
+      "word": "head",
+      "start": 184.72000122070312,
+      "end": 184.75999450683594
+    },
+    {
+      "word": "of",
+      "start": 184.75999450683594,
+      "end": 184.94000244140625
+    },
+    {
+      "word": "the",
+      "start": 184.94000244140625,
+      "end": 185.1199951171875
+    },
+    {
+      "word": "settlement",
+      "start": 185.1199951171875,
+      "end": 185.44000244140625
+    },
+    {
+      "word": "committee",
+      "start": 185.44000244140625,
+      "end": 185.83999633789062
+    },
+    {
+      "word": "he",
+      "start": 186,
+      "end": 186.0800018310547
+    },
+    {
+      "word": "began",
+      "start": 186.0800018310547,
+      "end": 186.33999633789062
+    },
+    {
+      "word": "to",
+      "start": 186.33999633789062,
+      "end": 186.67999267578125
+    },
+    {
+      "word": "turn",
+      "start": 186.67999267578125,
+      "end": 186.67999267578125
+    },
+    {
+      "word": "these",
+      "start": 186.67999267578125,
+      "end": 187.10000610351562
+    },
+    {
+      "word": "outposts",
+      "start": 187.10000610351562,
+      "end": 187.63999938964844
+    },
+    {
+      "word": "into",
+      "start": 187.63999938964844,
+      "end": 187.94000244140625
+    },
+    {
+      "word": "settlements",
+      "start": 187.94000244140625,
+      "end": 188.24000549316406
+    },
+    {
+      "word": "This",
+      "start": 188.52000427246094,
+      "end": 188.66000366210938
+    },
+    {
+      "word": "was",
+      "start": 188.66000366210938,
+      "end": 188.82000732421875
+    },
+    {
+      "word": "known",
+      "start": 188.82000732421875,
+      "end": 189.16000366210938
+    },
+    {
+      "word": "as",
+      "start": 189.16000366210938,
+      "end": 189.4600067138672
+    },
+    {
+      "word": "the",
+      "start": 189.4600067138672,
+      "end": 189.82000732421875
+    },
+    {
+      "word": "Alon",
+      "start": 189.82000732421875,
+      "end": 189.94000244140625
+    },
+    {
+      "word": "Plan",
+      "start": 189.94000244140625,
+      "end": 190.33999633789062
+    },
+    {
+      "word": "Now",
+      "start": 190.60000610351562,
+      "end": 190.77999877929688
+    },
+    {
+      "word": "normally",
+      "start": 190.77999877929688,
+      "end": 191.02000427246094
+    },
+    {
+      "word": "in",
+      "start": 191.02000427246094,
+      "end": 191.17999267578125
+    },
+    {
+      "word": "a",
+      "start": 191.17999267578125,
+      "end": 191.52000427246094
+    },
+    {
+      "word": "war",
+      "start": 191.52000427246094,
+      "end": 191.52000427246094
+    },
+    {
+      "word": "you",
+      "start": 191.6999969482422,
+      "end": 191.8000030517578
+    },
+    {
+      "word": "try",
+      "start": 191.8000030517578,
+      "end": 191.97999572753906
+    },
+    {
+      "word": "to",
+      "start": 191.97999572753906,
+      "end": 192.24000549316406
+    },
+    {
+      "word": "gain",
+      "start": 192.24000549316406,
+      "end": 192.5
+    },
+    {
+      "word": "territory",
+      "start": 192.5,
+      "end": 192.97999572753906
+    },
+    {
+      "word": "in",
+      "start": 192.97999572753906,
+      "end": 193.5800018310547
+    },
+    {
+      "word": "chunks",
+      "start": 193.5800018310547,
+      "end": 193.5800018310547
+    },
+    {
+      "word": "pushing",
+      "start": 193.97999572753906,
+      "end": 193.97999572753906
+    },
+    {
+      "word": "your",
+      "start": 193.97999572753906,
+      "end": 194.27999877929688
+    },
+    {
+      "word": "opponent",
+      "start": 194.27999877929688,
+      "end": 194.4600067138672
+    },
+    {
+      "word": "back",
+      "start": 194.4600067138672,
+      "end": 194.9600067138672
+    },
+    {
+      "word": "along",
+      "start": 194.9600067138672,
+      "end": 195.36000061035156
+    },
+    {
+      "word": "a",
+      "start": 195.36000061035156,
+      "end": 195.63999938964844
+    },
+    {
+      "word": "strong",
+      "start": 195.63999938964844,
+      "end": 196.1999969482422
+    },
+    {
+      "word": "fortified",
+      "start": 196.1999969482422,
+      "end": 196.5800018310547
+    },
+    {
+      "word": "line",
+      "start": 196.5800018310547,
+      "end": 196.86000061035156
+    },
+    {
+      "word": "But",
+      "start": 196.94000244140625,
+      "end": 197.22000122070312
+    },
+    {
+      "word": "what",
+      "start": 197.22000122070312,
+      "end": 197.6199951171875
+    },
+    {
+      "word": "Sharon",
+      "start": 197.6199951171875,
+      "end": 197.63999938964844
+    },
+    {
+      "word": "imagined",
+      "start": 197.63999938964844,
+      "end": 198.05999755859375
+    },
+    {
+      "word": "was",
+      "start": 198.05999755859375,
+      "end": 198.47999572753906
+    },
+    {
+      "word": "instead",
+      "start": 198.47999572753906,
+      "end": 198.89999389648438
+    },
+    {
+      "word": "a",
+      "start": 198.89999389648438,
+      "end": 199.22000122070312
+    },
+    {
+      "word": "grid",
+      "start": 199.22000122070312,
+      "end": 199.44000244140625
+    },
+    {
+      "word": "of",
+      "start": 199.44000244140625,
+      "end": 200.27999877929688
+    },
+    {
+      "word": "nodes",
+      "start": 200.27999877929688,
+      "end": 200.27999877929688
+    },
+    {
+      "word": "mapped",
+      "start": 200.27999877929688,
+      "end": 200.75999450683594
+    },
+    {
+      "word": "across",
+      "start": 200.75999450683594,
+      "end": 201.27999877929688
+    },
+    {
+      "word": "the",
+      "start": 201.27999877929688,
+      "end": 202.0399932861328
+    },
+    {
+      "word": "territory",
+      "start": 202.0399932861328,
+      "end": 202.22000122070312
+    },
+    {
+      "word": "That",
+      "start": 202.22000122070312,
+      "end": 202.44000244140625
+    },
+    {
+      "word": "way",
+      "start": 202.44000244140625,
+      "end": 202.77999877929688
+    },
+    {
+      "word": "they",
+      "start": 203.05999755859375,
+      "end": 203.17999267578125
+    },
+    {
+      "word": "could",
+      "start": 203.17999267578125,
+      "end": 203.8000030517578
+    },
+    {
+      "word": "communicate",
+      "start": 203.8000030517578,
+      "end": 203.8000030517578
+    },
+    {
+      "word": "with",
+      "start": 203.8000030517578,
+      "end": 204.02000427246094
+    },
+    {
+      "word": "each",
+      "start": 204.02000427246094,
+      "end": 204.1999969482422
+    },
+    {
+      "word": "other",
+      "start": 204.1999969482422,
+      "end": 204.44000244140625
+    },
+    {
+      "word": "easily",
+      "start": 204.44000244140625,
+      "end": 204.83999633789062
+    },
+    {
+      "word": "and",
+      "start": 204.83999633789062,
+      "end": 205.52000427246094
+    },
+    {
+      "word": "respond",
+      "start": 205.52000427246094,
+      "end": 205.52000427246094
+    },
+    {
+      "word": "to",
+      "start": 205.52000427246094,
+      "end": 206.0800018310547
+    },
+    {
+      "word": "threats",
+      "start": 206.0800018310547,
+      "end": 206.0800018310547
+    },
+    {
+      "word": "quickly",
+      "start": 206.0800018310547,
+      "end": 206.4600067138672
+    },
+    {
+      "word": "and",
+      "start": 206.4600067138672,
+      "end": 206.9199981689453
+    },
+    {
+      "word": "reduce",
+      "start": 206.9199981689453,
+      "end": 207.27999877929688
+    },
+    {
+      "word": "the",
+      "start": 207.27999877929688,
+      "end": 207.77999877929688
+    },
+    {
+      "word": "likelihood",
+      "start": 207.77999877929688,
+      "end": 208.0399932861328
+    },
+    {
+      "word": "that",
+      "start": 208.0399932861328,
+      "end": 208.6199951171875
+    },
+    {
+      "word": "any",
+      "start": 208.6199951171875,
+      "end": 208.8800048828125
+    },
+    {
+      "word": "single",
+      "start": 208.8800048828125,
+      "end": 209.1999969482422
+    },
+    {
+      "word": "point",
+      "start": 209.1999969482422,
+      "end": 209.5399932861328
+    },
+    {
+      "word": "could",
+      "start": 209.5399932861328,
+      "end": 210.05999755859375
+    },
+    {
+      "word": "be",
+      "start": 210.05999755859375,
+      "end": 210.6999969482422
+    },
+    {
+      "word": "targeted",
+      "start": 210.6999969482422,
+      "end": 210.6999969482422
+    },
+    {
+      "word": "without",
+      "start": 210.6999969482422,
+      "end": 211.13999938964844
+    },
+    {
+      "word": "alerting",
+      "start": 211.13999938964844,
+      "end": 211.4600067138672
+    },
+    {
+      "word": "the",
+      "start": 211.4600067138672,
+      "end": 212.05999755859375
+    },
+    {
+      "word": "others",
+      "start": 212.05999755859375,
+      "end": 212.05999755859375
+    },
+    {
+      "word": "Israeli",
+      "start": 212.63999938964844,
+      "end": 212.94000244140625
+    },
+    {
+      "word": "American",
+      "start": 212.94000244140625,
+      "end": 213.32000732421875
+    },
+    {
+      "word": "anthropologist",
+      "start": 213.32000732421875,
+      "end": 214
+    },
+    {
+      "word": "Jeff",
+      "start": 214,
+      "end": 214.47999572753906
+    },
+    {
+      "word": "Halper",
+      "start": 214.47999572753906,
+      "end": 214.82000732421875
+    },
+    {
+      "word": "calls",
+      "start": 214.82000732421875,
+      "end": 215.3800048828125
+    },
+    {
+      "word": "this",
+      "start": 215.3800048828125,
+      "end": 215.77999877929688
+    },
+    {
+      "word": "the",
+      "start": 215.77999877929688,
+      "end": 216.1199951171875
+    },
+    {
+      "word": "matrix",
+      "start": 216.1199951171875,
+      "end": 216.44000244140625
+    },
+    {
+      "word": "of",
+      "start": 216.44000244140625,
+      "end": 216.77999877929688
+    },
+    {
+      "word": "control",
+      "start": 216.77999877929688,
+      "end": 217.0399932861328
+    },
+    {
+      "word": "There",
+      "start": 217.36000061035156,
+      "end": 217.74000549316406
+    },
+    {
+      "word": "are",
+      "start": 217.74000549316406,
+      "end": 217.9600067138672
     },
     {
       "word": "today",
-      "start": 769.0399780273438,
-      "end": 769.4000244140625
+      "start": 217.9600067138672,
+      "end": 218.36000061035156
+    },
+    {
+      "word": "if",
+      "start": 218.47999572753906,
+      "end": 218.5800018310547
+    },
+    {
+      "word": "you",
+      "start": 218.5800018310547,
+      "end": 218.66000366210938
+    },
+    {
+      "word": "can",
+      "start": 218.66000366210938,
+      "end": 218.8800048828125
+    },
+    {
+      "word": "see",
+      "start": 218.8800048828125,
+      "end": 219.02000427246094
+    },
+    {
+      "word": "all",
+      "start": 219.02000427246094,
+      "end": 219.27999877929688
+    },
+    {
+      "word": "these",
+      "start": 219.27999877929688,
+      "end": 219.5
+    },
+    {
+      "word": "dots",
+      "start": 219.5,
+      "end": 219.97999572753906
+    },
+    {
+      "word": "there",
+      "start": 220.55999755859375,
+      "end": 220.66000366210938
+    },
+    {
+      "word": "are",
+      "start": 220.66000366210938,
+      "end": 220.8800048828125
+    },
+    {
+      "word": "today",
+      "start": 220.8800048828125,
+      "end": 221.36000061035156
+    },
+    {
+      "word": "about",
+      "start": 221.36000061035156,
+      "end": 221.89999389648438
+    },
+    {
+      "word": "120",
+      "start": 221.89999389648438,
+      "end": 223.22000122070312
+    },
+    {
+      "word": "permanent",
+      "start": 223.22000122070312,
+      "end": 224.25999450683594
+    },
+    {
+      "word": "checkpoints",
+      "start": 224.25999450683594,
+      "end": 225.1199951171875
+    },
+    {
+      "word": "obstructing",
+      "start": 225.55999755859375,
+      "end": 226.24000549316406
+    },
+    {
+      "word": "Palestinian",
+      "start": 226.24000549316406,
+      "end": 226.89999389648438
+    },
+    {
+      "word": "movement",
+      "start": 226.89999389648438,
+      "end": 227.5399932861328
+    },
+    {
+      "word": "And",
+      "start": 227.83999633789062,
+      "end": 228.0800018310547
+    },
+    {
+      "word": "what's",
+      "start": 228.0800018310547,
+      "end": 228.3800048828125
+    },
+    {
+      "word": "interesting",
+      "start": 228.3800048828125,
+      "end": 228.86000061035156
+    },
+    {
+      "word": "if",
+      "start": 229.10000610351562,
+      "end": 229.17999267578125
+    },
+    {
+      "word": "you",
+      "start": 229.17999267578125,
+      "end": 229.25999450683594
+    },
+    {
+      "word": "can",
+      "start": 229.25999450683594,
+      "end": 229.52000427246094
+    },
+    {
+      "word": "see",
+      "start": 229.52000427246094,
+      "end": 229.83999633789062
+    },
+    {
+      "word": "is",
+      "start": 229.83999633789062,
+      "end": 229.8800048828125
+    },
+    {
+      "word": "that",
+      "start": 229.8800048828125,
+      "end": 230.5399932861328
+    },
+    {
+      "word": "they're",
+      "start": 230.5399932861328,
+      "end": 230.77999877929688
+    },
+    {
+      "word": "not",
+      "start": 230.77999877929688,
+      "end": 231.05999755859375
+    },
+    {
+      "word": "along",
+      "start": 231.05999755859375,
+      "end": 231.4600067138672
+    },
+    {
+      "word": "the",
+      "start": 231.4600067138672,
+      "end": 232.0399932861328
+    },
+    {
+      "word": "border",
+      "start": 232.0399932861328,
+      "end": 232.0399932861328
+    },
+    {
+      "word": "which",
+      "start": 233.44000244140625,
+      "end": 233.52000427246094
+    },
+    {
+      "word": "you",
+      "start": 233.52000427246094,
+      "end": 233.63999938964844
+    },
+    {
+      "word": "would",
+      "start": 233.63999938964844,
+      "end": 233.94000244140625
+    },
+    {
+      "word": "expect",
+      "start": 233.94000244140625,
+      "end": 234.1999969482422
+    },
+    {
+      "word": "if",
+      "start": 234.1999969482422,
+      "end": 234.39999389648438
+    },
+    {
+      "word": "this",
+      "start": 234.39999389648438,
+      "end": 234.5800018310547
+    },
+    {
+      "word": "was",
+      "start": 234.5800018310547,
+      "end": 234.72000122070312
+    },
+    {
+      "word": "a",
+      "start": 234.72000122070312,
+      "end": 234.94000244140625
+    },
+    {
+      "word": "security",
+      "start": 234.94000244140625,
+      "end": 235.25999450683594
+    },
+    {
+      "word": "situation",
+      "start": 235.25999450683594,
+      "end": 235.9199981689453
+    },
+    {
+      "word": "The",
+      "start": 236.72000122070312,
+      "end": 236.72000122070312
+    },
+    {
+      "word": "vast",
+      "start": 236.72000122070312,
+      "end": 237.16000366210938
+    },
+    {
+      "word": "majority",
+      "start": 237.16000366210938,
+      "end": 237.5
+    },
+    {
+      "word": "of",
+      "start": 237.5,
+      "end": 237.9199981689453
+    },
+    {
+      "word": "checkpoints",
+      "start": 237.9199981689453,
+      "end": 238.3800048828125
+    },
+    {
+      "word": "are",
+      "start": 238.3800048828125,
+      "end": 239.4600067138672
+    },
+    {
+      "word": "clustered",
+      "start": 239.4600067138672,
+      "end": 239.4600067138672
+    },
+    {
+      "word": "inside",
+      "start": 239.4600067138672,
+      "end": 240.47999572753906
+    },
+    {
+      "word": "between",
+      "start": 241.32000732421875,
+      "end": 241.9199981689453
+    },
+    {
+      "word": "all",
+      "start": 241.9199981689453,
+      "end": 242.47999572753906
+    },
+    {
+      "word": "the",
+      "start": 242.47999572753906,
+      "end": 242.75999450683594
+    },
+    {
+      "word": "various",
+      "start": 242.75999450683594,
+      "end": 243.1999969482422
+    },
+    {
+      "word": "islands",
+      "start": 243.1999969482422,
+      "end": 243.8000030517578
+    },
+    {
+      "word": "Halper",
+      "start": 244.3800048828125,
+      "end": 244.4600067138672
+    },
+    {
+      "word": "says",
+      "start": 244.4600067138672,
+      "end": 244.82000732421875
+    },
+    {
+      "word": "in",
+      "start": 244.82000732421875,
+      "end": 245.05999755859375
+    },
+    {
+      "word": "this",
+      "start": 245.05999755859375,
+      "end": 245.33999633789062
+    },
+    {
+      "word": "way",
+      "start": 245.33999633789062,
+      "end": 245.6999969482422
+    },
+    {
+      "word": "Israel's",
+      "start": 245.8800048828125,
+      "end": 246.47999572753906
+    },
+    {
+      "word": "strategy",
+      "start": 246.47999572753906,
+      "end": 246.47999572753906
+    },
+    {
+      "word": "of",
+      "start": 246.47999572753906,
+      "end": 246.74000549316406
+    },
+    {
+      "word": "control",
+      "start": 246.74000549316406,
+      "end": 246.9600067138672
+    },
+    {
+      "word": "resembles",
+      "start": 246.9600067138672,
+      "end": 247.39999389648438
+    },
+    {
+      "word": "a",
+      "start": 247.39999389648438,
+      "end": 247.6999969482422
+    },
+    {
+      "word": "game",
+      "start": 247.6999969482422,
+      "end": 247.9199981689453
+    },
+    {
+      "word": "of",
+      "start": 247.9199981689453,
+      "end": 248.33999633789062
+    },
+    {
+      "word": "Go",
+      "start": 248.33999633789062,
+      "end": 248.4199981689453
+    },
+    {
+      "word": "where",
+      "start": 248.66000366210938,
+      "end": 248.9199981689453
+    },
+    {
+      "word": "you",
+      "start": 248.9199981689453,
+      "end": 249.5399932861328
+    },
+    {
+      "word": "win",
+      "start": 249.5399932861328,
+      "end": 249.77999877929688
+    },
+    {
+      "word": "by",
+      "start": 249.77999877929688,
+      "end": 250.32000732421875
+    },
+    {
+      "word": "immobilizing",
+      "start": 250.32000732421875,
+      "end": 250.86000061035156
+    },
+    {
+      "word": "the",
+      "start": 250.86000061035156,
+      "end": 251.05999755859375
+    },
+    {
+      "word": "other",
+      "start": 251.05999755859375,
+      "end": 251.27999877929688
+    },
+    {
+      "word": "side",
+      "start": 251.27999877929688,
+      "end": 251.5800018310547
+    },
+    {
+      "word": "by",
+      "start": 251.5800018310547,
+      "end": 251.94000244140625
+    },
+    {
+      "word": "gaining",
+      "start": 251.94000244140625,
+      "end": 252.22000122070312
+    },
+    {
+      "word": "control",
+      "start": 252.22000122070312,
+      "end": 252.63999938964844
+    },
+    {
+      "word": "of",
+      "start": 252.63999938964844,
+      "end": 252.94000244140625
+    },
+    {
+      "word": "key",
+      "start": 252.94000244140625,
+      "end": 253.17999267578125
+    },
+    {
+      "word": "points",
+      "start": 253.17999267578125,
+      "end": 253.3800048828125
+    },
+    {
+      "word": "of",
+      "start": 253.3800048828125,
+      "end": 253.55999755859375
+    },
+    {
+      "word": "a",
+      "start": 253.55999755859375,
+      "end": 253.97999572753906
+    },
+    {
+      "word": "matrix",
+      "start": 253.97999572753906,
+      "end": 253.97999572753906
+    },
+    {
+      "word": "so",
+      "start": 253.97999572753906,
+      "end": 254.3000030517578
+    },
+    {
+      "word": "that",
+      "start": 254.3000030517578,
+      "end": 254.44000244140625
+    },
+    {
+      "word": "every",
+      "start": 254.44000244140625,
+      "end": 254.6999969482422
+    },
+    {
+      "word": "time",
+      "start": 254.6999969482422,
+      "end": 254.89999389648438
+    },
+    {
+      "word": "your",
+      "start": 254.89999389648438,
+      "end": 255.13999938964844
+    },
+    {
+      "word": "opponent",
+      "start": 255.13999938964844,
+      "end": 255.32000732421875
+    },
+    {
+      "word": "moves",
+      "start": 255.32000732421875,
+      "end": 255.74000549316406
+    },
+    {
+      "word": "he",
+      "start": 256.05999755859375,
+      "end": 256.239990234375
+    },
+    {
+      "word": "or",
+      "start": 256.239990234375,
+      "end": 256.5
+    },
+    {
+      "word": "she",
+      "start": 256.5,
+      "end": 256.7799987792969
+    },
+    {
+      "word": "encounters",
+      "start": 256.7799987792969,
+      "end": 257.3599853515625
+    },
+    {
+      "word": "another",
+      "start": 257.3599853515625,
+      "end": 257.9200134277344
+    },
+    {
+      "word": "obstacle",
+      "start": 257.9200134277344,
+      "end": 258.29998779296875
+    },
+    {
+      "word": "See",
+      "start": 258.29998779296875,
+      "end": 258.8599853515625
+    },
+    {
+      "word": "it's",
+      "start": 258.8999938964844,
+      "end": 259.1199951171875
+    },
+    {
+      "word": "not",
+      "start": 259.1199951171875,
+      "end": 259.2799987792969
+    },
+    {
+      "word": "just",
+      "start": 259.2799987792969,
+      "end": 259.44000244140625
+    },
+    {
+      "word": "me",
+      "start": 259.44000244140625,
+      "end": 259.8399963378906
+    },
+    {
+      "word": "saying",
+      "start": 259.8399963378906,
+      "end": 259.8399963378906
+    },
+    {
+      "word": "this",
+      "start": 259.8399963378906,
+      "end": 260.2200012207031
+    },
+    {
+      "word": "Then",
+      "start": 260.3800048828125,
+      "end": 260.4200134277344
+    },
+    {
+      "word": "there's",
+      "start": 260.4200134277344,
+      "end": 260.6600036621094
+    },
+    {
+      "word": "the",
+      "start": 260.6600036621094,
+      "end": 261.17999267578125
+    },
+    {
+      "word": "settlements",
+      "start": 261.17999267578125,
+      "end": 261.17999267578125
+    },
+    {
+      "word": "Whenever",
+      "start": 261.3999938964844,
+      "end": 261.5799865722656
+    },
+    {
+      "word": "a",
+      "start": 261.5799865722656,
+      "end": 262
+    },
+    {
+      "word": "settlement",
+      "start": 262,
+      "end": 262
+    },
+    {
+      "word": "is",
+      "start": 262,
+      "end": 262.239990234375
+    },
+    {
+      "word": "set",
+      "start": 262.239990234375,
+      "end": 262.3800048828125
+    },
+    {
+      "word": "up",
+      "start": 262.3800048828125,
+      "end": 262.5799865722656
+    },
+    {
+      "word": "Israel",
+      "start": 262.9200134277344,
+      "end": 262.9200134277344
+    },
+    {
+      "word": "creates",
+      "start": 262.9200134277344,
+      "end": 263.3800048828125
+    },
+    {
+      "word": "a",
+      "start": 263.3800048828125,
+      "end": 263.6600036621094
+    },
+    {
+      "word": "security",
+      "start": 263.6600036621094,
+      "end": 264.1400146484375
+    },
+    {
+      "word": "zone",
+      "start": 264.1400146484375,
+      "end": 264.4800109863281
+    },
+    {
+      "word": "around",
+      "start": 264.4800109863281,
+      "end": 264.8999938964844
+    },
+    {
+      "word": "it",
+      "start": 264.8999938964844,
+      "end": 265.1000061035156
+    },
+    {
+      "word": "with",
+      "start": 265.1000061035156,
+      "end": 265.3800048828125
+    },
+    {
+      "word": "fences",
+      "start": 265.3800048828125,
+      "end": 265.7200012207031
+    },
+    {
+      "word": "and",
+      "start": 265.7200012207031,
+      "end": 266.17999267578125
+    },
+    {
+      "word": "checkpoints",
+      "start": 266.17999267578125,
+      "end": 266.6199951171875
+    },
+    {
+      "word": "In",
+      "start": 266.82000732421875,
+      "end": 266.8399963378906
+    },
+    {
+      "word": "1967",
+      "start": 266.8399963378906,
+      "end": 267.739990234375
+    },
+    {
+      "word": "less",
+      "start": 268.05999755859375,
+      "end": 268.0799865722656
+    },
+    {
+      "word": "than",
+      "start": 268.0799865722656,
+      "end": 268.20001220703125
+    },
+    {
+      "word": "a",
+      "start": 268.20001220703125,
+      "end": 268.3999938964844
+    },
+    {
+      "word": "thousand",
+      "start": 268.3999938964844,
+      "end": 268.82000732421875
+    },
+    {
+      "word": "Israeli",
+      "start": 268.82000732421875,
+      "end": 269.3599853515625
+    },
+    {
+      "word": "settlers",
+      "start": 269.3599853515625,
+      "end": 269.6600036621094
+    },
+    {
+      "word": "lived",
+      "start": 269.6600036621094,
+      "end": 270.1400146484375
+    },
+    {
+      "word": "in",
+      "start": 270.1400146484375,
+      "end": 270.260009765625
+    },
+    {
+      "word": "the",
+      "start": 270.260009765625,
+      "end": 270.4200134277344
+    },
+    {
+      "word": "West",
+      "start": 270.4200134277344,
+      "end": 270.6400146484375
+    },
+    {
+      "word": "Bank",
+      "start": 270.6400146484375,
+      "end": 270.760009765625
+    },
+    {
+      "word": "and",
+      "start": 270.760009765625,
+      "end": 270.9599914550781
+    },
+    {
+      "word": "East",
+      "start": 270.9599914550781,
+      "end": 271.20001220703125
+    },
+    {
+      "word": "Jerusalem",
+      "start": 271.20001220703125,
+      "end": 271.5199890136719
+    },
+    {
+      "word": "Now",
+      "start": 271.8399963378906,
+      "end": 272
+    },
+    {
+      "word": "fast",
+      "start": 272,
+      "end": 272.1600036621094
+    },
+    {
+      "word": "forward",
+      "start": 272.1600036621094,
+      "end": 272.3599853515625
+    },
+    {
+      "word": "six",
+      "start": 272.3599853515625,
+      "end": 272.760009765625
+    },
+    {
+      "word": "decades",
+      "start": 272.760009765625,
+      "end": 273.0799865722656
+    },
+    {
+      "word": "and",
+      "start": 273.239990234375,
+      "end": 273.2799987792969
+    },
+    {
+      "word": "that",
+      "start": 273.2799987792969,
+      "end": 273.3999938964844
+    },
+    {
+      "word": "has",
+      "start": 273.3999938964844,
+      "end": 273.67999267578125
+    },
+    {
+      "word": "increased",
+      "start": 273.67999267578125,
+      "end": 273.8999938964844
+    },
+    {
+      "word": "to",
+      "start": 273.8999938964844,
+      "end": 274.1400146484375
+    },
+    {
+      "word": "more",
+      "start": 274.1400146484375,
+      "end": 274.2799987792969
+    },
+    {
+      "word": "than",
+      "start": 274.2799987792969,
+      "end": 274.6000061035156
+    },
+    {
+      "word": "700",
+      "start": 274.6000061035156,
+      "end": 275.4599914550781
+    },
+    {
+      "word": "000",
+      "start": 275.4599914550781,
+      "end": 275.8399963378906
+    },
+    {
+      "word": "people",
+      "start": 275.8399963378906,
+      "end": 276.3399963378906
+    },
+    {
+      "word": "Today",
+      "start": 276.55999755859375,
+      "end": 276.82000732421875
+    },
+    {
+      "word": "nearly",
+      "start": 277.1600036621094,
+      "end": 277.3599853515625
+    },
+    {
+      "word": "one",
+      "start": 277.3599853515625,
+      "end": 277.5799865722656
+    },
+    {
+      "word": "in",
+      "start": 277.5799865722656,
+      "end": 277.739990234375
+    },
+    {
+      "word": "10",
+      "start": 277.739990234375,
+      "end": 277.9200134277344
+    },
+    {
+      "word": "Israelis",
+      "start": 277.9200134277344,
+      "end": 278.29998779296875
+    },
+    {
+      "word": "live",
+      "start": 278.29998779296875,
+      "end": 278.70001220703125
+    },
+    {
+      "word": "in",
+      "start": 278.70001220703125,
+      "end": 279.0799865722656
+    },
+    {
+      "word": "illegal",
+      "start": 279.0799865722656,
+      "end": 279.4200134277344
+    },
+    {
+      "word": "settlements",
+      "start": 279.4200134277344,
+      "end": 279.8599853515625
+    },
+    {
+      "word": "At",
+      "start": 280.1400146484375,
+      "end": 280.260009765625
+    },
+    {
+      "word": "first",
+      "start": 280.260009765625,
+      "end": 280.5400085449219
     }
   ];

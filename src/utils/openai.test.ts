@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { adjustSegmentsToWordBoundaries, ViralPodcastSegments } from './openai';
 import { TranscriptionWord } from 'openai/resources/audio/transcriptions';
-import { REAL_SEGMENTS, REAL_WORDS } from './testData';
+import { REAL_SEGMENTS_PRE_ADJUSTMENT, REAL_SEGMENTS_PRE_ADJUSTMENT_2, REAL_WORDS, REAL_WORDS2 } from './testData';
 
 describe('adjustSegmentsToWordBoundaries', () => {
   const createWord = (
@@ -221,14 +221,14 @@ describe('adjustSegmentsToWordBoundaries', () => {
     expect(result[0].end).toBe(2.1);
   });
 
-  it('should not adjust when gap is zero (exact boundary)', () => {
+  it('should adjust start when gap is zero (exact boundary)', () => {
     const words = [
       createWord('hello', 1.0, 1.5),
       createWord('world', 1.5, 2.0), // starts exactly where previous ends
     ];
     const segments = [createSegment('Test', 1.5, 2.0)];
     const result = adjustSegmentsToWordBoundaries(segments, words);
-    expect(result[0].start).toBe(1.5);
+    expect(result[0].start).toBe(1.3);
     expect(result[0].end).toBe(2.0);
   });
 
@@ -288,6 +288,35 @@ describe('adjustSegmentsToWordBoundaries', () => {
     expect(result[0].start).toBeLessThanOrEqual(1.5);
   });
 
+  it('should skip zero-duration words when finding the word before the start boundary', () => {
+    const words = [
+      createWord('possible', 33.47999954223633, 33.47999954223633),
+      createWord('Hamas', 34.20000076293945, 34.20000076293945),
+      createWord('is', 34.20000076293945, 34.619998931884766),
+    ];
+    const segments = [
+      createSegment(
+        'Zero duration boundary',
+        34.20000076293945,
+        34.619998931884766,
+      ),
+    ];
+    const result = adjustSegmentsToWordBoundaries(segments, words);
+    expect(result[0].start).toBeCloseTo(34.00000076293945, 10);
+    expect(result[0].end).toBe(34.619998931884766);
+  });
+
+  it('should skip zero-duration words when extending the end boundary', () => {
+    const words = [
+      createWord('before', 10.0, 10.5),
+      createWord('zero', 10.55, 10.55),
+      createWord('after', 10.8, 11.0),
+    ];
+    const segments = [createSegment('Gap test', 9.5, 10.5)];
+    const result = adjustSegmentsToWordBoundaries(segments, words);
+    expect(result[0].end).toBeCloseTo(10.6, 10); // 0.1s max adjustment towards "after"
+  });
+
   it('should handle segment starting before any word starts but within first word duration', () => {
     const words = [
       createWord('hello', 1.0, 1.5), // word starts at 1.0
@@ -301,13 +330,21 @@ describe('adjustSegmentsToWordBoundaries', () => {
   });
 
   it('should handle real words and segments', () => {
-    const result = adjustSegmentsToWordBoundaries(REAL_SEGMENTS.segments, REAL_WORDS);
-    expect(result).toHaveLength(5);
-    // Segment starts at 143.4199981689453, which matches word "Wanjiru" start exactly
-    expect(result[2].start).toBe(143.4199981689453);
+    const result = adjustSegmentsToWordBoundaries(REAL_SEGMENTS_PRE_ADJUSTMENT.segments, REAL_WORDS);
+    expect(result).toHaveLength(3);
+    // Segment starts at 143.4199981689453; zero-duration word at same time forces 0.2s backoff
+    expect(result[2].start).toBeCloseTo(143.21999816894532, 10);
     // Segment ends at 220.56000671386718, next word "For" starts at 221.55999755859375
     // Gap is ~1.0s, but max adjustment is 0.1s, so end adjusts to 220.66000671386718
-    expect(result[2].end).toBe(220.66000671386718);
-    expect(result[2].duration).toBeCloseTo(77.24000854492188); // Adjusted duration
+    expect(result[2].end).toBe(220.56000671386718);
+    expect(result[2].duration).toBeCloseTo(77.34000854492186); // Adjusted duration (includes 0.2s start backoff)
+  });
+
+  it('should handle real words and segments 2', () => {
+    const result = adjustSegmentsToWordBoundaries(REAL_SEGMENTS_PRE_ADJUSTMENT_2.segments, REAL_WORDS2);
+    expect(result).toHaveLength(3);
+    expect(result[1].start).toBeCloseTo(67.8199966430664, 10);
+    expect(result[1].end).toBeCloseTo(99.5000015258789, 10);
+    expect(result[1].duration).toBeCloseTo(31.6800048828125, 10);
   });
 });

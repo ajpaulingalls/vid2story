@@ -1,6 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { wordsToSRT, clipWordsToSRT, formatSRTTime } from './transcript';
-import { REAL_SEGMENTS, REAL_WORDS } from './testData';
+import { REAL_SEGMENTS_PRE_ADJUSTMENT, REAL_WORDS } from './testData';
+import { adjustSegmentsToWordBoundaries } from './openai';
 
 describe('wordsToSRT', () => {
   it('should handle empty array', () => {
@@ -267,8 +268,18 @@ world`;
   it('should handle real words and segments', () => {
     const result = clipWordsToSRT(
       REAL_WORDS,
-      formatSRTTime(REAL_SEGMENTS.segments[2].start).replace(',', '.'),
-      formatSRTTime(REAL_SEGMENTS.segments[2].end).replace(',', '.'),
+      formatSRTTime(REAL_SEGMENTS_PRE_ADJUSTMENT.segments[2].start).replace(',', '.'),
+      formatSRTTime(REAL_SEGMENTS_PRE_ADJUSTMENT.segments[2].end).replace(',', '.'),
+    );
+    expect(result).toContain('Wanjiru has lived it firsthand');
+  });
+
+  it('should handle real words and adjusted segments', () => {
+    const adjustedSegments = adjustSegmentsToWordBoundaries(REAL_SEGMENTS_PRE_ADJUSTMENT.segments, REAL_WORDS);
+    const result = clipWordsToSRT(
+      REAL_WORDS,
+      formatSRTTime(adjustedSegments[2].start).replace(',', '.'),
+      formatSRTTime(adjustedSegments[2].end).replace(',', '.'),
     );
     expect(result).toContain('Wanjiru has lived it firsthand');
   });

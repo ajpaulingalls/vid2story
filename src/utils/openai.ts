@@ -1,8 +1,4 @@
-import {
-  AuthenticationError,
-  OpenAI,
-  PermissionDeniedError,
-} from 'openai';
+import { AuthenticationError, OpenAI, PermissionDeniedError } from 'openai';
 import config from '../config/config';
 import fs from 'fs';
 import { TranscriptionWord } from 'openai/resources/audio/transcriptions';
@@ -18,9 +14,18 @@ const CHUNK_OVERLAP_SECONDS = 3 * 60; // 3 minutes
 const SEGMENT_DEDUPE_TOLERANCE_SECONDS = 1;
 const MAX_START_BOUNDARY_ADJUSTMENT_SECONDS = 0.2;
 const MAX_END_BOUNDARY_ADJUSTMENT_SECONDS = 0.1;
+const ZERO_DURATION_WORD_EPSILON = 1e-6;
+
+const isEffectivelyZeroDuration = (word: TranscriptionWord): boolean => {
+  const duration = Math.abs(getWordEndTime(word) - getWordStartTime(word));
+  return duration <= ZERO_DURATION_WORD_EPSILON;
+};
+
+const startsAtSameMoment = (word: TranscriptionWord, time: number): boolean =>
+  Math.abs(getWordStartTime(word) - time) <= ZERO_DURATION_WORD_EPSILON;
 
 const sleep = (durationMs: number) =>
-  new Promise(resolve => setTimeout(resolve, durationMs));
+  new Promise((resolve) => setTimeout(resolve, durationMs));
 
 export const generateTranscriptJson = async (
   videoPath: string,
@@ -134,7 +139,9 @@ const getWordEndTime = (word: TranscriptionWord): number =>
       ? word.start
       : 0;
 
-const buildTranscriptChunks = (words: TranscriptionWord[]): TranscriptChunk[] => {
+const buildTranscriptChunks = (
+  words: TranscriptionWord[],
+): TranscriptChunk[] => {
   if (!words.length) {
     return [];
   }
@@ -161,10 +168,14 @@ const buildTranscriptChunks = (words: TranscriptionWord[]): TranscriptChunk[] =>
   let windowStart = overallStart;
 
   while (windowStart < overallEnd) {
-    const windowEnd = Math.min(windowStart + CHUNK_DURATION_SECONDS, overallEnd);
+    const windowEnd = Math.min(
+      windowStart + CHUNK_DURATION_SECONDS,
+      overallEnd,
+    );
     const chunkWords = sortedWords.filter(
-      word =>
-        getWordEndTime(word) > windowStart && getWordStartTime(word) < windowEnd,
+      (word) =>
+        getWordEndTime(word) > windowStart &&
+        getWordStartTime(word) < windowEnd,
     );
 
     if (chunkWords.length > 0) {
@@ -233,7 +244,14 @@ const requestSegmentsForChunk = async (
                     type: 'number',
                   },
                 },
-                required: ['title', 'summary', 'caption', 'start', 'end', 'duration'],
+                required: [
+                  'title',
+                  'summary',
+                  'caption',
+                  'start',
+                  'end',
+                  'duration',
+                ],
                 additionalProperties: false,
               },
             },
@@ -249,6 +267,7 @@ const requestSegmentsForChunk = async (
     response.choices[0].message.content || '{}',
   ) as ViralPodcastSegments;
 
+  console.log('Segments for chunk:', parsed.segments);
   return parsed.segments ?? [];
 };
 
@@ -266,7 +285,7 @@ const dedupeSegments = (
       continue;
     }
 
-    const alreadyExists = uniqueSegments.some(existing => {
+    const alreadyExists = uniqueSegments.some((existing) => {
       const startDelta = Math.abs(existing.start - segment.start);
       const endDelta = Math.abs(existing.end - segment.end);
       return (
@@ -294,37 +313,50 @@ export const adjustSegmentsToWordBoundaries = (
     return segments;
   }
 
-  const sortedWords = [...words].sort(
-    (a, b) => getWordStartTime(a) - getWordStartTime(b),
-  );
-
   const findWordBefore = (time: number): TranscriptionWord | null => {
-    for (let i = sortedWords.length - 1; i >= 0; i--) {
-      if (getWordStartTime(sortedWords[i]) <= time) {
-        return sortedWords[i];
-      }
-    }
-    return null;
-  };
+    const boundaryHasZeroDuration = words.some(
+      (word) =>
+        startsAtSameMoment(word, time) && isEffectivelyZeroDuration(word),
+    );
 
-  const findWordAfter = (time: number): TranscriptionWord | null => {
-    for (const word of sortedWords) {
-      if (getWordStartTime(word) > time) {
+    for (let i = words.length - 1; i >= 0; i--) {
+      const word = words[i];
+      const startTime = getWordStartTime(word);
+
+      if (startTime < time) {
+        if (startsAtSameMoment(word, time) && boundaryHasZeroDuration) {
+          continue;
+        }
+
         return word;
       }
     }
     return null;
   };
 
-  return segments.map(segment => {
+  const findWordAfter = (time: number): TranscriptionWord | null => {
+    for (const word of words) {
+      const startTime = getWordStartTime(word);
+      if (startTime <= time + ZERO_DURATION_WORD_EPSILON) {
+        continue;
+      }
+      if (isEffectivelyZeroDuration(word)) {
+        continue;
+      }
+      return word;
+    }
+    return null;
+  };
+
+  return segments.map((segment) => {
     const wordBeforeStart = findWordBefore(segment.start);
     let newStart = segment.start;
     if (wordBeforeStart) {
       const wordStart = getWordStartTime(wordBeforeStart);
       const wordEnd = getWordEndTime(wordBeforeStart);
-      
+
       // Check if segment starts within a word (between word.start and word.end)
-      if (segment.start >= wordStart && segment.start <= wordEnd) {
+      if (segment.start > wordStart && segment.start <= wordEnd) {
         // Segment starts in the middle of a word - adjust to word start
         const adjustmentNeeded = segment.start - wordStart;
         const adjustment = Math.min(
@@ -335,10 +367,7 @@ export const adjustSegmentsToWordBoundaries = (
       } else {
         // Segment starts after word ends - check for gap
         const gap = Math.max(0, segment.start - wordEnd);
-        const adjustment = Math.min(
-          gap,
-          MAX_START_BOUNDARY_ADJUSTMENT_SECONDS,
-        );
+        const adjustment = Math.min(gap, MAX_START_BOUNDARY_ADJUSTMENT_SECONDS);
         newStart = segment.start - adjustment;
       }
     }
@@ -370,10 +399,6 @@ export const getBestSegmentsFromWords = async (
     return { segments: [] };
   }
 
-  const normalizedWords = [...words].sort(
-    (a, b) => getWordStartTime(a) - getWordStartTime(b),
-  );
-
   // Build the system prompt with additional instructions if provided
   let systemPrompt = SPLIT_TRANSCRIPT_SYSTEM_PROMPT;
   if (additionalInstructions) {
@@ -384,7 +409,7 @@ export const getBestSegmentsFromWords = async (
     systemPrompt += `\nAdditional Instructions from the user for this segment selection: ${additionalInstructions}\nPlease pay close attention to these instructions as you generate the segments`;
   }
 
-  const chunks = buildTranscriptChunks(normalizedWords);
+  const chunks = buildTranscriptChunks(words);
   const aggregatedSegments: ViralPodcastSegments['segments'] = [];
 
   for (let i = 0; i < chunks.length; i++) {
@@ -394,14 +419,17 @@ export const getBestSegmentsFromWords = async (
         `Processing transcript chunk ${i + 1}/${chunks.length} (${chunk.words.length} words, ${Math.round(chunk.start)}s-${Math.round(chunk.end)}s)`,
       );
     }
-    const chunkSegments = await requestSegmentsForChunk(chunk.words, systemPrompt);
+    const chunkSegments = await requestSegmentsForChunk(
+      chunk.words,
+      systemPrompt,
+    );
     aggregatedSegments.push(...chunkSegments);
   }
 
   const dedupedSegments = dedupeSegments(aggregatedSegments);
   const adjustedSegments = adjustSegmentsToWordBoundaries(
     dedupedSegments,
-    normalizedWords,
+    words,
   );
 
   console.log('Generating segments complete');
@@ -423,20 +451,29 @@ export const detectTranscriptLanguage = async (
 
   // Build representative snippets from across the transcript
   const windowSize = Math.min(30, Math.max(5, Math.floor(totalWords * 0.05)));
-  const pickIndex = (ratio: number) => Math.min(totalWords - 1, Math.max(0, Math.floor(totalWords * ratio)));
-  const indices = Array.from(new Set([pickIndex(0.05), pickIndex(0.5), pickIndex(0.95)]));
+  const pickIndex = (ratio: number) =>
+    Math.min(totalWords - 1, Math.max(0, Math.floor(totalWords * ratio)));
+  const indices = Array.from(
+    new Set([pickIndex(0.05), pickIndex(0.5), pickIndex(0.95)]),
+  );
 
   const snippets: string[] = indices
     .map((center) => {
       const start = Math.max(0, center - Math.floor(windowSize / 2));
       const end = Math.min(totalWords, start + windowSize);
-      return words.slice(start, end).map((w) => w.word).join(' ');
+      return words
+        .slice(start, end)
+        .map((w) => w.word)
+        .join(' ');
     })
     .filter(Boolean);
 
   let sampleText = snippets.join(' ... ').trim();
   if (!sampleText) {
-    sampleText = words.slice(0, Math.min(totalWords, 50)).map((w) => w.word).join(' ');
+    sampleText = words
+      .slice(0, Math.min(totalWords, 50))
+      .map((w) => w.word)
+      .join(' ');
   }
   if (sampleText.length > 600) sampleText = sampleText.slice(0, 600);
 
@@ -469,7 +506,9 @@ export const detectTranscriptLanguage = async (
   });
 
   try {
-    const parsed = JSON.parse(response.choices[0].message.content || '{}') as { lang?: string };
+    const parsed = JSON.parse(response.choices[0].message.content || '{}') as {
+      lang?: string;
+    };
     const code = (parsed.lang || '').toLowerCase();
     if (/^[a-z]{2}$/.test(code)) return code;
   } catch (_) {
