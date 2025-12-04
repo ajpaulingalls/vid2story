@@ -199,6 +199,10 @@
                                     `<a href="videoDetail.html?id=${video.id}&type=cropped" class="video-link">Cropped</a>` :
                                     `<span class="video-link" style="color: #666;">Cropped - pending</span>`
                                 }
+                                ${video.audioVideoUrl ? 
+                                    `<a href="videoDetail.html?id=${video.id}&type=audio" class="video-link">Audio</a>` :
+                                    ''
+                                }
                                 ${video.captionVideoUrl ? 
                                     `<a href="videoDetail.html?id=${video.id}&type=caption" class="video-link">Captioned</a>` :
                                     `<span class="video-link" style="color: #666;">Captioned - pending</span>`

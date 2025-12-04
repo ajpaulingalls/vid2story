@@ -68,6 +68,7 @@
                     const typeDisplayNames = {
                         'clipped': 'Clipped Video',
                         'cropped': 'Cropped Video', 
+                        'audio': 'Portrait + Audio',
                         'caption': 'Caption Video',
                         'final': 'Final Video'
                     };
@@ -116,6 +117,9 @@
                         case 'cropped':
                             videoUrl = video.croppedVideoUrl;
                             break;
+                        case 'audio':
+                            videoUrl = video.audioVideoUrl;
+                            break;
                         case 'caption':
                             videoUrl = video.captionVideoUrl;
                             break;
@@ -123,7 +127,7 @@
                             videoUrl = video.finalVideoUrl;
                             break;
                         default:
-                            videoUrl = video.clippedVideoUrl || video.croppedVideoUrl || video.captionVideoUrl || video.finalVideoUrl;
+                            videoUrl = video.clippedVideoUrl || video.croppedVideoUrl || video.audioVideoUrl || video.captionVideoUrl || video.finalVideoUrl;
                     }
                     
                     if (videoUrl) {

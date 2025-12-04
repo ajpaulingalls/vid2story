@@ -1,0 +1,1 @@
+ALTER TABLE videos ADD COLUMN audio_video_url text;

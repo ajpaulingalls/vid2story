@@ -68,6 +68,7 @@ export const videos = sqliteTable('videos', {
   filePath: text('file_path').notNull(),
   clippedVideoUrl: text('clipped_video_url'),
   croppedVideoUrl: text('cropped_video_url'),
+  audioVideoUrl: text('audio_video_url'),
   captionVideoUrl: text('caption_video_url'),
   finalVideoUrl: text('final_video_url'),
   transcript: text('transcript').notNull(),

@@ -219,6 +219,13 @@ const runJob = async (job: Job) => {
         console.log(`generated portrait video for ${clipPublicId}`);
         const croppedVideoUrl = baseUrl + portraitVideoFilename;
         await VideoModel.update(video.id, { croppedVideoUrl });
+
+        const audioVideoFilename = `${clipPublicId}-audio.mp4`;
+        const audioVideoPath = path.join(outputDir, audioVideoFilename);
+        await copyAudio(videoSegmentPath, portraitVideoPath, audioVideoPath);
+        const audioVideoUrl = baseUrl + audioVideoFilename;
+        await VideoModel.update(video.id, { audioVideoUrl });
+
         await JobModel.update(video.jobId, { status: 'adding-captions' });
 
         const captionVideoFilename = `${clipPublicId}-captions.mp4`;
@@ -277,6 +284,18 @@ const runJob = async (job: Job) => {
       const croppedVideoUrl = baseUrl + portraitVideoFilename;
       await VideoModel.update(video.id, { croppedVideoUrl });
       console.log(`generated portrait video for ${jobId}`);
+
+      const audioVideoFilename = `${jobId}-audio.mp4`;
+      const audioVideoPath = path.join(outputDir, audioVideoFilename);
+      try {
+        await copyAudio(filePath, portraitVideoPath, audioVideoPath);
+        const audioVideoUrl = baseUrl + audioVideoFilename;
+        await VideoModel.update(video.id, { audioVideoUrl });
+      } catch (error: any) {
+        console.error(`Error creating portrait audio video for ${jobId}:`, error);
+        await JobModel.update(video.jobId, { status: 'failed' });
+        return;
+      }
 
       const captionVideoFilename = `${jobId}-captions.mp4`;
       const captionVideoPath = path.join(outputDir, captionVideoFilename);

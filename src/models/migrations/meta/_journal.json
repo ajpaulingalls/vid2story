@@ -43,6 +43,13 @@
       "when": 1761949107430,
       "tag": "0005_regular_harpoon",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1764821464648,
+      "tag": "0006_true_khan",
+      "breakpoints": true
     }
   ]
 }
