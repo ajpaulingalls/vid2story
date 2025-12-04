@@ -29,6 +29,7 @@ const sleep = (durationMs: number) =>
 
 export const generateTranscriptJson = async (
   videoPath: string,
+  language: string = 'en',
 ): Promise<TranscriptionWord[]> => {
   console.log('Transcripting audio...');
 
@@ -39,6 +40,7 @@ export const generateTranscriptJson = async (
         model: 'whisper-1',
         response_format: 'verbose_json',
         timestamp_granularities: ['word'],
+        language,
       });
 
       console.log('Transcripting complete');

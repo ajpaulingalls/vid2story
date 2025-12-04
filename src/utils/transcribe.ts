@@ -12,17 +12,19 @@ const SAFETY_BUFFER_BYTES = 512 * 1024; // 0.5 MB buffer to stay under limit
 
 export const transcribeFile = async (
   audioPath: string,
+  language: string = 'en',
 ): Promise<TranscriptionWord[]> => {
   const stats = await fs.promises.stat(audioPath);
   if (stats.size <= (MAX_AUDIO_UPLOAD_BYTES - SAFETY_BUFFER_BYTES)) {
-    return (await generateTranscriptJson(audioPath)) ?? [];
+    return (await generateTranscriptJson(audioPath, language)) ?? [];
   }
 
-  return generateTranscriptJsonFromLargeFile(audioPath);
+  return generateTranscriptJsonFromLargeFile(audioPath, language);
 };
 
 export const generateTranscriptJsonFromLargeFile = async (
   audioPath: string,
+  language: string = 'en',
 ): Promise<TranscriptionWord[]> => {
   const stats = await fs.promises.stat(audioPath);
   const totalDuration = await getVideoDuration(audioPath);
@@ -54,7 +56,7 @@ export const generateTranscriptJsonFromLargeFile = async (
     let offsetSeconds = 0;
 
     for (const chunkPath of chunkPaths) {
-      const chunkWords = (await generateTranscriptJson(chunkPath)) ?? [];
+      const chunkWords = (await generateTranscriptJson(chunkPath, language)) ?? [];
       const adjustedWords = chunkWords.map((word) => ({
         ...word,
         start: word.start + offsetSeconds,

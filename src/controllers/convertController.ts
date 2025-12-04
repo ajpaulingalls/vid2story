@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import multer from 'multer';
 import path from 'path';
 import { Job, NewJob, JobModel } from '../models/job';
-import { getBestSegmentsFromWords, detectTranscriptLanguage } from '../utils/openai';
+import { getBestSegmentsFromWords } from '../utils/openai';
 import {
   addCaptions,
   calculateClosestKeyframeTime,
@@ -63,6 +63,7 @@ export const convertToPortrait = async (
         name: req.file.originalname,
         filePath: req.file.path,
         transcript: '',
+        language: req.body.language || 'en',
         pickSegments: req.body.pickSegments === 'on',
         optimizeForAccuracy: req.body.optimizeForAccuracy === 'on',
         keepGraphics: req.body.keepGraphics === 'on',
@@ -117,10 +118,13 @@ const runJob = async (job: Job) => {
   const audioPath = path.join(outputDir, 'audio.mp3');
   await extractAudio(filePath, audioPath);
 
+  // Use the language from the form (already set when job was created)
+  const language = job.language || 'en';
+
   // Generate transcript
   await JobModel.update(jobId, { status: 'generating-transcript' });
   const transcriptPath = path.join(outputDir, 'transcript.srt');
-  const words = await transcribeFile(audioPath);
+  const words = await transcribeFile(audioPath, language);
   if (!words) {
     console.error('Failed to generate transcript');
     await JobModel.update(jobId, { status: 'failed' });
@@ -129,11 +133,6 @@ const runJob = async (job: Job) => {
   const transcript = wordsToSRT(words);
   await saveStringToFile(transcriptPath, transcript);
   await JobModel.update(jobId, { transcript, words });
-
-  // Detect language
-  await JobModel.update(jobId, { status: 'detecting-language' });
-  const language = await detectTranscriptLanguage(words);
-  await JobModel.update(jobId, { language });
 
   if (pickSegments && originalVideoDuration > 180) {
     await JobModel.update(jobId, { status: 'generating-segments' });
