@@ -37,8 +37,23 @@
             <p><strong>End Time:</strong> <span id="videoEndTime">Loading...</span></p>
             <p><strong>Duration:</strong> <span id="videoDuration">Loading...</span></p>
             <p><strong>Created:</strong> <span id="videoCreatedAt">Loading...</span></p>
-            <p><strong>Transcript:</strong></p>
-            <div class="video-transcript" id="videoTranscript">Loading...</div>
+            <div id="transcriptSection" class="video-transcript-section" hidden>
+                <div class="transcript-header">
+                    <strong>Transcript:</strong>
+                    <button type="button" class="btn btn-secondary" id="editTranscriptBtn">Edit</button>
+                </div>
+                <div class="video-transcript" id="videoTranscript">Loading...</div>
+                <textarea
+                    id="videoTranscriptEditor"
+                    class="video-transcript-editor"
+                    aria-label="Transcript editor"
+                    hidden
+                ></textarea>
+                <div class="transcript-controls">
+                    <button type="button" class="btn btn-primary" id="saveTranscriptBtn" hidden disabled>Save</button>
+                    <span id="transcriptStatus" class="transcript-status" aria-live="polite"></span>
+                </div>
+            </div>
             <p><strong>Video URL:</strong></p>
             <div class="video-url" id="videoUrl">Loading...</div>
         </div>
@@ -50,6 +65,58 @@
         const urlParams = new URLSearchParams(window.location.search);
         const videoId = urlParams.get('id');
         const videoType = urlParams.get('type') || 'video';
+        const transcriptTypes = new Set(['caption', 'final']);
+
+        const transcriptSection = document.getElementById('transcriptSection');
+        const transcriptDisplay = document.getElementById('videoTranscript');
+        const transcriptEditor = document.getElementById('videoTranscriptEditor');
+        const editTranscriptBtn = document.getElementById('editTranscriptBtn');
+        const saveTranscriptBtn = document.getElementById('saveTranscriptBtn');
+        const transcriptStatus = document.getElementById('transcriptStatus');
+
+        let transcriptOriginalValue = '';
+        let isTranscriptEditing = false;
+
+        const toggleTranscriptEditor = (showEditor) => {
+            if (!transcriptEditor || !transcriptDisplay) return;
+            transcriptEditor.hidden = !showEditor;
+            transcriptDisplay.hidden = showEditor;
+        };
+
+        const setTranscriptStatus = (message = '', variant = 'info') => {
+            if (!transcriptStatus) return;
+            transcriptStatus.textContent = message;
+            transcriptStatus.classList.remove('success', 'error');
+            if (!message) return;
+            if (variant === 'success') transcriptStatus.classList.add('success');
+            if (variant === 'error') transcriptStatus.classList.add('error');
+        };
+
+        const exitTranscriptEditMode = (restoreOriginal = true) => {
+            if (!transcriptEditor || !transcriptDisplay || !editTranscriptBtn || !saveTranscriptBtn) return;
+            isTranscriptEditing = false;
+            toggleTranscriptEditor(false);
+            editTranscriptBtn.textContent = 'Edit';
+            saveTranscriptBtn.hidden = true;
+            saveTranscriptBtn.disabled = true;
+            saveTranscriptBtn.textContent = 'Save';
+            if (restoreOriginal) {
+                transcriptEditor.value = transcriptOriginalValue;
+                transcriptDisplay.textContent = transcriptOriginalValue || 'No transcript available yet';
+                setTranscriptStatus('');
+            }
+        };
+
+        const enterTranscriptEditMode = () => {
+            if (!transcriptEditor || !editTranscriptBtn) return;
+            isTranscriptEditing = true;
+            toggleTranscriptEditor(true);
+            editTranscriptBtn.textContent = 'Cancel';
+            setTranscriptStatus('');
+            setTimeout(() => transcriptEditor.focus(), 0);
+        };
+
+        toggleTranscriptEditor(false);
         
         if (!videoId) {
             document.getElementById('videoContainer').innerHTML = 
@@ -83,7 +150,18 @@
                     document.getElementById('videoStartTime').textContent = video.startTime;
                     document.getElementById('videoEndTime').textContent = video.endTime;
                     document.getElementById('videoCreatedAt').textContent = new Date(video.createdAt).toLocaleString();
-                    document.getElementById('videoTranscript').textContent = video.transcript;
+                    transcriptOriginalValue = video.transcript || '';
+
+                    if (transcriptTypes.has(videoType) && transcriptSection) {
+                        transcriptSection.hidden = false;
+                        const hasTranscript = transcriptOriginalValue.trim().length > 0;
+                        transcriptDisplay.textContent = hasTranscript
+                            ? transcriptOriginalValue
+                            : 'No transcript available yet';
+                        transcriptEditor.value = transcriptOriginalValue;
+                    } else if (transcriptSection) {
+                        transcriptSection.hidden = true;
+                    }
                     // Duration
                     const duration = computeDurationString(video.startTime, video.endTime);
                     document.getElementById('videoDuration').textContent = duration;
@@ -102,7 +180,9 @@
                                     '.video-info',
                                     '.video-description',
                                     '.video-caption',
-                                    '.video-transcript'
+                                    '.video-transcript',
+                                    '#transcriptSection',
+                                    '#videoTranscriptEditor'
                                 ]);
                             }
                         })
@@ -152,6 +232,83 @@
                     document.getElementById('videoContainer').innerHTML = 
                         '<div class="error-message">Error loading video. Please check the ID and try again.</div>';
                 });
+
+            if (
+                transcriptSection &&
+                transcriptDisplay &&
+                transcriptEditor &&
+                editTranscriptBtn &&
+                saveTranscriptBtn
+            ) {
+                editTranscriptBtn.addEventListener('click', () => {
+                    if (!transcriptTypes.has(videoType)) return;
+                    if (!isTranscriptEditing) {
+                        enterTranscriptEditMode();
+                    } else {
+                        exitTranscriptEditMode(true);
+                    }
+                });
+
+                transcriptEditor.addEventListener('input', () => {
+                    if (!isTranscriptEditing) return;
+                    const hasChanges = transcriptEditor.value !== transcriptOriginalValue;
+                    saveTranscriptBtn.hidden = !hasChanges;
+                    saveTranscriptBtn.disabled = !hasChanges;
+                    if (!hasChanges) {
+                        setTranscriptStatus('');
+                    }
+                });
+
+                saveTranscriptBtn.addEventListener('click', async () => {
+                    if (!videoId) return;
+                    const updatedTranscript = transcriptEditor.value;
+                    if (!updatedTranscript.trim()) {
+                        setTranscriptStatus('Transcript cannot be empty.', 'error');
+                        return;
+                    }
+
+                    saveTranscriptBtn.disabled = true;
+                    saveTranscriptBtn.textContent = 'Saving...';
+                    setTranscriptStatus('Saving transcript and regenerating videos...');
+
+                    try {
+                        const response = await fetch(`/api/videos/${videoId}/transcript`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ transcript: updatedTranscript }),
+                        });
+
+                        let payload = {};
+                        try {
+                            payload = await response.json();
+                        } catch (parseErr) {
+                            payload = {};
+                        }
+
+                        if (!response.ok) {
+                            throw new Error(payload.error || 'Unable to save transcript');
+                        }
+
+                        const nextTranscript = payload.video?.transcript || updatedTranscript;
+                        transcriptOriginalValue = nextTranscript;
+                        transcriptDisplay.textContent = nextTranscript || 'No transcript available yet';
+                        transcriptEditor.value = nextTranscript;
+                        setTranscriptStatus('Transcript saved. Videos have been regenerated.', 'success');
+                        exitTranscriptEditMode(false);
+                        setTimeout(() => window.location.reload(), 1000);
+                    } catch (error) {
+                        console.error('Error saving transcript:', error);
+                        setTranscriptStatus(error.message || 'Failed to save transcript.', 'error');
+                        saveTranscriptBtn.disabled = false;
+                    } finally {
+                        if (saveTranscriptBtn.textContent !== 'Save') {
+                            saveTranscriptBtn.textContent = 'Save';
+                        }
+                    }
+                });
+            }
         }
     </script>
 </body>
