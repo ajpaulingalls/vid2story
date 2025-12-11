@@ -3,10 +3,12 @@ import moment from 'moment';
 import { spawn } from 'child_process';
 
 // Limit how many heavy segment tasks we run at once (ffmpeg, land2port, etc.)
-const FFMEG_VERBOSE_DEBUG = process.env.FFMEG_VERBOSE_DEBUG === 'true';
+const FFMPEG_VERBOSE_DEBUG = process.env.FFMPEG_VERBOSE_DEBUG === 'true';
 
-if (FFMEG_VERBOSE_DEBUG) {
+if (FFMPEG_VERBOSE_DEBUG) {
   console.log('FFmpeg verbose debug is enabled');
+  console.log('FFmpeg path:', ffmpegPath);
+  console.log('FFprobe path:', ffprobePath);
 }
 /**
  * Extract audio from a video file using FFmpeg.
@@ -46,7 +48,7 @@ export const extractAudio = async (
       }
     });
 
-    if (FFMEG_VERBOSE_DEBUG) {
+    if (FFMPEG_VERBOSE_DEBUG) {
       ffmpegProcess.stdout.on('data', (data) => {
         console.log('ffmpeg extractAudio stdout:', data.toString());
       });
@@ -108,7 +110,7 @@ export const trimVideo = async (
       }
     });
 
-    if (FFMEG_VERBOSE_DEBUG) {
+    if (FFMPEG_VERBOSE_DEBUG) {
       ffmpegProcess.stdout.on('data', (data) => {
         console.log('ffmpeg trimVideo stdout:', data.toString());
       });
@@ -172,7 +174,7 @@ export const addCaptions = async (
       }
     });
 
-    if (FFMEG_VERBOSE_DEBUG) {
+    if (FFMPEG_VERBOSE_DEBUG) {
       ffmpegProcess.stdout.on('data', (data) => {
         console.log('ffmpeg addCaptions stdout:', data.toString());
       });
@@ -234,7 +236,7 @@ export const copyAudio = async (
       }
     });
 
-    if (FFMEG_VERBOSE_DEBUG) {
+    if (FFMPEG_VERBOSE_DEBUG) {
       ffmpegProcess.stdout.on('data', (data) => {
         console.log('ffmpeg copyAudio stdout:', data.toString());
       });
