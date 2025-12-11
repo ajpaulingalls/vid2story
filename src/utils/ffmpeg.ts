@@ -2,6 +2,12 @@ import { ffmpegPath, ffprobePath } from 'ffmpeg-ffprobe-static';
 import moment from 'moment';
 import { spawn } from 'child_process';
 
+// Limit how many heavy segment tasks we run at once (ffmpeg, land2port, etc.)
+const FFMEG_VERBOSE_DEBUG = process.env.FFMEG_VERBOSE_DEBUG === 'true';
+
+if (FFMEG_VERBOSE_DEBUG) {
+  console.log('FFmpeg verbose debug is enabled');
+}
 /**
  * Extract audio from a video file using FFmpeg.
  * @param videoPath - Path to the input video file
@@ -39,6 +45,16 @@ export const extractAudio = async (
         reject(new Error(`FFmpeg process failed with code ${code}`));
       }
     });
+
+    if (FFMEG_VERBOSE_DEBUG) {
+      ffmpegProcess.stdout.on('data', (data) => {
+        console.log('ffmpeg extractAudio stdout:', data.toString());
+      });
+
+      ffmpegProcess.stderr.on('data', (data) => {
+        console.warn('ffmpeg extractAudio stderr:', data.toString());
+      });
+    }
 
     ffmpegProcess.on('error', (err: Error) => {
       console.error('Error extracting audio:', err.message);
@@ -92,6 +108,16 @@ export const trimVideo = async (
       }
     });
 
+    if (FFMEG_VERBOSE_DEBUG) {
+      ffmpegProcess.stdout.on('data', (data) => {
+        console.log('ffmpeg trimVideo stdout:', data.toString());
+      });
+
+      ffmpegProcess.stderr.on('data', (data) => {
+        console.warn('ffmpeg trimVideo stderr:', data.toString());
+      });
+    }
+
     ffmpegProcess.on('error', (err: Error) => {
       console.error('Error trimming audio file', err);
       reject(err);
@@ -119,7 +145,9 @@ export const addCaptions = async (
       return;
     }
 
-    console.log(`adding ${language} captions to ${videoPath} from ${srtPath} and saving to ${outputPath}`);
+    console.log(
+      `adding ${language} captions to ${videoPath} from ${srtPath} and saving to ${outputPath}`,
+    );
     const fontName = language === 'ar' ? 'Noto Naskh Arabic' : 'Arial';
     const fontSize = language === 'ar' ? 12 : 8;
 
@@ -144,14 +172,15 @@ export const addCaptions = async (
       }
     });
 
-    ffmpegProcess.stdout.on('data', (data) => {
-      console.log('ffmpegProcess stdout:', data.toString());
-    });
+    if (FFMEG_VERBOSE_DEBUG) {
+      ffmpegProcess.stdout.on('data', (data) => {
+        console.log('ffmpeg addCaptions stdout:', data.toString());
+      });
 
-    ffmpegProcess.stderr.on('data', (data) => {
-      console.warn('ffmpegProcess stderr:', data.toString());
-    });
-
+      ffmpegProcess.stderr.on('data', (data) => {
+        console.warn('ffmpeg addCaptions stderr:', data.toString());
+      });
+    }
 
     ffmpegProcess.on('error', (err: Error) => {
       console.error('Error burning in captions:', err.message);
@@ -204,6 +233,16 @@ export const copyAudio = async (
         reject(new Error(`FFmpeg process failed with code ${code}`));
       }
     });
+
+    if (FFMEG_VERBOSE_DEBUG) {
+      ffmpegProcess.stdout.on('data', (data) => {
+        console.log('ffmpeg copyAudio stdout:', data.toString());
+      });
+
+      ffmpegProcess.stderr.on('data', (data) => {
+        console.warn('ffmpeg copyAudio stderr:', data.toString());
+      });
+    }
 
     ffmpegProcess.on('error', (err: Error) => {
       console.error('Error copying audio:', err.message);
